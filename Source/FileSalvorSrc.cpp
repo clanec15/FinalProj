@@ -27,19 +27,6 @@ int col = column to operate on
 int id = to operate on the rows with the same id
 */
 double FileSalvor::DataSalvage(std::vector<std::vector<double>> inputMtx, int col, int id){
-    /*
-    if(inputMtx[0].size()%2 == 0){
-        if(inputMtx[inputMtx[0].size()/2][col] != static_cast<double>(-65535)){
-            return inputMtx[inputMtx[0].size()/2][col];
-        }
-    } else {
-        double row = (inputMtx[row][inputMtx[0].size()/2]+inputMtx[row][(inputMtx[0].size()/2)+1])/2;
-        if(inputMtx[row][col] != static_cast<double>(-65535)){
-            return inputMtx[row][col];
-        }
-    }
-    */
-
     double mean;
     int items = 0;
     for(int i = 0; i<inputMtx.size(); i++){
@@ -92,21 +79,53 @@ int FileSalvor::typeCalc(std::vector<std::vector<double>> inputMtx, int Col)
     return -1;
 }
 
-
-FileSalvor::DataPrecalculation DataMeanCalculation(std::vector<std::vector<double>> inputMtx)
+/*
+std::vector<int> idFinder(std::vector<std::vector<double>> mtx)
 {
-    FileSalvor::DataPrecalculation output;
+    std::vector<int> ids = {};
+    for(int i = 0; i < mtx.size(); i++){
+        auto it = std::find(ids.begin(), ids.end(), mtx[i][mtx[0].size()-1]);
+
+        if(it != ids.end()){
+            continue;
+        } else {
+            ids.push_back(mtx[i][mtx[0].size()-1]);
+        }
+    }
+
+    return ids;
+}
+*/
+
+std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>> inputMtx){
+    std::vector<int> ids = {};
+    for(int i = 0; i < inputMtx.size(); i++){
+        auto it = std::find(ids.begin(), ids.end(), inputMtx[i][inputMtx[0].size()-1]);
+
+        if(it != ids.end()){
+            continue;
+        } else {
+            ids.push_back(inputMtx[i][inputMtx[0].size()-1]);
+        }
+    }
+
+    return ids;
+}
+
+
+std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std::vector<double>> inputMtx)
+{
+    std::vector<int> ids = FileSalvor::idFinder(inputMtx);
+    std::vector<std::vector<double>> means(ids.size());
     FileSalvor hlp;
 
     for(int i = 0; i < inputMtx.size(); i++){
-        output.meansA.push_back(hlp.DataSalvage(inputMtx, i, 0));
+        for(int j = 0; j < ids.size(); j++){
+            means[j].push_back(hlp.DataSalvage(inputMtx, i, ids[j]));
+        }
     }
 
-    for(int i = 0; i < inputMtx.size(); i++){
-        output.meansB.push_back(hlp.DataSalvage(inputMtx, i, 1));
-    }
-
-    return output;
+    return means;
 }
 
 void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx)
@@ -148,4 +167,11 @@ void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::stri
     }
     ReportFile.close();
 
+
+
+
 }
+
+
+
+

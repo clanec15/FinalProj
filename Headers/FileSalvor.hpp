@@ -1,6 +1,7 @@
 #include <iostream>
 #include <math.h>
 #include <vector>
+#include <algorithm>
 #include <fstream>
 
 
@@ -12,25 +13,21 @@ class FileSalvor{
     
     public:
 
-    struct DataPrecalculation{
-        std::vector<double> meansA;
-        std::vector<double> meansB;
-        
-    };
-
     FileSalvor();
     ~FileSalvor();
     int typeCalc(std::vector<std::vector<double>>, int);
-    DataPrecalculation DataMeanCalculation(std::vector<std::vector<double>>);
+    std::vector<std::vector<double>> DataMeanCalculation(std::vector<std::vector<double>>);
     bool GetDataStatus();
     void SetDataStatus(bool);
     double DataSalvage(std::vector<std::vector<double>>, int, int);
+
 
     
     
     private:
     bool invDataDtc;
     int modeDtyp;
+    std::vector<int> idFinder(std::vector<std::vector<double>>);
 };
 
 

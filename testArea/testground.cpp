@@ -1,29 +1,39 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 #include "../Source/FileSalvorSrc.cpp"
 
 
-double testFun(std::vector<std::vector<double>> mtx, int col, int id)
+std::vector<std::vector<double>> testFun(std::vector<std::vector<double>> mtx, std::vector<int> ids)
 {
-    //for(int i = 0; i < mtx.size()-1; i++){
-    //    std::cout << mtx[i][mtx[0].size()-1] << std::endl;
-    //}
+    std::vector<std::vector<double>> means(ids.size());
+    FileSalvor hlp;
 
-    double mean;
-    int items = 0;
-    for(int i = 0; i<mtx.size(); i++){
-        if(!(mtx[i][mtx[0].size()-1] == static_cast<double>(id))){
-            continue;
-        } else {
-            mean += mtx[i][col];
-            items++;
+    for(int i = 0; i < mtx.size(); i++){
+        for(int j = 0; j < ids.size(); j++){
+            means[j].push_back(hlp.DataSalvage(mtx, i, ids[j]));
         }
-        
     }
 
-    return mean/items;
+    return means;
 }
 
+
+std::vector<int> idFinder(std::vector<std::vector<double>> mtx)
+{
+    std::vector<int> ids = {};
+    for(int i = 0; i < mtx.size(); i++){
+        auto it = std::find(ids.begin(), ids.end(), mtx[i][mtx[0].size()-1]);
+
+        if(it != ids.end()){
+            continue;
+        } else {
+            ids.push_back(mtx[i][mtx[0].size()-1]);
+        }
+    }
+
+    return ids;
+}
 
 int main()
 {
@@ -43,25 +53,23 @@ int main()
     FileSalvor test;
     int a = 0;
     
-    std::cout << "Rows: " << testMtx.size() << std::endl;
-    std::cout << "Column size: " <<  testMtx[0].size() << std::endl;
+
+    std::vector<std::vector<double>> means = test.DataMeanCalculation(testMtx);
 
 
-    FileSalvor::DataPrecalculation means;
-    means = test.DataMeanCalculation(testMtx);
 
 
-    std::cout << "[";
-    
-    for(int i = 0; i < means.meansA.size(); i++){
-        if(i == means.meansA.size()-1){
-            std::cout << means.meansA[i];
-        } else {
-            std::cout << means.meansA[i] << ", ";
+    for(int i = 0; i < means.size(); i++){
+        std::cout << "ID[" << i << "]: ";
+        for(int j = 0; j < means[0].size(); j++){
+            std::cout << means[i][j] << "\t";
         }
+        std::cout << std::endl;
     }
+     
 
-    std::cout << "]" << std::endl;
+    
+
     
 
     return 0;
