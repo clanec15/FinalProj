@@ -67,9 +67,10 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
     std::vector<std::vector<double>> means(ids.size());
     FileSalvor hlp;
 
-    for(int i = 0; i < inputMtx.size(); i++){
+    for(int i = 0; i < inputMtx[0].size()-1; i++){
         for(int j = 0; j < ids.size(); j++){
-            means[j].push_back(hlp.DataSalvage(inputMtx, i, ids[j]));
+            //Truncate to 2 decimal places using round
+            means[j].push_back(round(hlp.DataSalvage(inputMtx, i, ids[j])*100.0)/100.0);
         }
     }
 
@@ -90,14 +91,21 @@ void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
 void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data, std::string OutputFile="./output/NaNReport.txt"){
     if(data.size() > 2){
         data.pop_back();
-    }
+    }           
     std::ofstream ReportFile(OutputFile);
     ReportFile << "Datos de reemplazo: \n";
+    ReportFile << "\t ";
+    for(int h = 0; h < data[0].size(); h++){
+        ReportFile << "[" << h+1 << "]\t";
+    }
+    ReportFile << "\n";
     for(int i = 0; i < data.size(); i++){
-        ReportFile << "ID[" << i << "]: ";
+        ReportFile << "ID[" << i << "]:\t";
 
         for(int j = 0; j < data[0].size(); j++){
-            ReportFile << data[i][j] << ", ";
+            std::stringstream buf;
+            buf << data[i][j];
+            ReportFile << buf.str() << (j == data[0].size()-1 ? "\t" : ",\t");
         }
 
         ReportFile << "\n\n";

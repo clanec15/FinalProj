@@ -41,7 +41,7 @@ int main()
         if(file.good()){
             break;
         } else {
-            std::cout << std::setw(((cols - std::string("El archivo no se ha encontrado, desea volver a colocarlo? [Y/n]: ").size())/2)-64) << std::setfill(' ') << "\0" << "El archivo no se ha encontrado, desea volver a colocarlo? [Y/n]: ";
+            std::cout << std::setw(((cols - std::string("El archivo no se ha encontrado o esta dañado, desea volver a colocarlo? [Y/n]: ").size())/2)-64) << std::setfill(' ') << "\0" << "El archivo no se ha encontrado o esta dañado, desea volver a colocarlo? [Y/n]: ";
             char sel;
             std::cin >> sel;
             if(std::toupper(sel) == 'Y'){
@@ -116,9 +116,9 @@ int main()
         }
         std::cout << std::endl;
 
-        if(!salvor.GetDataStatus()){
+        if(salvor.GetDataStatus()){
             std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
-
+            
             salvor.DataSet(DataMtx, means);
 
             std::cout << "Datos Corregidos: " << std::endl;

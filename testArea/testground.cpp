@@ -26,6 +26,8 @@ int main()
 
     
 
+    
+
     for(int i = 0; i < means.size(); i++){
         std::cout << "ID[" << i << "]: ";
         for(int j = 0; j < means[0].size(); j++){
