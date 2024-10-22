@@ -34,11 +34,11 @@ class FileSalvor{
 class FileSalvorNR : public FileSalvor{
 
     public:
-    void DataSet(std::vector<std::vector<double>>&);
+    void DataSet(std::vector<std::vector<double>>&, std::vector<std::vector<double>>);
 };
 
 class FileSalvorWR : public FileSalvor{
     public:
-    void DataSet(std::vector<std::vector<double>>&, std::string);   
+    void DataSet(std::vector<std::vector<double>>&, std::vector<std::vector<double>>, std::string);   
 
 };

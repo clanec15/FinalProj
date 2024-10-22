@@ -15,8 +15,6 @@ void FileSalvor::SetDataStatus(bool status)
     invDataDtc = status;
 }
 
-
-
 /*
 Calculates the new value of a broken one using the mean of the column and the id type of it
 
@@ -30,11 +28,16 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>> inputMtx, int co
     double mean;
     int items = 0;
     for(int i = 0; i<inputMtx.size(); i++){
-        if(!(inputMtx[i][inputMtx[0].size()-1] == static_cast<double>(id))){
+        if((inputMtx[i][inputMtx[0].size()-1] != static_cast<double>(id))){
             continue;
         } else {
-            mean += inputMtx[i][col];
-            items++;
+            if((inputMtx[i][col] != static_cast<double>(-65535))){
+                mean += inputMtx[i][col];
+                items++;
+            } else {
+                continue;
+            }
+            
         }
         
     }
@@ -42,67 +45,12 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>> inputMtx, int co
     return mean/items;
 }
 
-
-int FileSalvor::typeCalc(std::vector<std::vector<double>> inputMtx, int Col)
-{
-    std::vector<std::string> types;
-
-    for(int i = 0; i < inputMtx.size(); i++){
-        if(inputMtx[i][Col] == static_cast<double>(-65535)){
-            continue;
-        }
-        if(std::floor(inputMtx[i][Col]) == inputMtx[i][Col]){
-            types.push_back("int");
-        } else {
-            types.push_back("dbl");
-        }
-    }
-
-    std::cout << std::endl;
-
-    int dblQty = 0, intQty = 0;
-
-    for(int i = 0; i < types.size(); i++){
-        if(types[i] == "int"){
-            intQty++;
-        } else {
-            dblQty++;
-        }
-    }
-
-    if(intQty > dblQty){
-        return 1;
-    } else if(intQty < dblQty){
-        return 2;
-    }
-
-    return -1;
-}
-
-/*
-std::vector<int> idFinder(std::vector<std::vector<double>> mtx)
-{
-    std::vector<int> ids = {};
-    for(int i = 0; i < mtx.size(); i++){
-        auto it = std::find(ids.begin(), ids.end(), mtx[i][mtx[0].size()-1]);
-
-        if(it != ids.end()){
-            continue;
-        } else {
-            ids.push_back(mtx[i][mtx[0].size()-1]);
-        }
-    }
-
-    return ids;
-}
-*/
-
 std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>> inputMtx){
     std::vector<int> ids = {};
     for(int i = 0; i < inputMtx.size(); i++){
-        auto it = std::find(ids.begin(), ids.end(), inputMtx[i][inputMtx[0].size()-1]);
+        int test = std::count(ids.begin(), ids.end(), inputMtx[i][inputMtx[0].size()-1]);
 
-        if(it != ids.end()){
+        if(test > 0){
             continue;
         } else {
             ids.push_back(inputMtx[i][inputMtx[0].size()-1]);
@@ -128,50 +76,41 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
     return means;
 }
 
-void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx)
+void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data)
 {
     for(int i = 0; i < inputMtx.size(); i++){
         for(int j = 0; j < inputMtx[0].size(); j++){
             if(inputMtx[i][j] == static_cast<double>(-65535)){
-                int modeDataType = typeCalc(inputMtx, j);
-                double datSalvage = DataSalvage(inputMtx, j, inputMtx.size()-1);
-                if(modeDataType == 1){
-                    inputMtx[i].at(j) = (int)datSalvage;
-                } else {
-                    inputMtx[i].at(j) = datSalvage;
-                }
+                inputMtx[i][j] = data[inputMtx[j][inputMtx[0].size()-1]][j];
             }
         }
     }
 }
 
-void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::string OutputFile="./output/NaNReport.txt"){
+void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data, std::string OutputFile="./output/NaNReport.txt"){
+    if(data.size() > 2){
+        data.pop_back();
+    }
     std::ofstream ReportFile(OutputFile);
+    ReportFile << "Datos de reemplazo: \n";
+    for(int i = 0; i < data.size(); i++){
+        ReportFile << "ID[" << i << "]: ";
+
+        for(int j = 0; j < data[0].size(); j++){
+            ReportFile << data[i][j] << ", ";
+        }
+
+        ReportFile << "\n\n";
+    }
+    
     for(int i = 0; i < inputMtx.size(); i++){
         for(int j = 0; j < inputMtx[0].size(); j++){
             if(inputMtx[i][j] == static_cast<double>(-65535)){
-                
-                int modeDataType = typeCalc(inputMtx, j);
-                double datSalvage = DataSalvage(inputMtx, j, inputMtx.size()-1);
-
-                ReportFile << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << datSalvage << " De tipo: " << (modeDataType == 1 ? "Entero\n" : "Flotante\n");
-
-                if(modeDataType == 1){
-                    inputMtx[i].at(j) = (int)datSalvage;
-                } else {
-                    inputMtx[i].at(j) = datSalvage;
-                }
-
+                ReportFile << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[inputMtx[j][inputMtx[0].size()-1]][j] << "\n";
+                inputMtx[i][j] = data[inputMtx[j][inputMtx[0].size()-1]][j];
             }
         }
     }
+    
     ReportFile.close();
-
-
-
-
 }
-
-
-
-

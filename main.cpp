@@ -18,16 +18,20 @@ int main()
     CleanTerminal();
     FileReader reader;
     RowParser parser;
-    int cols = GetTerminalSize().columns;
     std::string ReqFile, fullFile;
-
+    int cols = GetTerminalSize().columns;
     std::string inputPath = "./input";
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
     if(fs::is_empty(inputPath)){
         std::cout << "La carpeta de lectura de archivos esta vacia, porfavor coloca archivos ahi antes de correr el programa..." << std::endl;
         return EXIT_FAILURE;
     }
 
 
+    //File Reading
     while(true){
         std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo: ").size())/2)-64) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo: ";
         std::cin >> ReqFile;
@@ -51,7 +55,9 @@ int main()
         }
 
     }
-
+//-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+    
+    
     reader.inputFile = fullFile;
     std::vector<std::string> lines = reader.getLines();
     int dataSize = std::stoi(lines[0])+2;
@@ -60,6 +66,7 @@ int main()
     lines.erase(lines.begin() + 2);
     
     std::cout << dataSize-2 << " Lineas procesadas..." << std::endl;
+    
     if(dataSize == lines.size()){
         std::cout << "Todas las lineas procesadas con exito..." << std::endl;
     } else {
@@ -71,7 +78,7 @@ int main()
 
     std::vector<std::vector<double>> DataMtx(dataSize, std::vector<double>(frameSize,0.0));
     
-
+    //Parse rows
     for(int i = 0; i < dataSize; i++){
         parser.ConvertRow(lines[i], ',');
         std::vector<double> parsedRow = parser.getParsedRow();
@@ -83,19 +90,16 @@ int main()
     DataMtx.erase(DataMtx.begin(), DataMtx.begin() + 2);
 
     dataSize -= 2;
-
-    
-
     std::cout << "Comprobando datos..." << std::endl;
 
-    
-
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
     std::cout << std::setw(((cols - std::string("Desea generar un reporte en caso de datos no legibles? [Y/n]: ").size())/2)+1) << std::setfill(' ') << "\0" << "Desea generar un reporte en caso de datos no legibles? [Y/n]: ";
     char sel;
     std::cin >> sel;
     
     if(std::tolower(sel) == 'n'){
         FileSalvorNR salvor;
+        std::vector<std::vector<double>> means = salvor.DataMeanCalculation(DataMtx);
         std::ofstream outputFile("./output/" + ReqFile);
         outputFile << dataSize << "\n";
         outputFile << frameSize << "\n";
@@ -115,7 +119,7 @@ int main()
         if(!salvor.GetDataStatus()){
             std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
 
-            salvor.DataSet(DataMtx);
+            salvor.DataSet(DataMtx, means);
 
             std::cout << "Datos Corregidos: " << std::endl;
             for(int i = 0; i < DataMtx.size(); i++){
@@ -126,6 +130,8 @@ int main()
                 outputFile << "\n";
                 std::cout << std::endl;
             }
+
+
             std::cout << std::endl;
 
             outputFile.close();
@@ -141,10 +147,13 @@ int main()
             std::cout << std::endl;
             std::cout << "Datos correctos..." << std::endl;
             outputFile.close();
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//            
         }
     } else {
         FileSalvorWR salvor;
         std::string RepFile;
+        std::vector<std::vector<double>> means = salvor.DataMeanCalculation(DataMtx);
         std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ").size())/2)-64) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ";
         std::cin >> RepFile;
 
@@ -169,9 +178,9 @@ int main()
             std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
 
             if(!RepFile.empty()){
-                salvor.DataSet(DataMtx, "./output/" + RepFile);
+                salvor.DataSet(DataMtx, means, "./output/" + RepFile);
             } else {
-                salvor.DataSet(DataMtx);
+                salvor.DataSet(DataMtx, means);
             }
             
 
