@@ -33,7 +33,7 @@ int main()
 
     //File Reading
     while(true){
-        std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo: ").size())/2)-64) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo: ";
+        std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo: ").size())/2)) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo: ";
         std::cin >> ReqFile;
         fullFile = "./input/" + ReqFile;
 
