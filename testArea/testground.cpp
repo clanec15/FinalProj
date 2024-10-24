@@ -2,13 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <cmath>
-
-
-struct diffData
-{
-    int idx;
-    double diff;
-};
+#include "../Source/SimilCalcSrc.cpp"
 
 
 
@@ -40,69 +34,14 @@ int main()
         {8.49 ,0.52 ,6.93 ,8.45 ,8.60 ,8.55 ,8.97 ,5.24 ,7.39 ,3.72, 1},
         {6.65 ,3.18 ,0.82 ,5.82 ,1.43 ,3.38 ,0.87 ,3.23 ,6.19 ,1.05, 1}
     };
+    SimilCalc test;
+    int row = 0;
 
-    int sz;
-	std::vector<diffData> mtxDiffs;
-    if(snTestMtx[0].size() > testMtx[0].size()){
-        std::cout << "using second matrix row size" << std::endl;
-        sz = snTestMtx[0].size();
-    } else if(snTestMtx[0].size() < testMtx[0].size()) {
-        std::cout << "using first matrix row size" << std::endl;
-        sz = testMtx[0].size();
-    } else {
-        std::cout << "Both matrix, same size, using first matrix row size" << std::endl;
-        sz = testMtx[0].size();
-    }
+    test.SetFstMtx(testMtx);
+    test.setSecMtx(snTestMtx);
+    test.diffCalc(row);
 
-    for(int i = 0; i < testMtx.size(); i++){
-		double diff = 0;
-		diffData main;
-        for(int k = 0; k < sz-1; k++){ 
-            diff += (testMtx[i][k]-snTestMtx[0][k]);
-        }
-		main.idx = i;
-		main.diff = (diff < 0 ? diff*-1 : diff);
-        mtxDiffs.push_back(main);
-    }
-
-	std::cout << "ID's: " << std::endl;
-	std::cout << "[";
-
-	for(int i = 0; i < mtxDiffs.size(); i++){
-		std::cout << mtxDiffs[i].diff << (i == mtxDiffs.size()-1 ? "" : ", ");
-	}
-
-    
-
-    
-
-
-
-	
-	std::cout << "]" << std::endl;
-
-
-    diffData elem = mtxDiffs[0];
-
-    for(const auto& elemt : mtxDiffs){
-        if(elemt.diff < elem.diff){
-            elem = elemt;
-        }
-    }
-
-    std::cout << "Minium difference with row: " << elem.idx << std::endl;
-    
-
-    return 0;
-
-
-
-
-
-
-
-
-
-
+    SimilCalc::diffData bestch = test.getMSimRow();
+    std::cout << "The row: " << row << "\nIs similar to the row: " << bestch.idx << "\nWith a similarity of = " << bestch.diff << std::endl;
     return 0;
 }
