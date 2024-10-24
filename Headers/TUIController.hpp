@@ -1,3 +1,5 @@
+//Header for TUI (Terminal User Interface) functions, 2024
+
 #ifndef TUICONTROLLER_HPP
 #define TUICONTROLLER_HPP
 
