@@ -24,7 +24,7 @@
         "deque": "cpp",
         "list": "cpp",
         "map": "cpp",
-        "string": "cpp",
+        "strin  ": "cpp",
         "unordered_map": "cpp",
         "vector": "cpp",
         "exception": "cpp",
@@ -75,6 +75,7 @@
         "stop_token": "cpp",
         "text_encoding": "cpp",
         "thread": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "string": "cpp"
     }
 }

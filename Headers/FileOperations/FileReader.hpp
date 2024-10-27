@@ -11,6 +11,10 @@ class FileReader
     public:
     FileReader();
     ~FileReader();
-    std::string inputFile;
+    void setInputFile(std::string);
     std::vector<std::string> getLines();
+
+    private:
+    std::string inputFile;
+    
 };

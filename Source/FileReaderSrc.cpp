@@ -1,13 +1,16 @@
-#include "../Headers/FileReader.hpp"
+#include "../Headers/FileOperations/FileReader.hpp"
 
 FileReader::FileReader()
 {
     inputFile = "";
 }
 
-FileReader::~FileReader()
-{}
+FileReader::~FileReader(){}
 
+void FileReader::setInputFile(std::string file)
+{
+    inputFile=file;
+}
 
 std::vector<std::string> FileReader::getLines()
 {

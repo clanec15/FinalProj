@@ -5,8 +5,7 @@
 #include <algorithm>
 #include <fstream>
 #include <cmath>
-
-
+#include <sstream>
 
 class FileSalvor{
 
@@ -17,7 +16,6 @@ class FileSalvor{
 
     FileSalvor();
     ~FileSalvor();
-    int typeCalc(std::vector<std::vector<double>>, int);
     std::vector<std::vector<double>> DataMeanCalculation(std::vector<std::vector<double>>);
     bool GetDataStatus();
     void SetDataStatus(bool);

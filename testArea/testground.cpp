@@ -44,4 +44,4 @@ int main()
     SimilCalc::diffData bestch = test.getMSimRow();
     std::cout << "The row: " << row << "\nIs similar to the row: " << bestch.idx << "\nWith a similarity of = " << bestch.diff << std::endl;
     return 0;
-}
+}   

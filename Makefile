@@ -1,5 +1,5 @@
-main: main.cpp Headers/FileReader.hpp Headers/FileSalvor.hpp Headers/RowParser.hpp Headers/TUIController.hpp
-	g++ -o ./FinalProj Headers/FileReader.hpp Headers/FileSalvor.hpp Headers/RowParser.hpp Headers/TUIController.hpp main.cpp
+main: main.cpp Headers/FileOperations/* Headers/TUIController.hpp Headers/MatrixOps.hpp
+	g++ -o ./FinalProj Headers/FileOperations/* Headers/TUIController.hpp Headers/MatrixOps.hpp main.cpp
 	mkdir input
 	mkdir output
 	cp T1.txt input/
