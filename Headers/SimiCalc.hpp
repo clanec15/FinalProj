@@ -1,3 +1,14 @@
+/**
+ * @file SimiCalc.hpp
+ * @author Victor Aguilar Rodriguez (ar202341753@alm.buap.mx)
+ * @brief Class for similitude calculation between two matrices
+ * @version 0.1
+ * @date 2024-10-28
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include <vector>
 #include <cmath>
 #include <iostream>

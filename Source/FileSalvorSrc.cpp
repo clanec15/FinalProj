@@ -5,25 +5,36 @@
 FileSalvor::FileSalvor(){invDataDtc = false; modeDtyp = 0;}
 FileSalvor::~FileSalvor(){}
 
+
+/**
+ * Get the DataStatus flag
+ * 
+ * @return The DataStatus flag as bool
+ */
 bool FileSalvor::GetDataStatus()
 {
     return invDataDtc;
 }
 
+/**
+ * Sets the DataStatus flag
+ * 
+ * @param status The status to set the flag (True | False)
+ */
 void FileSalvor::SetDataStatus(bool status)
 {
     invDataDtc = status;
 }
 
-/*
-Calculates the new value of a broken one using the mean of the column and the id type of it
-
-
-
-std::vector<std::vector<double>> inputMtx = matrix to salvage the data from
-int col = column to operate on
-int id = to operate on the rows with the same id
-*/
+/**
+ * Calculates the mean of all elements of a row based on the id (last value of the row)
+ * 
+ * @param inputMtx The input Data Matrix
+ * @param col The column to calculate the mean
+ * @param id the id of the row
+ * 
+ * @return the mean of the rows with the same id
+ */
 double FileSalvor::DataSalvage(std::vector<std::vector<double>> inputMtx, int col, int id){
     double mean;
     int items = 0;
@@ -45,6 +56,12 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>> inputMtx, int co
     return mean/items;
 }
 
+/**
+ * Finds all the ids of the Data Matrix
+ * @param inputMtx the input Data Matrix
+ * 
+ * @return the ids as a vector of int's
+ */
 std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>> inputMtx){
     std::vector<int> ids = {};
     for(int i = 0; i < inputMtx.size(); i++){
@@ -60,7 +77,16 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>> inputMtx)
     return ids;
 }
 
-
+/**
+ * calculates all the means of the Data Matrix
+ * 
+ * @param inputMtx the input Data Matrix
+ * 
+ * @returns the means as a matrix with the rows being the id's
+ * 
+ * @see idFinder
+ * @see DataSalvage
+ */
 std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std::vector<double>> inputMtx)
 {
     std::vector<int> ids = FileSalvor::idFinder(inputMtx);
@@ -77,6 +103,13 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
     return means;
 }
 
+
+/**
+ * Modifies the NaN values of the data matrix with the values of the means Data Matrix
+ * 
+ * @param inputMtx The input Data Matrix (as reference)
+ * @param data The Mean Data Matrix
+ */
 void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data)
 {
     for(int i = 0; i < inputMtx.size(); i++){
@@ -88,6 +121,13 @@ void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
     }
 }
 
+/**
+ * Modifies the NaN values of the data matrix with the values of the means Data Matrix and logs the changes to a file
+ * 
+ * @param inputMtx The input Data Matrix (as reference)
+ * @param data The Mean Data Matrix
+ * @param OutputFile the log (report) filename to output to
+ */
 void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data, std::string OutputFile="./output/NaNReport.txt"){
     if(data.size() > 2){
         data.pop_back();

@@ -1,6 +1,14 @@
-//Victor Aguilar Rodriguez
-//202341753
-//Compilar usando el comando make
+/**
+ * @file main.cpp
+ * @author Victor Aguilar Rodriguez (ar202341753@alm.buap.mx)
+ * @brief Compile with "Make", clean everything with "Make clean"
+ *        Main file
+ * @version 0.1
+ * @date 2024-10-28
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 
 
 //System libraries
@@ -19,84 +27,14 @@ using namespace std::chrono_literals;
 #include "Headers/TUIController.hpp"
 #include "Headers/MatrixOps.hpp"
 
-//-------------------------------------//
+//-------------------------------------//           
 
-MatrixData fileReading(int cols)
-{
-	MatrixData output;
-	MatrixData ErrorOut;
-
-
-	ErrorOut.dataSize = -65535;
-	ErrorOut.frameSize = -65535;
-	ErrorOut.Matrix = std::vector<std::vector<double>>();
-
-	FileReader reader;
-    RowParser parser;
-    std::string ReqFile, fullFile;
-    std::string inputPath = "./input";
-
-
-
-    //File Reading
-    while(true){
-        std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo: ").size())/2)) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo: ";
-        std::cin >> ReqFile;
-		output.fileName = ReqFile;
-        fullFile = "./input/" + ReqFile;
-
-        std::ifstream file(fullFile);
-        if(file.good()){
-            break;
-        } else {
-            std::cout << std::setw(((cols - std::string("El archivo no se ha encontrado o esta dañado, desea volver a colocarlo? [Y/n]: ").size())/2)-64) << std::setfill(' ') << "\0" << "El archivo no se ha encontrado o esta dañado, desea volver a colocarlo? [Y/n]: ";
-            char sel;
-            std::cin >> sel;
-            if(std::toupper(sel) == 'Y'){
-                CleanTerminal();
-                continue;
-            } else {
-                std::cerr << "Usuario decidio terminar el programa..." << std::endl;
-                std::system("PAUSE");
-				return ErrorOut;
-            }
-        }
-    }
-
-	reader.setInputFile(fullFile);
-    std::vector<std::string> lines = reader.getLines();
-	int dataSize = output.dataSize = std::stoi(lines[0]), frameSize = output.frameSize = std::stoi(lines[1]);
-    lines.erase(lines.begin() + 2);
-    
-    std::cout << output.dataSize-2 << " Lineas procesadas..." << std::endl;
-    
-    if(output.dataSize == lines.size()-2){
-        std::cout << "Todas las lineas procesadas con exito..." << std::endl;
-    } else {
-        std::cerr << "ERROR DE PROCESAMIENTO!" << std::endl;
-        return ErrorOut;
-    }
-    std::cout << "Executando conversion..." << std::endl;
-
-	std::vector<std::vector<double>> Matrix(output.dataSize, std::vector<double>(output.frameSize,0.0));
-    
-    //Parse rows
-    for(int i = 0; i < dataSize; i++){
-        parser.ConvertRow(lines[i], ',');
-        std::vector<double> parsedRow = parser.getParsedRow();
-        for(int j = 0; j < frameSize; j++){
-            Matrix[i][j] = parsedRow[j];
-        }
-    }
-
-    Matrix.erase(Matrix.begin(), Matrix.begin() + 2);
-	output.Matrix = Matrix;
-	return output;
-}
 
 int main()
 {
 
+
+    //Input/Output folders check
     if((!fs::exists("./input") || fs::is_empty("./input")) || !fs::exists("./output")){
         std::cout << "La carpeta de entrada/salida (input/output) no existe o esta vacia\nPor favor cree la carpeta y coloque archivos en ella para utilizar el programa" << std::endl;
         return EXIT_FAILURE;

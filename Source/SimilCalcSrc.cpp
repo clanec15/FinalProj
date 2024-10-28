@@ -1,11 +1,30 @@
 #include "../Headers/SimiCalc.hpp"
 
+//Constructor
 SimilCalc::SimilCalc(){sz = 0; BestChoice = SimilCalc::diffData{0, 0};};
+//Destructor
 SimilCalc::~SimilCalc(){};
+
+/**
+ * Sets the first matrix to calculate the similitude
+ * 
+ * @param mtx The input matrix
+ */
 void SimilCalc::SetFstMtx(std::vector<std::vector<double>>& mtx){FirstMtx=mtx;}
+
+/**
+ * Sets the second matrix to calculate the similitude
+ * 
+ * @param mtx The input matrix
+ */
 void SimilCalc::setSecMtx(std::vector<std::vector<double>>& mtx){SecMtx = mtx;}
 
 
+/**
+ * Calculates the difference of a row and a whole matrix
+ * 
+ * @param row The row to compute the difference of
+ */
 void SimilCalc::diffCalc(int row)
 {
     szCalc();
@@ -22,6 +41,11 @@ void SimilCalc::diffCalc(int row)
     }
 }
 
+/**
+ * gets the row of the second matrix with the least difference (aka the best choice)
+ * 
+ * @return the best choice as a struct
+ */
 SimilCalc::diffData SimilCalc::getMSimRow()
 {
     SimilCalculation();
@@ -30,7 +54,9 @@ SimilCalc::diffData SimilCalc::getMSimRow()
 
 
 //Private area
-
+/**
+ * calculates the data frame size and chooses the smallest one
+ */
 void SimilCalc::szCalc()
 {
     if(SecMtx[0].size() > FirstMtx[0].size()){
@@ -45,6 +71,10 @@ void SimilCalc::szCalc()
     }
 }
 
+
+/**
+ * Calculates which row has the smallest difference
+ */
 void SimilCalc::SimilCalculation()
 {
     diffData elem = rowDiffs[0];

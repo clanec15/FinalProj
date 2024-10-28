@@ -1,4 +1,13 @@
-//Header for missing data calculation and recovery, 2024
+/**
+ * @file FileSalvor.hpp
+ * @author Victor Aguilar Rodriguez (ar202341753@alm.buap.mx)
+ * @brief Class for missing data calculation and recovery
+ * @version 0.1
+ * @date 2024-10-28
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 
 #include <iostream>
 #include <vector>
@@ -7,11 +16,11 @@
 #include <cmath>
 #include <sstream>
 
+/**
+ * @brief Main class
+ * 
+ */
 class FileSalvor{
-
-    
-    
-    
     public:
 
     FileSalvor();
@@ -30,13 +39,21 @@ class FileSalvor{
     std::vector<int> idFinder(std::vector<std::vector<double>>);
 };
 
-
+/**
+ * @brief No data change logging
+ * 
+ */
 class FileSalvorNR : public FileSalvor{
 
     public:
     void DataSet(std::vector<std::vector<double>>&, std::vector<std::vector<double>>);
 };
 
+
+/**
+ * @brief w/Data Change logging
+ * 
+ */
 class FileSalvorWR : public FileSalvor{
     public:
     void DataSet(std::vector<std::vector<double>>&, std::vector<std::vector<double>>, std::string);   
