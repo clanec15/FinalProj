@@ -94,7 +94,6 @@ MatrixData fileReading(int cols)
 	return output;
 }
 
-
 int main()
 {
 
@@ -106,6 +105,12 @@ int main()
     CleanTerminal();
 	int cols = GetTerminalSize().columns;
 	MatrixData first = fileReading(cols);
+
+    if((first.dataSize == -65535 || first.frameSize == -65535) && first.Matrix.size() == 0){
+        std::cerr << "LECTURA INCORRECTA" << std::endl;
+        return EXIT_FAILURE;
+    }
+
 	int dataSize = first.dataSize-2;
 	int frameSize = first.frameSize;
 	std::vector<std::vector<double>> firstMtx = first.Matrix;
@@ -124,9 +129,15 @@ int main()
 
 
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
-	std::this_thread::sleep_for(2000ms);
+	std::this_thread::sleep_for(5000ms);
 
     MatrixData second = fileReading(cols);
+
+    if((second.dataSize == -65535 || second.frameSize == -65535) && second.Matrix.size() == 0){
+        std::cerr << "LECTURA INCORRECTA" << std::endl;
+        return EXIT_FAILURE;
+    }
+
     int dt = second.dataSize-2;
     int frs = second.frameSize;
     std::vector<std::vector<double>> secondMtx = second.Matrix;
@@ -141,23 +152,34 @@ int main()
 
     CleanTerminal();
 
+    std::ofstream similFile("./output/similitude.txt", std::ios::app);
+
+    similFile << "Similitud entre Matriz 1 y Matriz 2\n";
+
+
     for(int i = 0; i < (dt < dataSize ? dt : dataSize); i++){
         similitud.diffCalc(i);
         SimilCalc::diffData output;
         output = similitud.getMSimRow();
 
-        std::cout << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
+        similFile << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
         if(output.diff == 0.0){
 
-            std::cout << " [CONCORDANCIA EXACTA!!!]" << std::endl;
+            similFile << " [CONCORDANCIA EXACTA!!!]\n";
             
         } else {
 
-            std::cout << std::endl;
+            similFile << "\n";
 
         }
         
     }
+
+    similFile.close();
+
+    CleanTerminal();
+
+    std::cout << "Programa terminado..." << std::endl;
 
     return 0;
     
