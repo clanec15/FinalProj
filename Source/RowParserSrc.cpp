@@ -1,12 +1,8 @@
 #include "../Headers/FileOperations/RowParser.hpp"
 
 
-RowParser::RowParser()
-{
-
-}
-
-RowParser::~RowParser() {}
+RowParser::RowParser(){}
+RowParser::~RowParser(){}
 
 void RowParser::ConvertRow(std::string input, char delimiter)
 {
@@ -18,10 +14,9 @@ void RowParser::ConvertRow(std::string input, char delimiter)
     while(std::getline(ss, buf, delimiter)){
         try{
             output.push_back(std::stod(buf));
-        } catch (...){
+        } catch (std::invalid_argument){
             output.push_back(-65535);
         }
-
     }
 
     parsedRow = output;
