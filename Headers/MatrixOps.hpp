@@ -183,9 +183,9 @@ void mtxProcessingWR(int cols, int dataSize, int frameSize, std::vector<std::vec
  * 
  * @param cols the number of columns of the terminal for formatting purposes
  * 
- * It prepares two structs; one for normal output and one for an unexpected output (error) that
+ * It prepares two structs; one for normal output and one for an unexpected input (error) that
  * contains invalid data (NaN and an empty matrix), it then asks the user to input the filename
- * of a file inside the input directory, checks if it exists, if it doesnt it asks the user to
+ * of a file inside the input directory, checks if its non-corrupt, if it is, it asks the user to
  * retry, if the user does not want to retry, it returns the error struct
  * 
  * it then calls a FileReader object to set the filename to be read and it gets the lines
@@ -209,29 +209,42 @@ MatrixData fileReading(int cols)
 	MatrixData ErrorOut;
 
 
-	ErrorOut.dataSize = -65535;
-	ErrorOut.frameSize = -65535;
+	ErrorOut.dataSize = NAN;
+	ErrorOut.frameSize = NAN;
 	ErrorOut.Matrix = std::vector<std::vector<double>>();
 
 	FileReader reader;
     RowParser parser;
-    std::string ReqFile, fullFile;
-    std::string inputPath = "./input";
+    char sel;
+    const fs::path inputDir("input/");
+    std::vector<fs::path> files;
+    std::string selFile;
 
-
+    for(auto const& dir_entry : fs::directory_iterator(inputDir)){
+        files.push_back(dir_entry.path());
+    }
 
     //File Reading
     while(true){
-        std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo: ").size())/2)) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo: ";
-        std::cin >> ReqFile;
-		output.fileName = ReqFile;
-        fullFile = "./input/" + ReqFile;
+        std::string callout = "Seleccione el archvio a abrir: ";
 
-        std::ifstream file(fullFile);
+        std::cout << std::setw(((cols - callout.size())/2)) << std::setfill(' ') << callout;
+        for(int i = 0; i < files.size(); i++){
+            std::cout << "[" << char(97+i) << "]: " << files[i].string() << std::endl;
+        }
+
+        std::cout << "\n[S]: ";
+        std::cin >> sel;
+
+        selFile = files[sel-97].string();
+		output.fileName = selFile;
+
+        std::ifstream file(selFile);
         if(file.good()){
             break;
         } else {
-            std::cout << std::setw(((cols - std::string("El archivo no se ha encontrado o esta dañado, desea volver a colocarlo? [Y/n]: ").size())/2)-64) << std::setfill(' ') << "\0" << "El archivo no se ha encontrado o esta dañado, desea volver a colocarlo? [Y/n]: ";
+            callout = "El archivo no se encuentra dañado, desea seleccionar otro? [Y/n]: ";
+            std::cout << std::setw(((cols - callout.size())/2)-1) << std::setfill(' ') << "\0" << callout;
             char sel;
             std::cin >> sel;
             if(std::toupper(sel) == 'Y'){
@@ -245,7 +258,7 @@ MatrixData fileReading(int cols)
         }
     }
 
-	reader.setInputFile(fullFile);
+	reader.setInputFile(selFile);
     std::vector<std::string> lines = reader.getLines();
 	int dataSize = output.dataSize = std::stoi(lines[0]), frameSize = output.frameSize = std::stoi(lines[1]);
     lines.erase(lines.begin() + 2);

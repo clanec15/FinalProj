@@ -44,7 +44,7 @@ int main()
 	int cols = GetTerminalSize().columns;
 	MatrixData first = fileReading(cols);
 
-    if((first.dataSize == -65535 || first.frameSize == -65535) && first.Matrix.size() == 0){
+    if((first.dataSize == NAN || first.frameSize == NAN) && first.Matrix.size() == 0){
         std::cerr << "LECTURA INCORRECTA" << std::endl;
         return EXIT_FAILURE;
     }
