@@ -124,9 +124,9 @@ void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
 /**
  * Modifies the NaN values of the data matrix with the values of the means Data Matrix and logs the changes to a file
  * 
- * @param inputMtx The input Data Matrix (as reference)
- * @param data The Mean Data Matrix
- * @param OutputFile the log (report) filename to output to
+ * @param inputMtx      The input Data Matrix (as reference)
+ * @param data          The Mean Data Matrix
+ * @param OutputFile    the log (report) filename to output to
  */
 void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data, std::string OutputFile="./output/NaNReport.txt"){
     if(data.size() > 2){

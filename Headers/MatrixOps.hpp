@@ -171,7 +171,7 @@ void mtxProcessingWR(int cols, int dataSize, int frameSize, std::vector<std::vec
     std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ").size())/2)-64) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ";
     getline(std::cin, RepFile);
     if(RepFile.empty()){
-        RepFile = " ./output/NaNReport.txt";
+        RepFile = "./output/NaNReport.txt";
     }
     
 
