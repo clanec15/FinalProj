@@ -131,8 +131,15 @@ void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
 void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data, std::string OutputFile="./output/NaNReport.txt"){
     if(data.size() > 2){
         data.pop_back();
-    }           
+    }
     std::ofstream ReportFile(OutputFile);
+
+    if(ReportFile.fail() || !ReportFile.is_open()){
+        std::cerr << "CREACION DE ARCHIVO DE REPORTE FALLIDA" << std::endl;
+        std::abort();
+    }
+
+
     ReportFile << "Datos de reemplazo: \n";
     ReportFile << "\t ";
     for(int h = 0; h < data[0].size(); h++){

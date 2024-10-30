@@ -17,6 +17,7 @@
 #include <filesystem>
 #include <chrono>
 #include <thread>
+#include <climits>
 namespace fs = std::filesystem;
 using namespace std::chrono_literals;
 
@@ -41,10 +42,11 @@ int main()
     }
 
     CleanTerminal();
+    std::vector<fs::path> files = fileSearching();
 	int cols = GetTerminalSize().columns;
-	MatrixData first = fileReading(cols);
+	MatrixData first = fileReading(cols, files);
 
-    if((first.dataSize == NAN || first.frameSize == NAN) && first.Matrix.size() == 0){
+    if((first.dataSize == INT_MAX || first.frameSize == INT_MAX) && first.Matrix.size() == 0){
         std::cerr << "LECTURA INCORRECTA" << std::endl;
         return EXIT_FAILURE;
     }
@@ -58,6 +60,7 @@ int main()
     std::cout << std::setw(((cols - std::string("Desea generar un reporte en caso de datos no legibles? [Y/n]: ").size())/2)+1) << std::setfill(' ') << "\0" << "Desea generar un reporte en caso de datos no legibles? [Y/n]: ";
     char sel;
     std::cin >> sel;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     
     if(std::tolower(sel) == 'n'){
         mtxProcessingNR(dataSize, frameSize, firstMtx, file);
@@ -69,7 +72,10 @@ int main()
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
 	std::this_thread::sleep_for(5000ms);
 
-    MatrixData second = fileReading(cols);
+
+    
+
+    MatrixData second = fileReading(cols, files);
 
     if((second.dataSize == -65535 || second.frameSize == -65535) && second.Matrix.size() == 0){
         std::cerr << "LECTURA INCORRECTA" << std::endl;
@@ -81,6 +87,7 @@ int main()
     std::vector<std::vector<double>> secondMtx = second.Matrix;
     std::string fl = second.fileName;
     std::cout << "Usando modo de 'No Reporte' para la computacion rapida de similitud" << std::endl;
+    std::this_thread::sleep_for(3000ms);
     mtxProcessingNR(dt, frs, secondMtx, fl);
 
     SimilCalc similitud;
@@ -88,9 +95,13 @@ int main()
     similitud.SetFstMtx(firstMtx);
     similitud.setSecMtx(secondMtx);
 
+
+    
     CleanTerminal();
 
     std::ofstream similFile("./output/similitude.txt", std::ios::app);
+
+    
 
     similFile << "Similitud entre Matriz 1 y Matriz 2\n";
 

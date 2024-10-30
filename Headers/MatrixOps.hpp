@@ -14,10 +14,32 @@
 #include <string>
 #include <vector>
 #include <iomanip>
+#include <filesystem>
+#include <climits>
+#include <thread>
+#include <chrono>
+using namespace std::chrono_literals;
+
 #include "../Source/FileReaderSrc.cpp"
 #include "../Source/RowParserSrc.cpp"
 #include "../Source/FileSalvorSrc.cpp"
+#include "./TUIController.hpp"
 
+namespace fs = std::filesystem;
+
+
+std::vector<fs::path> fileSearching(fs::path input = "input/")
+{
+    const fs::path inputDir = input;
+
+    std::vector<fs::path> fileArr;
+
+    for(auto const& dir_entry : fs::directory_iterator(inputDir)){
+        fileArr.push_back(dir_entry.path());
+    }
+
+    return fileArr;
+}
 
 
 /**
@@ -147,7 +169,11 @@ void mtxProcessingWR(int cols, int dataSize, int frameSize, std::vector<std::vec
     std::string RepFile;
     std::vector<std::vector<double>> means = salvor.DataMeanCalculation(DataMtx);
     std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ").size())/2)-64) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ";
-    std::cin >> RepFile;
+    getline(std::cin, RepFile);
+    if(RepFile.empty()){
+        RepFile = " ./output/NaNReport.txt";
+    }
+    
 
 
     std::ofstream outputFile("./output/" + outputFName);
@@ -160,11 +186,7 @@ void mtxProcessingWR(int cols, int dataSize, int frameSize, std::vector<std::vec
     if(salvor.GetDataStatus()){
         std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
 
-        if(!RepFile.empty()){
-            salvor.DataSet(DataMtx, means, "./output/" + RepFile);
-        } else {
-            salvor.DataSet(DataMtx, means);
-        }
+        salvor.DataSet(DataMtx, means, RepFile);
             
 
         std::cout << "Datos Corregidos: " << std::endl;
@@ -203,62 +225,80 @@ void mtxProcessingWR(int cols, int dataSize, int frameSize, std::vector<std::vec
  * @see FileReader
  * @see RowParser
  */
-MatrixData fileReading(int cols)
+MatrixData fileReading(int cols, std::vector<fs::path>& fileArr)
 {
 	MatrixData output;
 	MatrixData ErrorOut;
 
 
-	ErrorOut.dataSize = NAN;
-	ErrorOut.frameSize = NAN;
-	ErrorOut.Matrix = std::vector<std::vector<double>>();
+	ErrorOut.dataSize =     INT_MAX;
+	ErrorOut.frameSize =    INT_MAX;
+	ErrorOut.Matrix =       std::vector<std::vector<double>>();
 
 	FileReader reader;
     RowParser parser;
     char sel;
-    const fs::path inputDir("input/");
-    std::vector<fs::path> files;
-    std::string selFile;
+    fs::path selFile;
 
-    for(auto const& dir_entry : fs::directory_iterator(inputDir)){
-        files.push_back(dir_entry.path());
-    }
 
     //File Reading
-    while(true){
-        std::string callout = "Seleccione el archvio a abrir: ";
 
-        std::cout << std::setw(((cols - callout.size())/2)) << std::setfill(' ') << callout;
-        for(int i = 0; i < files.size(); i++){
-            std::cout << "[" << char(97+i) << "]: " << files[i].string() << std::endl;
+    if(fileArr.size() < 2){
+        std::cout << "Usando unico elemento no seleccionado..." << std::endl;
+        selFile = fileArr[0];
+        output.fileName = selFile.string();
+        std::ifstream file(output.fileName);
+
+        if(file.good()){
+            file.close();
+        } else {
+            std::cout << "Unico archivo restante corrupto/ilegible...\nSuspendiendo ejecucion..." << std::endl;
+            return ErrorOut;
         }
 
-        std::cout << "\n[S]: ";
-        std::cin >> sel;
+    } else {
+        while(true){
+            std::string callout = "Seleccione el archvio a abrir: ";
 
-        selFile = files[sel-97].string();
-		output.fileName = selFile;
+            std::cout << std::setw(((cols - callout.size())/2)) << std::setfill(' ') << callout << std::endl;;
+            for(int i = 0; i < fileArr.size(); i++){
+                std::cout << "[" << char(97+i) << "]: " << fileArr[i].filename().string() << std::endl;
+            }
 
-        std::ifstream file(selFile);
-        if(file.good()){
-            break;
-        } else {
-            callout = "El archivo no se encuentra dañado, desea seleccionar otro? [Y/n]: ";
-            std::cout << std::setw(((cols - callout.size())/2)-1) << std::setfill(' ') << "\0" << callout;
-            char sel;
+            std::cout << "\n[S]: ";
             std::cin >> sel;
-            if(std::toupper(sel) == 'Y'){
-                CleanTerminal();
-                continue;
+
+            selFile = fileArr[sel-97];
+            output.fileName = selFile.string();
+
+            std::ifstream file(selFile.string());
+            if(file.good()){
+                file.close();
+                fileArr.erase(fileArr.begin() + sel-97);
+                break;
             } else {
-                std::cerr << "Usuario decidio terminar el programa..." << std::endl;
-                std::system("PAUSE");
-				return ErrorOut;
+                callout = "El archivo no se encuentra dañado, desea seleccionar otro? [Y/n]: ";
+                std::cout << std::setw(((cols - callout.size())/2)-1) << std::setfill(' ') << "\0" << callout;
+                char sel;
+                std::cin >> sel;
+                if(std::toupper(sel) == 'Y'){
+                    CleanTerminal();
+                    file.close();
+                    continue;
+                } else {
+                    file.close();
+                    std::cerr << "Usuario decidio terminar el programa..." << std::endl;
+                    std::system("PAUSE");
+                    return ErrorOut;
+                }
             }
         }
     }
 
-	reader.setInputFile(selFile);
+
+    
+
+	reader.setInputFile(selFile.string());
     std::vector<std::string> lines = reader.getLines();
 	int dataSize = output.dataSize = std::stoi(lines[0]), frameSize = output.frameSize = std::stoi(lines[1]);
     lines.erase(lines.begin() + 2);
@@ -285,6 +325,8 @@ MatrixData fileReading(int cols)
     }
 
     Matrix.erase(Matrix.begin(), Matrix.begin() + 2);
+
+    std::cout << "Conversion completada..." << std::endl;
 	output.Matrix = Matrix;
 	return output;
 }
