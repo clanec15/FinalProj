@@ -68,6 +68,8 @@ int main()
         mtxProcessingWR(cols, dataSize, frameSize, firstMtx, file);
     }
 
+    
+
 
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
 	std::this_thread::sleep_for(5000ms);
