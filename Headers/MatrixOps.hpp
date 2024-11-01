@@ -16,9 +16,6 @@
 #include <iomanip>
 #include <filesystem>
 #include <climits>
-#include <thread>
-#include <chrono>
-using namespace std::chrono_literals;
 
 #include "../Source/FileReaderSrc.cpp"
 #include "../Source/RowParserSrc.cpp"
@@ -27,18 +24,30 @@ using namespace std::chrono_literals;
 
 namespace fs = std::filesystem;
 
-
-std::vector<fs::path> fileSearching(fs::path input = "input/")
+/**
+ * @brief recursive file searching subroutine
+ * 
+ * will search for files inside the defined input path and recursively search in case there are directories
+ * 
+ * @param input         the entry path
+ * @param fileArray     the file array that will contain the paths of the files
+ */
+void fileSearching(fs::path input, std::vector<fs::path>& fileArray)
 {
     const fs::path inputDir = input;
 
-    std::vector<fs::path> fileArr;
-
-    for(auto const& dir_entry : fs::directory_iterator(inputDir)){
-        fileArr.push_back(dir_entry.path());
+    if(!fs::exists(input)){
+        std::cerr << "INVINPUTDIR" << std::endl;
+        return;
     }
 
-    return fileArr;
+    for(auto const& dir_entry : fs::directory_iterator(inputDir)){
+        if(dir_entry.is_directory()){
+            fileSearching(dir_entry, fileArray);
+        } else {
+            fileArray.push_back(dir_entry.path().relative_path());
+        }
+    }
 }
 
 
@@ -72,18 +81,19 @@ struct MatrixData
  * @see mtxProccesingWR
  * @see SetDataStatus
  */
-void CheckMtx(int dataSize, int frameSize, FileSalvor& helper, std::vector<std::vector<double>> mtx)
+bool CheckMtx(FileSalvor& helper, MatrixData DataMatrix)
 {
-    for(int i = 0; i < dataSize; i++){
-            for(int j = 0; j < frameSize; j++){
-                if(mtx[i][j] == static_cast<double>(-65535)) {
-                    helper.SetDataStatus(true);
+    for(int i = 0; i < DataMatrix.dataSize; i++){
+            for(int j = 0; j < DataMatrix.frameSize; j++){
+                if(DataMatrix.Matrix[i][j] == static_cast<double>(-65535)) {
+                    return true;
                 }
-                std::cout << mtx[i][j] << (j == frameSize-1 ? "\t" : ",\t");
+                std::cout << DataMatrix.Matrix[i][j] << (j == DataMatrix.frameSize-1 ? "\t" : ",\t");
             }
             std::cout << std::endl;
         }
     std::cout << std::endl;
+    return false;
 }
 
 
@@ -94,12 +104,12 @@ void CheckMtx(int dataSize, int frameSize, FileSalvor& helper, std::vector<std::
  * @param file output file ofstream
  * @param mtx the Data Matrix
  */
-void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<double>> mtx)
+void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<double>> DataMatrix)
 {
-    for(int i = 0; i < mtx.size(); i++){
-        for(int j = 0; j < mtx[0].size(); j++){
-            std::cout << mtx[i][j] << (j == frameSize-1 ? "\t" : ",\t");
-            file << mtx[i][j] << (j == frameSize-1 ? "" : ",");
+    for(int i = 0; i < DataMatrix.size(); i++){
+        for(int j = 0; j < DataMatrix[0].size(); j++){
+            std::cout << DataMatrix[i][j] << (j == frameSize-1 ? "\t" : ",\t");
+            file << DataMatrix[i][j] << (j == frameSize-1 ? "" : ",");
         }
         file << "\n";
         std::cout << std::endl;
@@ -107,98 +117,58 @@ void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<
     std::cout << std::endl;
 }
 
-
 /**
- * Processes the matrix in case the DataStatus flag is set, if its not, it just prints the matrix to stdout and saves it to file using the SaveNOutputMtx
- * (No output to report file)
- * 
- * @param dataSize size of the Data Matrix (rows)
- * @param frameSize size of the rows of the Matrix (Data Frame)
- * @param DataMtx The Data Matrix
- * @param outputFName the output filename (Not the report file name)
- * 
- * @see CheckMtx
- * @see GetDataStatus
- * @see DataSet
- * 
+ * @brief processes the matrix and fixes it in case it has NaN values
+ * @param ProcType          Sets if the user wants report or not
+ * @param DataMatrix        The MatrixData struct for the main matrix data
+ * @param outputFileName    The output filename (generally the original one)
+ * @param cols              The columns of the terminal (for formatting purposes)
  */
-void mtxProcessingNR(int dataSize, int frameSize, std::vector<std::vector<double>>& DataMtx, std::string outputFName)
+void MatrixProcessing(bool ProcType, MatrixData DataMatrix, fs::path outputFileName, int cols)
 {
-    FileSalvorNR salvor;
-    std::vector<std::vector<double>> means = salvor.DataMeanCalculation(DataMtx);
-    std::ofstream outputFile("./output/" + outputFName);
-    outputFile << dataSize << "\n";
-    outputFile << frameSize << "\n";
-    outputFile << "2\n";
+    FileSalvor salvorMain;
+    std::vector<std::vector<double>> means = salvorMain.DataMeanCalculation(DataMatrix.Matrix);
 
-    CheckMtx(dataSize, frameSize, salvor, DataMtx);
-        
-    if(salvor.GetDataStatus()){
+    std::ofstream outputFile("./output/" + outputFileName.filename().string());
+    if(!outputFile.is_open() || !fs::exists("./output")){
+        std::cerr << "No se pudo generar archivo!" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+
+    outputFile << DataMatrix.dataSize << "\n";
+    outputFile << DataMatrix.frameSize << "\n";
+    outputFile << "2\n";
+    salvorMain.SetDataStatus(CheckMtx(salvorMain, DataMatrix));
+
+    if(salvorMain.GetDataStatus()){
         std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
-            
-        salvor.DataSet(DataMtx, means);
+        
+        if(ProcType){
+            std::string RepFile;
+            std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ").size())/2)-64) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ";
+
+            getline(std::cin, RepFile);
+            if(RepFile.empty()){
+                RepFile = "./output/NaNReport.txt";
+            }
+            FileSalvorWR gen;
+            gen.DataSet(DataMatrix.Matrix, means, RepFile);
+        } else {
+            FileSalvorNR gen;
+            gen.DataSet(DataMatrix.Matrix, means);
+        }
 
         std::cout << "Datos Corregidos: " << std::endl;
-        SaveNOutputMtx(frameSize, outputFile, DataMtx);
-        std::cout << std::endl;
-
+        SaveNOutputMtx(DataMatrix.frameSize, outputFile, DataMatrix.Matrix);
         outputFile.close();
     } else {
-        SaveNOutputMtx(frameSize, outputFile, DataMtx);
         std::cout << "Datos correctos..." << std::endl;
-        outputFile.close();  
+        SaveNOutputMtx(DataMatrix.frameSize, outputFile, DataMatrix.Matrix);
+        outputFile.close();
     }
-    salvor.~FileSalvorNR();
 }
 
 
-/**
- * Processes the matrix in case the DataStatus flag is set, if its not, it just prints the matrix to stdout and saves it to file using the SaveNOutputMtx
- * (Outputs to report file)
- * 
- * @param dataSize size of the Data Matrix (rows)
- * @param frameSize size of the rows of the Matrix (Data Frame)
- * @param DataMtx The Data Matrix
- * @param outputFName the output filename (Not the report file name)
- * 
- * @see SaveNOutputMtx
- */
-void mtxProcessingWR(int cols, int dataSize, int frameSize, std::vector<std::vector<double>>& DataMtx, std::string outputFName)
-{
-    FileSalvorWR salvor;
-    std::string RepFile;
-    std::vector<std::vector<double>> means = salvor.DataMeanCalculation(DataMtx);
-    std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ").size())/2)-64) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ";
-    getline(std::cin, RepFile);
-    if(RepFile.empty()){
-        RepFile = "./output/NaNReport.txt";
-    }
-    
-
-
-    std::ofstream outputFile("./output/" + outputFName);
-    outputFile << dataSize << "\n";
-    outputFile << frameSize << "\n";
-    outputFile << "2\n";
-        
-    CheckMtx(dataSize, frameSize, salvor, DataMtx);
-
-    if(salvor.GetDataStatus()){
-        std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
-
-        salvor.DataSet(DataMtx, means, RepFile);
-            
-
-        std::cout << "Datos Corregidos: " << std::endl;
-        SaveNOutputMtx(frameSize, outputFile, DataMtx);
-
-        outputFile.close();
-    } else {
-        SaveNOutputMtx(frameSize, outputFile, DataMtx);
-        std::cout << "Datos correctos..." << std::endl;
-        outputFile.close();
-    }
-}
 
 /**
  * @brief Reads the file and outputs it to a MatrixData struct
@@ -253,7 +223,7 @@ MatrixData fileReading(int cols, std::vector<fs::path>& fileArr)
             file.close();
         } else {
             std::cout << "Unico archivo restante corrupto/ilegible...\nSuspendiendo ejecucion..." << std::endl;
-            return ErrorOut;
+            std::exit(EXIT_FAILURE);
         }
 
     } else {
@@ -288,8 +258,7 @@ MatrixData fileReading(int cols, std::vector<fs::path>& fileArr)
                 } else {
                     file.close();
                     std::cerr << "Usuario decidio terminar el programa..." << std::endl;
-                    std::system("PAUSE");
-                    return ErrorOut;
+                    std::exit(EXIT_SUCCESS);
                 }
             }
         }

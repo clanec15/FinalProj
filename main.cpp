@@ -42,7 +42,9 @@ int main()
     }
 
     CleanTerminal();
-    std::vector<fs::path> files = fileSearching();
+    const fs::path entry = "./input";
+    std::vector<fs::path> files;
+    fileSearching(entry, files);
 	int cols = GetTerminalSize().columns;
 	MatrixData first = fileReading(cols, files);
 
@@ -62,14 +64,7 @@ int main()
     std::cin >> sel;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     
-    if(std::tolower(sel) == 'n'){
-        mtxProcessingNR(dataSize, frameSize, firstMtx, file);
-    } else {
-        mtxProcessingWR(cols, dataSize, frameSize, firstMtx, file);
-    }
-
-    
-
+    MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols);
 
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
 	std::this_thread::sleep_for(5000ms);
@@ -90,7 +85,7 @@ int main()
     std::string fl = second.fileName;
     std::cout << "Usando modo de 'No Reporte' para la computacion rapida de similitud" << std::endl;
     std::this_thread::sleep_for(3000ms);
-    mtxProcessingNR(dt, frs, secondMtx, fl);
+    MatrixProcessing(false, second, second.fileName, cols);
 
     SimilCalc similitud;
 

@@ -35,8 +35,8 @@ void FileSalvor::SetDataStatus(bool status)
  * 
  * @return the mean of the rows with the same id
  */
-double FileSalvor::DataSalvage(std::vector<std::vector<double>> inputMtx, int col, int id){
-    double mean;
+double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int col, int id){
+    double mean = 0.0;
     int items = 0;
     for(int i = 0; i<inputMtx.size(); i++){
         if((inputMtx[i][inputMtx[0].size()-1] != static_cast<double>(id))){
@@ -53,7 +53,7 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>> inputMtx, int co
         
     }
     
-    return mean/items;
+    return (items > 0 ? mean/items : 0.0);
 }
 
 /**
@@ -62,7 +62,7 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>> inputMtx, int co
  * 
  * @return the ids as a vector of int's
  */
-std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>> inputMtx){
+std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx){
     std::vector<int> ids = {};
     for(int i = 0; i < inputMtx.size(); i++){
         int test = std::count(ids.begin(), ids.end(), inputMtx[i][inputMtx[0].size()-1]);
@@ -87,16 +87,19 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>> inputMtx)
  * @see idFinder
  * @see DataSalvage
  */
-std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std::vector<double>> inputMtx)
+std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std::vector<double>>& inputMtx)
 {
     std::vector<int> ids = FileSalvor::idFinder(inputMtx);
     std::vector<std::vector<double>> means(ids.size());
-    FileSalvor hlp;
+    
+    if(inputMtx.empty() || inputMtx[0].empty()){
+        return {};
+    }
 
     for(int i = 0; i < inputMtx[0].size()-1; i++){
         for(int j = 0; j < ids.size(); j++){
             //Truncate to 2 decimal places using round
-            means[j].push_back(round(hlp.DataSalvage(inputMtx, i, ids[j])*100.0)/100.0);
+            means[j].push_back(round(DataSalvage(inputMtx, i, ids[j])*100.0)/100.0);
         }
     }
 
@@ -115,7 +118,8 @@ void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
     for(int i = 0; i < inputMtx.size(); i++){
         for(int j = 0; j < inputMtx[0].size(); j++){
             if(inputMtx[i][j] == static_cast<double>(-65535)){
-                inputMtx[i][j] = data[inputMtx[j][inputMtx[0].size()-1]][j];
+                int entry = inputMtx[j][inputMtx[0].size()-1];
+                inputMtx[i][j] = data[entry][j];
             }
         }
     }

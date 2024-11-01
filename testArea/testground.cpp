@@ -15,14 +15,16 @@ int main()
 {
     
     int cols = GetTerminalSize().columns;
-    const fs::path dir("../input/");
+    const fs::path dir("./testFolder");
     std::vector<fs::path> files;
 
-    files = fileSearching(dir);
-
-    MatrixData fileTest = fileReading(cols, files);
-
+    fileSearching(dir, files);
     
+
+    for(int i = 0; i < files.size(); i++){
+        std::cout << "[" << i << "]: ";
+        std::cout << files[i].string() << std::endl;
+    }
 
     return 0;
 }   

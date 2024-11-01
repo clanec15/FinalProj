@@ -25,8 +25,8 @@ class SimilCalc{
 
     SimilCalc();
     ~SimilCalc();
-    void SetFstMtx(std::vector<std::vector<double>>&);
-    void setSecMtx(std::vector<std::vector<double>>&);
+    void SetFstMtx(const std::vector<std::vector<double>>&);
+    void setSecMtx(const std::vector<std::vector<double>>&);
     void diffCalc(int);
     diffData getMSimRow();
     

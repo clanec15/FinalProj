@@ -59,16 +59,7 @@ SimilCalc::diffData SimilCalc::getMSimRow()
  */
 void SimilCalc::szCalc()
 {
-    if(SecMtx[0].size() > FirstMtx[0].size()){
-        sz = SecMtx[0].size();
-
-    } else if(SecMtx[0].size() < FirstMtx[0].size()) {
-        sz = FirstMtx[0].size();
-
-    } else {
-        sz = FirstMtx[0].size();
-
-    }
+    sz = std::min(FirstMtx[0].size(), SecMtx[0].size());
 }
 
 

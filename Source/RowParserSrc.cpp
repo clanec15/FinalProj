@@ -12,7 +12,7 @@ RowParser::~RowParser(){}
  * @param input The row in string form
  * @param delimiter The delimiter of data as character 
  */
-void RowParser::ConvertRow(std::string input, char delimiter)
+void RowParser::ConvertRow(const std::string& input, char delimiter)
 {
     std::stringstream ss(input);
     std::string buf;
@@ -23,6 +23,8 @@ void RowParser::ConvertRow(std::string input, char delimiter)
         try{
             output.push_back(std::stod(buf));
         } catch (std::invalid_argument){
+            output.push_back(-65535);
+        } catch (std::out_of_range){
             output.push_back(-65535);
         }
     }
@@ -35,7 +37,7 @@ void RowParser::ConvertRow(std::string input, char delimiter)
  * 
  * @return Parsed row as a double datatype vector for usage
  */
-std::vector<double> RowParser::getParsedRow()
+const std::vector<double>& RowParser::getParsedRow()
 {
     return parsedRow;
 }

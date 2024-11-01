@@ -25,10 +25,10 @@ class FileSalvor{
 
     FileSalvor();
     ~FileSalvor();
-    std::vector<std::vector<double>> DataMeanCalculation(std::vector<std::vector<double>>);
+    std::vector<std::vector<double>> DataMeanCalculation(std::vector<std::vector<double>>&);
     bool GetDataStatus();
     void SetDataStatus(bool);
-    double DataSalvage(std::vector<std::vector<double>>, int, int);
+    double DataSalvage(std::vector<std::vector<double>>&, int, int);
 
 
     
@@ -36,7 +36,7 @@ class FileSalvor{
     private:
     bool invDataDtc;
     int modeDtyp;
-    std::vector<int> idFinder(std::vector<std::vector<double>>);
+    std::vector<int> idFinder(std::vector<std::vector<double>>&);
 };
 
 /**

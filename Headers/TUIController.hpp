@@ -21,7 +21,14 @@ struct TerminalSize{
 
 #ifndef __unix__
 #include <windows.h>
-
+/** 
+ * Get Terminal size as rows and columns for formatting 
+ * 
+ * Based on system macro (__WIN32 or __unix__) it gets the terminal sizes as columns and rows
+ * as a struct with both of them as integers
+ * 
+ * @return Rows and columns as a struct (TerminalSize)
+*/
 TerminalSize GetTerminalSize(){
     TerminalSize output;
     CONSOLE_SCREEN_BUFFER_INFO csbi;

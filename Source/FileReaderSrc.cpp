@@ -29,13 +29,16 @@ std::vector<std::string> FileReader::getLines()
     std::string buf;
     std::ifstream Read(inputFile);
     std::vector<std::string> output;
+
+    if(!Read.is_open()){
+        std::cerr << "Error al abrir el archivo!!!" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
     
 
     while(getline(Read,buf)){
         output.push_back(buf);
     }
-    
-    Read.close();
 
     return output;
 }

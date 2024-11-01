@@ -1,0 +1,2 @@
+Hello!, Im a second file inside a directory
+Hope we can be friends :D
