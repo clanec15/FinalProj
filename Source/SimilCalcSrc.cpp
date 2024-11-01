@@ -10,14 +10,14 @@ SimilCalc::~SimilCalc(){};
  * 
  * @param mtx The input matrix
  */
-void SimilCalc::SetFstMtx(std::vector<std::vector<double>>& mtx){FirstMtx=mtx;}
+void SimilCalc::SetFstMtx(const std::vector<std::vector<double>>& mtx){FirstMtx=mtx;}
 
 /**
  * Sets the second matrix to calculate the similitude
  * 
  * @param mtx The input matrix
  */
-void SimilCalc::setSecMtx(std::vector<std::vector<double>>& mtx){SecMtx = mtx;}
+void SimilCalc::setSecMtx(const std::vector<std::vector<double>>& mtx){SecMtx = mtx;}
 
 
 /**
