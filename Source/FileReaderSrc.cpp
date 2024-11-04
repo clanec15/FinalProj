@@ -31,7 +31,7 @@ std::vector<std::string> FileReader::getLines()
     std::vector<std::string> output;
 
     if(!Read.is_open()){
-        std::cerr << "Error al abrir el archivo!!!" << std::endl;
+        std::cerr << "Error al abrir el archivo!!! [FileReaderSrc.cpp]" << std::endl;
         std::exit(EXIT_FAILURE);
     }
     
@@ -40,5 +40,6 @@ std::vector<std::string> FileReader::getLines()
         output.push_back(buf);
     }
 
+    Read.close();
     return output;
 }

@@ -30,9 +30,19 @@ using namespace std::chrono_literals;
 
 //-------------------------------------//           
 
+void checkMatrix(MatrixData data)
+{
+    if((data.dataSize == INT_MAX || data.frameSize == INT_MAX) && data.Matrix.size() == 0){
+        std::cerr << "LECTURA INCORRECTA" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+}
 
 int main()
 {
+    const fs::path entry = "./input";
+    std::vector<fs::path> files;
+    int cols = GetTerminalSize().columns;
 
 
     //Input/Output folders check
@@ -42,21 +52,9 @@ int main()
     }
 
     CleanTerminal();
-    const fs::path entry = "./input";
-    std::vector<fs::path> files;
     fileSearching(entry, files);
-	int cols = GetTerminalSize().columns;
 	MatrixData first = fileReading(cols, files);
-
-    if((first.dataSize == INT_MAX || first.frameSize == INT_MAX) && first.Matrix.size() == 0){
-        std::cerr << "LECTURA INCORRECTA" << std::endl;
-        return EXIT_FAILURE;
-    }
-
-	int dataSize = first.dataSize-2;
-	int frameSize = first.frameSize;
-	std::vector<std::vector<double>> firstMtx = first.Matrix;
-	std::string file = first.fileName;
+    checkMatrix(first);
 
     std::cout << "Comprobando datos..." << std::endl;
     std::cout << std::setw(((cols - std::string("Desea generar un reporte en caso de datos no legibles? [Y/n]: ").size())/2)+1) << std::setfill(' ') << "\0" << "Desea generar un reporte en caso de datos no legibles? [Y/n]: ";
@@ -69,41 +67,26 @@ int main()
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
 	std::this_thread::sleep_for(5000ms);
 
-
-    
-
     MatrixData second = fileReading(cols, files);
+    checkMatrix(second);
 
-    if((second.dataSize == -65535 || second.frameSize == -65535) && second.Matrix.size() == 0){
-        std::cerr << "LECTURA INCORRECTA" << std::endl;
-        return EXIT_FAILURE;
-    }
 
-    int dt = second.dataSize-2;
-    int frs = second.frameSize;
-    std::vector<std::vector<double>> secondMtx = second.Matrix;
-    std::string fl = second.fileName;
     std::cout << "Usando modo de 'No Reporte' para la computacion rapida de similitud" << std::endl;
     std::this_thread::sleep_for(3000ms);
     MatrixProcessing(false, second, second.fileName, cols);
 
     SimilCalc similitud;
-
-    similitud.SetFstMtx(firstMtx);
-    similitud.setSecMtx(secondMtx);
+    similitud.SetFstMtx(first.Matrix);
+    similitud.setSecMtx(second.Matrix);
 
 
     
     CleanTerminal();
-
     std::ofstream similFile("./output/similitude.txt", std::ios::app);
-
-    
-
     similFile << "Similitud entre Matriz 1 y Matriz 2\n";
 
 
-    for(int i = 0; i < (dt < dataSize ? dt : dataSize); i++){
+    for(int i = 0; i < (second.dataSize < first.dataSize ? second.dataSize : first.dataSize); i++){
         similitud.diffCalc(i);
         SimilCalc::diffData output;
         output = similitud.getMSimRow();
@@ -122,11 +105,7 @@ int main()
     }
 
     similFile.close();
-
     CleanTerminal();
-
     std::cout << "Programa terminado..." << std::endl;
-
     return 0;
-    
 }

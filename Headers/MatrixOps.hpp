@@ -247,7 +247,7 @@ MatrixData fileReading(int cols, std::vector<fs::path>& fileArr)
                 fileArr.erase(fileArr.begin() + sel-97);
                 break;
             } else {
-                callout = "El archivo no se encuentra dañado, desea seleccionar otro? [Y/n]: ";
+                callout = "El archivo se encuentra dañado, desea seleccionar otro? [Y/n]: ";
                 std::cout << std::setw(((cols - callout.size())/2)-1) << std::setfill(' ') << "\0" << callout;
                 char sel;
                 std::cin >> sel;

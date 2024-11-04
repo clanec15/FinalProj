@@ -78,6 +78,23 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx
 }
 
 /**
+ * truncates a double value to n places
+ * @param n_places The number of decimal digits to truncate to
+ * @param num The number to truncate
+ * 
+ * @return the truncated value
+ */
+double truncate(int n_places, double num){
+    int trunc;
+    if(n_places = 0){
+        trunc = 1;
+    } else {
+        trunc = pow(trunc, n_places);
+    }
+    return round(num*trunc)/trunc;
+}
+
+/**
  * calculates all the means of the Data Matrix
  * 
  * @param inputMtx the input Data Matrix
@@ -99,7 +116,7 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
     for(int i = 0; i < inputMtx[0].size()-1; i++){
         for(int j = 0; j < ids.size(); j++){
             //Truncate to 2 decimal places using round
-            means[j].push_back(round(DataSalvage(inputMtx, i, ids[j])*100.0)/100.0);
+            means[j].push_back(truncate(3, DataSalvage(inputMtx, i, ids[j])));
         }
     }
 

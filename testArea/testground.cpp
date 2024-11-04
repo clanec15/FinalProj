@@ -13,18 +13,10 @@ namespace fs = std::filesystem;
 
 int main()
 {
-    
-    int cols = GetTerminalSize().columns;
-    const fs::path dir("./testFolder");
-    std::vector<fs::path> files;
+    double test = 234.1234;
 
-    fileSearching(dir, files);
-    
 
-    for(int i = 0; i < files.size(); i++){
-        std::cout << "[" << i << "]: ";
-        std::cout << files[i].string() << std::endl;
-    }
+    std::cout << round(test*100.0)/100.0 <<std::endl;
 
     return 0;
 }   
