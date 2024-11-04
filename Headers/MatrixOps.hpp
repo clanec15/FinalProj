@@ -124,10 +124,14 @@ void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<
  * @param outputFileName    The output filename (generally the original one)
  * @param cols              The columns of the terminal (for formatting purposes)
  */
-void MatrixProcessing(bool ProcType, MatrixData DataMatrix, fs::path outputFileName, int cols)
+void MatrixProcessing(bool ProcType, MatrixData DataMatrix, fs::path outputFileName, int cols, std::vector<std::vector<double>> means = {{}})
 {
     FileSalvor salvorMain;
-    std::vector<std::vector<double>> means = salvorMain.DataMeanCalculation(DataMatrix.Matrix);
+
+    if(means.size() == 0){
+        std::vector<std::vector<double>> means = salvorMain.DataMeanCalculation(DataMatrix.Matrix);
+    }
+    
 
     std::ofstream outputFile("./output/" + outputFileName.filename().string());
     if(!outputFile.is_open() || !fs::exists("./output")){

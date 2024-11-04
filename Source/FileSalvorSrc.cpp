@@ -38,9 +38,8 @@ void FileSalvor::SetDataStatus(bool status)
 double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int col, int id){
     double mean = 0.0;
     int items = 0;
-
     for(int i = 0; i<inputMtx.size(); i++){
-        if((inputMtx[i][inputMtx[0].size()-1] != static_cast<double>(id)) && (inputMtx[i][col] == static_cast<double>(-65535))){
+        if((inputMtx[i][inputMtx[0].size()-1] != static_cast<double>(id)) || (inputMtx[i][col] == static_cast<double>(-65535))){
             continue;
         } else {
             mean += inputMtx[i][col];
@@ -110,8 +109,8 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
 
     for(int i = 0; i < inputMtx[0].size()-1; i++){
         for(int j = 0; j < ids.size(); j++){
-            //Truncate to 2 decimal places using round
-            means[j].push_back(truncate(3, DataSalvage(inputMtx, i, ids[j])));
+            
+            means[j].push_back(DataSalvage(inputMtx, i, ids[j]));
         }
     }
 

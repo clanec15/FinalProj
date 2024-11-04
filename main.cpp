@@ -49,6 +49,7 @@ int main()
     std::vector<fs::path> files;
     int cols = GetTerminalSize().columns;
     std::string callout;
+    FileSalvor mainT;
 
 
     //Input/Output folders check
@@ -68,8 +69,10 @@ int main()
     char sel;
     std::cin >> sel;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
     
-    MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols);
+    MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols, meansFirst);
 
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
 	std::this_thread::sleep_for(5000ms);

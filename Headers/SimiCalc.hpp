@@ -27,7 +27,7 @@ class SimilCalc{
     ~SimilCalc();
     void SetFirstMtx(const std::vector<std::vector<double>>&);
     void setSecondMtx(const std::vector<std::vector<double>>&);
-    void diffCalc(int);
+    void diffCalc(int, bool);
     diffData getMostSimilarRow();
     
     

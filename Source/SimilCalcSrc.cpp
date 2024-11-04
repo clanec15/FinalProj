@@ -1,5 +1,7 @@
 #include "../Headers/SimiCalc.hpp"
 
+const double PISQRT = 2.5066282746310002;
+
 //Constructor
 SimilCalc::SimilCalc(){sz = 0; BestChoice = SimilCalc::diffData{0, 0};};
 //Destructor
@@ -25,8 +27,13 @@ void SimilCalc::setSecondMtx(const std::vector<std::vector<double>>& mtx){SecMtx
  * 
  * @param row The row to compute the difference of
  */
-void SimilCalc::diffCalc(int row)
+void SimilCalc::diffCalc(int row, bool mode)
 {
+
+    if(!mode){
+        
+    }
+
     szCalc();
     rowDiffs.clear();
     for(int i = 0; i < std::min(FirstMtx.size(), SecMtx.size()); i++){
