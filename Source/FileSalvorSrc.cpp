@@ -38,19 +38,14 @@ void FileSalvor::SetDataStatus(bool status)
 double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int col, int id){
     double mean = 0.0;
     int items = 0;
+
     for(int i = 0; i<inputMtx.size(); i++){
-        if((inputMtx[i][inputMtx[0].size()-1] != static_cast<double>(id))){
+        if((inputMtx[i][inputMtx[0].size()-1] != static_cast<double>(id)) && (inputMtx[i][col] == static_cast<double>(-65535))){
             continue;
         } else {
-            if((inputMtx[i][col] != static_cast<double>(-65535))){
-                mean += inputMtx[i][col];
-                items++;
-            } else {
-                continue;
-            }
-            
+            mean += inputMtx[i][col];
+            items++;
         }
-        
     }
     
     return (items > 0 ? mean/items : 0.0);

@@ -30,6 +30,11 @@ using namespace std::chrono_literals;
 
 //-------------------------------------//           
 
+
+/**
+ * check if the matrix is a valid matrix input
+ * it it isnt, it exits with failure
+ */
 void checkMatrix(MatrixData data)
 {
     if((data.dataSize == INT_MAX || data.frameSize == INT_MAX) && data.Matrix.size() == 0){
@@ -40,9 +45,10 @@ void checkMatrix(MatrixData data)
 
 int main()
 {
-    const fs::path entry = "./input";
+    const fs::path entryPath = "./input";
     std::vector<fs::path> files;
     int cols = GetTerminalSize().columns;
+    std::string callout;
 
 
     //Input/Output folders check
@@ -52,12 +58,13 @@ int main()
     }
 
     CleanTerminal();
-    fileSearching(entry, files);
+    fileSearching(entryPath, files);
 	MatrixData first = fileReading(cols, files);
     checkMatrix(first);
 
     std::cout << "Comprobando datos..." << std::endl;
-    std::cout << std::setw(((cols - std::string("Desea generar un reporte en caso de datos no legibles? [Y/n]: ").size())/2)+1) << std::setfill(' ') << "\0" << "Desea generar un reporte en caso de datos no legibles? [Y/n]: ";
+    callout = "Desea generar un reporte en caso de datos no legibles? [Y/n]: ";
+    std::cout << std::setw(((cols - callout.size())/2)+1) << std::setfill(' ') << "\0" << callout;
     char sel;
     std::cin >> sel;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -76,8 +83,8 @@ int main()
     MatrixProcessing(false, second, second.fileName, cols);
 
     SimilCalc similitud;
-    similitud.SetFstMtx(first.Matrix);
-    similitud.setSecMtx(second.Matrix);
+    similitud.SetFirstMtx(first.Matrix);
+    similitud.setSecondMtx(second.Matrix);
 
 
     
@@ -89,7 +96,7 @@ int main()
     for(int i = 0; i < (second.dataSize < first.dataSize ? second.dataSize : first.dataSize); i++){
         similitud.diffCalc(i);
         SimilCalc::diffData output;
-        output = similitud.getMSimRow();
+        output = similitud.getMostSimilarRow();
 
         similFile << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
         if(output.diff == 0.0){

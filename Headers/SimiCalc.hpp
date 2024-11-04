@@ -25,10 +25,10 @@ class SimilCalc{
 
     SimilCalc();
     ~SimilCalc();
-    void SetFstMtx(const std::vector<std::vector<double>>&);
-    void setSecMtx(const std::vector<std::vector<double>>&);
+    void SetFirstMtx(const std::vector<std::vector<double>>&);
+    void setSecondMtx(const std::vector<std::vector<double>>&);
     void diffCalc(int);
-    diffData getMSimRow();
+    diffData getMostSimilarRow();
     
     
 
