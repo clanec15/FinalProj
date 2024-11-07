@@ -71,6 +71,11 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx
     return ids;
 }
 
+std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inputMtx)
+{
+    return idFinder(inputMtx);
+}
+
 /**
  * truncates a double value to n places
  * @param n_places The number of decimal digits to truncate to
@@ -109,7 +114,6 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
 
     for(int i = 0; i < inputMtx[0].size()-1; i++){
         for(int j = 0; j < ids.size(); j++){
-            
             means[j].push_back(DataSalvage(inputMtx, i, ids[j]));
         }
     }

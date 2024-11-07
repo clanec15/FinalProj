@@ -32,20 +32,22 @@ void SimilCalc::diffCalc(int row, bool mode)
 
     if(!mode){
         
+    } else {
+        szCalc();
+        rowDiffs.clear();
+        for(int i = 0; i < std::min(FirstMtx.size(), SecMtx.size()); i++){
+            double diff = 0;
+            diffData main;
+            for(int k = 0; k < sz-1; k++){ 
+                diff += fabs(FirstMtx[row][k]-SecMtx[i][k]);
+            }
+            main.idx = i;
+            main.diff = diff;
+            rowDiffs.push_back(main);
+        }
     }
 
-    szCalc();
-    rowDiffs.clear();
-    for(int i = 0; i < std::min(FirstMtx.size(), SecMtx.size()); i++){
-		double diff = 0;
-		diffData main;
-        for(int k = 0; k < sz-1; k++){ 
-            diff += fabs(FirstMtx[row][k]-SecMtx[i][k]);
-        }
-		main.idx = i;
-		main.diff = diff;
-        rowDiffs.push_back(main);
-    }
+    
 }
 
 /**

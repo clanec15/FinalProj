@@ -27,8 +27,10 @@ class FileSalvor{
     ~FileSalvor();
     std::vector<std::vector<double>> DataMeanCalculation(std::vector<std::vector<double>>&);
     bool GetDataStatus();
+    
     void SetDataStatus(bool);
     double DataSalvage(std::vector<std::vector<double>>&, int, int);
+    std::vector<int> GetMatrixIDs(std::vector<std::vector<double>>&);
 
 
     

@@ -89,15 +89,19 @@ int main()
     similitud.SetFirstMtx(first.Matrix);
     similitud.setSecondMtx(second.Matrix);
 
-
+    std::cout << "Desea calcular la similitud de matrices por\n[a] Suma de valores absolutos\n[b] Probabilidad Bayesiana\n\n[S]:";
+    char SimSel;
+    std::cin >> SimSel;
+    
     
     CleanTerminal();
     std::ofstream similFile("./output/similitude.txt", std::ios::app);
     similFile << "Similitud entre Matriz 1 y Matriz 2\n";
 
 
+
     for(int i = 0; i < (second.dataSize < first.dataSize ? second.dataSize : first.dataSize); i++){
-        similitud.diffCalc(i);
+        similitud.diffCalc(i, SimSel == 'a');
         SimilCalc::diffData output;
         output = similitud.getMostSimilarRow();
 

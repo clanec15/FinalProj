@@ -8,7 +8,48 @@
 
 
 namespace fs = std::filesystem;
+const double SQRT2PI    = 2.50662827463;
+const double eul        = 2.71828182845;
 
+struct ProbabilityData{
+    double prob;
+    int id;
+};
+
+double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
+{
+    double SumSquares = 0.0;
+    int items = -1;
+
+    for(int i = 0; i < Matrix.size(); i++){
+        if(Matrix[i][Matrix[0].size()-1] == 0){
+            SumSquares += pow(Matrix[i][col] - Means[id][col], 2);
+            items++;
+        }
+    }
+    return SumSquares/items;
+}
+
+double CalculateProb(std::vector<std::vector<double>>& TestMatrix, std::vector<std::vector<double>> Means, int col, int id)
+{
+    double variance = CalculateVariance(TestMatrix, Means, col, id);
+    double maxProb = 0.0;
+
+
+    for(int i = 0; i < TestMatrix[0].size()-1; i++){
+
+        double base = variance*SQRT2PI;
+        double exponent = -(pow(TestMatrix[col][i]-Means[id][col], 2)/variance);
+        double prob = (1/base) * (pow(eul, exponent));
+
+        //std::cout << "[" << col << ", " << i <<"] (" << TestMatrix[col][i] << "): " << prob << std::endl;
+        maxProb += prob;
+    }
+
+    
+
+    return maxProb;
+}
 
 
 
@@ -45,24 +86,40 @@ int main()
     
     FileSalvor main;
 
+
+    std::vector<int> ids = main.GetMatrixIDs(testMtx);
     std::vector<std::vector<double>> meansFirst = main.DataMeanCalculation(testMtx);
-
-
     
 
-    double variance = 0.0;
-    int items = 0;
-
-    for(int i = 0; i < testMtx.size(); i++){
-        if(testMtx[i][testMtx[0].size()-1] == 0){
-            variance += pow(testMtx[i][0] - meansFirst[0][0], 2);
-            items++;
+    for(int i = 0; i < snTestMtx.size(); i++){
+        std::vector<ProbabilityData> test;
+        ProbabilityData cont;
+        for(int j = 0; j < ids.size(); j++){
+            cont.prob   = CalculateProb(snTestMtx, meansFirst, i, ids[j]);
+            cont.id     = ids[j];
+            test.push_back(cont);
         }
+
+        ProbabilityData elem = test[0];
+
+        for(const auto& elemt : test){
+            if(elemt.prob < elem.prob){
+                elem = elemt;
+            }
+        }
+
+        printf("Most probablue ID Type of column %i: %i (%f)\n", i, elem.id, elem.prob);
+        
     }
 
     
 
-    std::cout << "variance of first row: " << sqrt(variance/items) << std::endl;
+
+    
+
+    
+
+
 
     return 0;
 }   
