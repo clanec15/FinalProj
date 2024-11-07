@@ -5,51 +5,11 @@
 #include <fstream>
 #include "../Headers/TUIController.hpp"
 #include "../Headers/MatrixOps.hpp"
+#include "../Headers/SimiCalc.hpp"
 
 
 namespace fs = std::filesystem;
-const double SQRT2PI    = 2.50662827463;
-const double eul        = 2.71828182845;
 
-struct ProbabilityData{
-    double prob;
-    int id;
-};
-
-double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
-{
-    double SumSquares = 0.0;
-    int items = -1;
-
-    for(int i = 0; i < Matrix.size(); i++){
-        if(Matrix[i][Matrix[0].size()-1] == 0){
-            SumSquares += pow(Matrix[i][col] - Means[id][col], 2);
-            items++;
-        }
-    }
-    return SumSquares/items;
-}
-
-double CalculateProb(std::vector<std::vector<double>>& TestMatrix, std::vector<std::vector<double>> Means, int col, int id)
-{
-    double variance = CalculateVariance(TestMatrix, Means, col, id);
-    double maxProb = 0.0;
-
-
-    for(int i = 0; i < TestMatrix[0].size()-1; i++){
-
-        double base = variance*SQRT2PI;
-        double exponent = -(pow(TestMatrix[col][i]-Means[id][col], 2)/variance);
-        double prob = (1/base) * (pow(eul, exponent));
-
-        //std::cout << "[" << col << ", " << i <<"] (" << TestMatrix[col][i] << "): " << prob << std::endl;
-        maxProb += prob;
-    }
-
-    
-
-    return maxProb;
-}
 
 
 
@@ -85,6 +45,7 @@ int main()
     
     
     FileSalvor main;
+    //SimilCalc mainSimil;
 
 
     std::vector<int> ids = main.GetMatrixIDs(testMtx);
@@ -92,23 +53,10 @@ int main()
     
 
     for(int i = 0; i < snTestMtx.size(); i++){
-        std::vector<ProbabilityData> test;
-        ProbabilityData cont;
-        for(int j = 0; j < ids.size(); j++){
-            cont.prob   = CalculateProb(snTestMtx, meansFirst, i, ids[j]);
-            cont.id     = ids[j];
-            test.push_back(cont);
-        }
+        //mainSimil.diffCalc(0, false, ids, meansFirst);
+        //SimilCalc::ProbabilityData elem = mainSimil.getMostProbableRow();
 
-        ProbabilityData elem = test[0];
-
-        for(const auto& elemt : test){
-            if(elemt.prob < elem.prob){
-                elem = elemt;
-            }
-        }
-
-        printf("Most probablue ID Type of column %i: %i (%f)\n", i, elem.id, elem.prob);
+       // printf("Most probablue ID Type of column %i: %i (%f)\n", i, elem.idx, elem.prob);
         
     }
 

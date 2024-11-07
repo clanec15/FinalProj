@@ -13,7 +13,14 @@
 #include <cmath>
 #include <iostream>
 
+
 class SimilCalc{
+    public:
+    virtual void diffCalc() = 0;
+};
+
+
+class SimilCalcAbs : public SimilCalc{
 
     public:
 
@@ -23,26 +30,42 @@ class SimilCalc{
         double diff;
     };
 
-    SimilCalc();
-    ~SimilCalc();
     void SetFirstMtx(const std::vector<std::vector<double>>&);
     void setSecondMtx(const std::vector<std::vector<double>>&);
-    void diffCalc(int, bool);
+    void diffCalc(int);
     diffData getMostSimilarRow();
-    
-    
-
-    
 
     private:
-
-    std::vector<std::vector<double>> FirstMtx;
-    std::vector<std::vector<double>> SecMtx;
+    
     diffData BestChoice;
+    
     void szCalc();
     void SimilCalculation();
     std::vector<diffData> rowDiffs;
     int sz;
 
+    protected:
+    std::vector<std::vector<double>> FirstMtx;
+    std::vector<std::vector<double>> SecMtx;
+
+
+
+};
+
+class SimilCalcBayesian : public SimilCalcAbs{
+    public:
+    struct ProbabilityData
+    {
+        int idx;
+        double prob;
+    };
+
+    ProbabilityData getMostProbableRow();
+    std::vector<ProbabilityData> diffCalc(std::vector<int>, std::vector<std::vector<double>>);
+
+    private:
+    std::vector<ProbabilityData> ProbabilityVector;
+    ProbabilityData BestChoiceProb;
+    void SimilCalculationProb();
 
 };

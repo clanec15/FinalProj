@@ -1,25 +1,26 @@
 #include "../Headers/SimiCalc.hpp"
 
-const double PISQRT = 2.5066282746310002;
+#define TWOPISQRT   2.50662827463100
+#define EULER       2.71828182845905
 
 //Constructor
-SimilCalc::SimilCalc(){sz = 0; BestChoice = SimilCalc::diffData{0, 0};};
+SimilCalcAbs::SimilCalcAbs(){sz = 0; BestChoice = SimilCalcAbs::diffData{0, 0};};
 //Destructor
-SimilCalc::~SimilCalc(){};
+SimilCalcAbs::~SimilCalcAbs(){};
 
 /**
  * Sets the first matrix to calculate the similitude
  * 
  * @param mtx The input matrix
  */
-void SimilCalc::SetFirstMtx(const std::vector<std::vector<double>>& mtx){FirstMtx=mtx;}
+void SimilCalcAbs::SetFirstMtx(const std::vector<std::vector<double>>& mtx){FirstMtx=mtx;}
 
 /**
  * Sets the second matrix to calculate the similitude
  * 
  * @param mtx The input matrix
  */
-void SimilCalc::setSecondMtx(const std::vector<std::vector<double>>& mtx){SecMtx = mtx;}
+void SimilCalcAbs::setSecondMtx(const std::vector<std::vector<double>>& mtx){SecMtx = mtx;}
 
 
 /**
@@ -27,24 +28,20 @@ void SimilCalc::setSecondMtx(const std::vector<std::vector<double>>& mtx){SecMtx
  * 
  * @param row The row to compute the difference of
  */
-void SimilCalc::diffCalc(int row, bool mode)
+void SimilCalcAbs::diffCalc(int row)
 {
 
-    if(!mode){
-        
-    } else {
-        szCalc();
-        rowDiffs.clear();
-        for(int i = 0; i < std::min(FirstMtx.size(), SecMtx.size()); i++){
-            double diff = 0;
-            diffData main;
-            for(int k = 0; k < sz-1; k++){ 
-                diff += fabs(FirstMtx[row][k]-SecMtx[i][k]);
-            }
-            main.idx = i;
-            main.diff = diff;
-            rowDiffs.push_back(main);
+    szCalc();
+    rowDiffs.clear();
+    for(int i = 0; i < std::min(FirstMtx.size(), SecMtx.size()); i++){
+        double diff = 0;
+        diffData main;
+        for(int k = 0; k < sz-1; k++){ 
+            diff += fabs(FirstMtx[row][k]-SecMtx[i][k]);
         }
+        main.idx = i;
+        main.diff = diff;
+        rowDiffs.push_back(main);
     }
 
     
@@ -55,18 +52,17 @@ void SimilCalc::diffCalc(int row, bool mode)
  * 
  * @return the best choice as a struct
  */
-SimilCalc::diffData SimilCalc::getMostSimilarRow()
+SimilCalcAbs::diffData SimilCalcAbs::getMostSimilarRow()
 {
     SimilCalculation();
     return BestChoice;
 }
 
-
 //Private area
 /**
  * calculates the data frame size and chooses the smallest one
  */
-void SimilCalc::szCalc()
+void SimilCalcAbs::szCalc()
 {
     sz = std::min(FirstMtx[0].size(), SecMtx[0].size());
 }
@@ -75,7 +71,7 @@ void SimilCalc::szCalc()
 /**
  * Calculates which row has the smallest difference
  */
-void SimilCalc::SimilCalculation()
+void SimilCalcAbs::SimilCalculation()
 {
     diffData elem = rowDiffs[0];
 
@@ -86,4 +82,69 @@ void SimilCalc::SimilCalculation()
     }
 
     BestChoice = elem;
+}
+
+
+
+
+double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
+{
+    double SumSquares = 0.0;
+    int items = -1;
+
+    for(int i = 0; i < Matrix.size(); i++){
+        if(Matrix[i][Matrix[0].size()-1] == 0){
+            SumSquares += pow(Matrix[i][col] - Means[id][col], 2);
+            items++;
+        }
+    }
+    return SumSquares/items;
+}
+
+double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
+{
+    double variance = CalculateVariance(Matrix, Means, col, id);
+    double maxProb = 0.0;
+
+
+    for(int i = 0; i < Matrix[0].size()-1; i++){
+
+        double base = variance*TWOPISQRT;
+        double exponent = -(pow(Matrix[col][i]-Means[id][col], 2)/variance);
+        double prob = (1/base) * (pow(EULER, exponent));
+
+        //std::cout << "[" << col << ", " << i <<"] (" << TestMatrix[col][i] << "): " << prob << std::endl;
+        maxProb += prob;
+    }
+
+    
+
+    return maxProb;
+}
+
+
+std::vector<SimilCalcBayesian::ProbabilityData> SimilCalcBayesian::diffCalc(std::vector<int> ids, std::vector<std::vector<double>> means)
+{
+    std::vector<ProbabilityData> outputVector;
+    for(int i = 0; i < SecMtx.size(); i++){
+        std::vector<ProbabilityData> test;
+        ProbabilityData cont;
+        for(int j = 0; j < ids.size(); j++){
+            cont.prob   = CalculateProb(SecMtx, means, i, ids[j]);
+            cont.idx     = ids[j];
+            test.push_back(cont);
+        }
+
+        ProbabilityData elem = test[0];
+
+        for(const auto& elemt : test){
+            if(elemt.prob < elem.prob){
+                elem = elemt;
+            }
+        }
+
+        outputVector.push_back(elem);
+    }
+
+    return outputVector;
 }
