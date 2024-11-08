@@ -24,8 +24,6 @@ void RowParser::ConvertRow(const std::string& input, char delimiter)
             output.push_back(std::stod(buf));
         } catch (std::invalid_argument){
             output.push_back(-65535);
-        } catch (std::out_of_range){
-            output.push_back(-65535);
         }
     }
     parsedRow = output;

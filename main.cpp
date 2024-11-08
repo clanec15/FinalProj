@@ -28,6 +28,7 @@ using namespace std::chrono_literals;
 #include "Headers/TUIController.hpp"
 #include "Headers/MatrixOps.hpp"
 
+
 //-------------------------------------//           
 
 
@@ -71,7 +72,6 @@ int main()
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
-    
     MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols, meansFirst);
 
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
@@ -83,40 +83,61 @@ int main()
 
     std::cout << "Usando modo de 'No Reporte' para la computacion rapida de similitud" << std::endl;
     std::this_thread::sleep_for(3000ms);
-    MatrixProcessing(false, second, second.fileName, cols);
 
-    SimilCalc similitud;
-    similitud.SetFirstMtx(first.Matrix);
-    similitud.setSecondMtx(second.Matrix);
+    std::vector<std::vector<double>> meansSecond = mainT.DataMeanCalculation(second.Matrix);
+    MatrixProcessing(false, second, second.fileName, cols, meansSecond);
 
     std::cout << "Desea calcular la similitud de matrices por\n[a] Suma de valores absolutos\n[b] Probabilidad Bayesiana\n\n[S]:";
     char SimSel;
     std::cin >> SimSel;
-    
     
     CleanTerminal();
     std::ofstream similFile("./output/similitude.txt", std::ios::app);
     similFile << "Similitud entre Matriz 1 y Matriz 2\n";
 
 
+    
+    if(SimSel == 'a')
+    {
+        SimilCalcAbs test;
 
-    for(int i = 0; i < (second.dataSize < first.dataSize ? second.dataSize : first.dataSize); i++){
-        similitud.diffCalc(i, SimSel == 'a');
-        SimilCalc::diffData output;
-        output = similitud.getMostSimilarRow();
-
-        similFile << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
-        if(output.diff == 0.0){
-
-            similFile << " [CONCORDANCIA EXACTA!!!]\n";
-            
-        } else {
-
-            similFile << "\n";
-
-        }
+        test.SetFirstMtx(first.Matrix);
+        test.setSecondMtx(second.Matrix);
         
+        for(int i = 0; i < std::min(first.dataSize, second.dataSize); i++){
+            test.diffCalc(i);
+            SimilCalcAbs::diffData output;
+            output = test.getMostSimilarRow();
+
+            similFile << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
+            if(output.diff == 0.0){
+
+                similFile << " [CONCORDANCIA EXACTA!!!]\n";
+                
+            } else {
+
+                similFile << "\n";
+
+            }
+        
+        }
+    } else {
+        SimilCalcBayesian test;
+
+        test.SetFirstMtx(first.Matrix);
+        test.setSecondMtx(second.Matrix);
+        std::vector<int> ids = mainT.GetMatrixIDs(first.Matrix);
+
+        test.diffCalc(ids, meansFirst);
+        std::vector<SimilCalcBayesian::ProbabilityData> output = test.getOutputProb();
+
+
+        for(int i = 0; i < output.size(); i++){
+            similFile << "La fila " << i << " Tiene una similitud con el ID " << output[i].idx << " Con una probabilidad total de: " << output[i].prob << "\n";
+        }
     }
+
+
 
     similFile.close();
     CleanTerminal();

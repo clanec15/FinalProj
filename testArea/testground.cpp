@@ -5,7 +5,7 @@
 #include <fstream>
 #include "../Headers/TUIController.hpp"
 #include "../Headers/MatrixOps.hpp"
-#include "../Headers/SimiCalc.hpp"
+#include "../Source/SimilCalcSrc.cpp"
 
 
 namespace fs = std::filesystem;
@@ -45,29 +45,54 @@ int main()
     
     
     FileSalvor main;
-    //SimilCalc mainSimil;
 
 
     std::vector<int> ids = main.GetMatrixIDs(testMtx);
     std::vector<std::vector<double>> meansFirst = main.DataMeanCalculation(testMtx);
     
 
-    for(int i = 0; i < snTestMtx.size(); i++){
-        //mainSimil.diffCalc(0, false, ids, meansFirst);
-        //SimilCalc::ProbabilityData elem = mainSimil.getMostProbableRow();
+    std::cout << "Desea calcular la similitud de matrices por\n[a] Suma de valores absolutos\n[b] Probabilidad Bayesiana\n\n[S]:";
+    char SimSel;
+    std::cin >> SimSel;
 
-       // printf("Most probablue ID Type of column %i: %i (%f)\n", i, elem.idx, elem.prob);
+    if(SimSel == 'a')
+    {
+        SimilCalcAbs test;
+
+        test.SetFirstMtx(testMtx);
+        test.setSecondMtx(snTestMtx);
+        for(int i = 0; i < (testMtx.size() < snTestMtx.size() ? snTestMtx.size() : testMtx.size()); i++){
+            test.diffCalc(i);
+            SimilCalcAbs::diffData output;
+            output = test.getMostSimilarRow();
+
+            std::cout << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
+            if(output.diff == 0.0){
+
+                std::cout << " [CONCORDANCIA EXACTA!!!]\n";
+                
+            } else {
+
+                std::cout << "\n";
+
+            }
         
     }
 
+    } else {
+        SimilCalcBayesian test;
+
+        test.SetFirstMtx(testMtx);
+        test.setSecondMtx(snTestMtx);
+
+        test.diffCalc(ids, meansFirst);
+        std::vector<SimilCalcBayesian::ProbabilityData> output = test.getOutputProb();
+
+
+        for(int i = 0; i < output.size(); i++){
+            std::cout << "La fila " << i << " Tiene una similitud con el ID " << output[i].idx << " Con una probabilidad total de: " << output[i].prob << std::endl;
+        }
+    }
     
-
-
-    
-
-    
-
-
-
     return 0;
 }   

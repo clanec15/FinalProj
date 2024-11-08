@@ -23,7 +23,6 @@ class SimilCalc{
 class SimilCalcAbs : public SimilCalc{
 
     public:
-
     struct diffData
     {
         int idx;
@@ -32,17 +31,23 @@ class SimilCalcAbs : public SimilCalc{
 
     void SetFirstMtx(const std::vector<std::vector<double>>&);
     void setSecondMtx(const std::vector<std::vector<double>>&);
+    using SimilCalc::diffCalc;
+    void diffCalc() override{};
     void diffCalc(int);
     diffData getMostSimilarRow();
+    std::vector<diffData> getOutput();
+
+
 
     private:
-    
-    diffData BestChoice;
-    
     void szCalc();
     void SimilCalculation();
+    diffData BestChoice;
     std::vector<diffData> rowDiffs;
+    std::vector<diffData> output;
     int sz;
+
+
 
     protected:
     std::vector<std::vector<double>> FirstMtx;
@@ -59,13 +64,13 @@ class SimilCalcBayesian : public SimilCalcAbs{
         int idx;
         double prob;
     };
+    void diffCalc() override{};
+    void diffCalc(std::vector<int>, std::vector<std::vector<double>>);
+    std::vector<ProbabilityData> getOutputProb();
 
-    ProbabilityData getMostProbableRow();
-    std::vector<ProbabilityData> diffCalc(std::vector<int>, std::vector<std::vector<double>>);
 
     private:
     std::vector<ProbabilityData> ProbabilityVector;
+    std::vector<ProbabilityData> outputVector;
     ProbabilityData BestChoiceProb;
-    void SimilCalculationProb();
-
 };

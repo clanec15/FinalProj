@@ -124,13 +124,10 @@ void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<
  * @param outputFileName    The output filename (generally the original one)
  * @param cols              The columns of the terminal (for formatting purposes)
  */
-void MatrixProcessing(bool ProcType, MatrixData DataMatrix, fs::path outputFileName, int cols, std::vector<std::vector<double>> means = {{}})
+void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFileName, int cols, std::vector<std::vector<double>> means)
 {
     FileSalvor salvorMain;
 
-    if(means.size() == 0){
-        std::vector<std::vector<double>> means = salvorMain.DataMeanCalculation(DataMatrix.Matrix);
-    }
     
 
     std::ofstream outputFile("./output/" + outputFileName.filename().string());
@@ -274,12 +271,16 @@ MatrixData fileReading(int cols, std::vector<fs::path>& fileArr)
 	reader.setInputFile(selFile.string());
     std::vector<std::string> lines = reader.getLines();
 	int dataSize = output.dataSize = std::stoi(lines[0]), frameSize = output.frameSize = std::stoi(lines[1]);
-    lines.erase(lines.begin() + 2);
+
+    for(int i = 3; i > 0; i--){
+        lines.erase(lines.begin());
+    }
     
-    std::cout << output.dataSize-2 << " Lineas procesadas..." << std::endl;
+    std::cout << output.dataSize << " Lineas procesadas..." << std::endl;
     
-    if(output.dataSize == lines.size()-2){
+    if(output.dataSize == lines.size()){
         std::cout << "Todas las lineas procesadas con exito..." << std::endl;
+
     } else {
         std::cerr << "ERROR DE PROCESAMIENTO!" << std::endl;
         return ErrorOut;
@@ -296,8 +297,6 @@ MatrixData fileReading(int cols, std::vector<fs::path>& fileArr)
             Matrix[i][j] = parsedRow[j];
         }
     }
-
-    Matrix.erase(Matrix.begin(), Matrix.begin() + 2);
 
     std::cout << "Conversion completada..." << std::endl;
 	output.Matrix = Matrix;
