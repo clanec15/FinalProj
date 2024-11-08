@@ -75,8 +75,6 @@ int main()
     MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols, meansFirst);
 
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
-	std::this_thread::sleep_for(5000ms);
-
     MatrixData second = fileReading(cols, files);
     checkMatrix(second);
 

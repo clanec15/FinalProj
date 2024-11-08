@@ -2,7 +2,7 @@
 
 
 
-FileSalvor::FileSalvor(){invDataDtc = false; modeDtyp = 0;}
+FileSalvor::FileSalvor(){invDataDtc = false;}
 FileSalvor::~FileSalvor(){}
 
 
@@ -84,8 +84,8 @@ std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inpu
  * @return the truncated value
  */
 double truncate(int n_places, double num){
-    int trunc;
-    if(n_places = 0){
+    double trunc = 10;
+    if(n_places == 0){
         trunc = 1;
     } else {
         trunc = pow(trunc, n_places);
@@ -114,7 +114,7 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
 
     for(int i = 0; i < inputMtx[0].size()-1; i++){
         for(int j = 0; j < ids.size(); j++){
-            means[j].push_back(DataSalvage(inputMtx, i, ids[j]));
+            means[j].push_back(truncate(2, DataSalvage(inputMtx, i, ids[j])));
         }
     }
 
@@ -160,7 +160,7 @@ void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
 
 
     ReportFile << "Datos de reemplazo: \n";
-    ReportFile << "\t ";
+    ReportFile << "\t";
     for(int h = 0; h < data[0].size(); h++){
         ReportFile << "[" << h+1 << "]\t";
     }

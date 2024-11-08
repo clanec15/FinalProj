@@ -134,7 +134,7 @@ void SimilCalcBayesian::diffCalc(std::vector<int> ids, std::vector<std::vector<d
         ProbabilityData cont;
         for(int j = 0; j < ids.size(); j++){
             cont.prob   = CalculateProb(SecMtx, means, i, ids[j]);
-            cont.idx     = ids[j];
+            cont.idx    = ids[j];
             test.push_back(cont);
         }
 

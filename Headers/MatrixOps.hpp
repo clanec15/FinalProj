@@ -127,7 +127,7 @@ void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<
 void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFileName, int cols, std::vector<std::vector<double>> means)
 {
     FileSalvor salvorMain;
-
+    std::vector<int> ids = salvorMain.GetMatrixIDs(DataMatrix.Matrix);
     
 
     std::ofstream outputFile("./output/" + outputFileName.filename().string());
@@ -138,13 +138,14 @@ void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFile
 
     outputFile << DataMatrix.dataSize << "\n";
     outputFile << DataMatrix.frameSize << "\n";
-    outputFile << "2\n";
+    outputFile << ids.size() << "\n";
     salvorMain.SetDataStatus(CheckMtx(salvorMain, DataMatrix));
 
     if(salvorMain.GetDataStatus()){
         std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
         
-        if(ProcType){
+        if(!ProcType){
+            CleanTerminal();
             std::string RepFile;
             std::cout << std::setw(((cols - std::string("Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ").size())/2)-64) << std::setfill(' ') << "\0" << "Coloque el nombre del archivo de reporte (Predeterminado: ./output/NaNReport.txt): ";
 
