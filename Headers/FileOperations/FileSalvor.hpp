@@ -25,9 +25,9 @@ class FileSalvor{
     FileSalvor();
     ~FileSalvor();
     std::vector<std::vector<double>> DataMeanCalculation(std::vector<std::vector<double>>&);
+    std::vector<std::vector<double>> DataMedianCalculatuion(std::vector<std::vector<double>>&);
     bool GetDataStatus();
     void SetDataStatus(bool);
-    double DataSalvage(std::vector<std::vector<double>>&, int, int);
     std::vector<int> GetMatrixIDs(std::vector<std::vector<double>>&);
 
 
@@ -35,6 +35,8 @@ class FileSalvor{
     private:
     bool invDataDtc;
     std::vector<int> idFinder(std::vector<std::vector<double>>&);
+    double GetMedian(std::vector<std::vector<double>>&, int, int);
+    double DataSalvage(std::vector<std::vector<double>>&, int, int);
 };
 
 /**

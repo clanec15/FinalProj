@@ -44,6 +44,50 @@ void checkMatrix(MatrixData data)
     }
 }
 
+void SimilAbs(MatrixData first, MatrixData second, std::ofstream& similFile)
+{
+    SimilCalcAbs test;
+
+    test.SetFirstMtx(first.Matrix);
+    test.setSecondMtx(second.Matrix);
+        
+    for(int i = 0; i < std::min(first.dataSize, second.dataSize); i++){
+        test.diffCalc(i);
+        SimilCalcAbs::diffData output;
+        output = test.getMostSimilarRow();
+
+        similFile << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
+        if(output.diff == 0.0){
+
+            similFile << " [CONCORDANCIA EXACTA!!!]\n";
+                
+        } else {
+
+            similFile << "\n";
+
+        }
+        
+    }
+}
+
+void SimilBayesian(MatrixData& first, MatrixData& second, std::ofstream& similFile, std::vector<std::vector<double>> means)
+{
+    SimilCalcBayesian test;
+    FileSalvor hMan;
+
+    test.SetFirstMtx(first.Matrix);
+    test.setSecondMtx(second.Matrix);
+    std::vector<int> ids = hMan.GetMatrixIDs(first.Matrix);
+
+    test.diffCalc(ids, means);
+    std::vector<SimilCalcBayesian::ProbabilityData> output = test.getOutputProb();
+
+
+    for(int i = 0; i < output.size(); i++){
+        similFile << "La fila " << i << " Tiene una similitud con el ID " << output[i].idx << " Con una probabilidad total de: " << output[i].prob << "\n";
+    }
+}
+
 int main()
 {
     const fs::path entryPath = "./input";
@@ -69,9 +113,37 @@ int main()
     std::cout << std::setw(((cols - callout.size())/2)+1) << std::setfill(' ') << "\0" << callout;
     char sel;
     std::cin >> sel;
+
+
+
+
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
+
+    std::cout <<  "Desea calcular los datos de reemplazo por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana(Mas Lento)\n\n[S]:";
+    char SelM;
+    std::cin >> SelM;
+    std::vector<std::vector<double>> data;
+
+
+    switch (std::tolower(SelM))
+    {
+    case 'a':
+        data = mainT.DataMeanCalculation(first.Matrix);
+        break;
+
+    case 'b':
+        data = mainT.DataMedianCalculatuion(first.Matrix);
+    
+    default:
+        std::cout << "Opcion no reconocida, usando el modo mas rapido (Promedio)" << std::endl;
+        std::this_thread::sleep_for(2000ms);
+        data = mainT.DataMeanCalculation(first.Matrix);
+        break;
+    }
+
+
     MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols, meansFirst);
 
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
@@ -95,44 +167,26 @@ int main()
 
 
     
+    switch (std::tolower(SimSel))
+    {
+    case 'a':
+        SimilAbs(first, second, similFile);
+        break;
+
+    case 'b':
+        SimilBayesian(first, second, similFile, meansFirst);
+        break;
+    
+    default:
+        std::cout << "Usando opcion mas rapida";
+        break;
+    }   
+
     if(SimSel == 'a')
     {
-        SimilCalcAbs test;
-
-        test.SetFirstMtx(first.Matrix);
-        test.setSecondMtx(second.Matrix);
         
-        for(int i = 0; i < std::min(first.dataSize, second.dataSize); i++){
-            test.diffCalc(i);
-            SimilCalcAbs::diffData output;
-            output = test.getMostSimilarRow();
-
-            similFile << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
-            if(output.diff == 0.0){
-
-                similFile << " [CONCORDANCIA EXACTA!!!]\n";
-                
-            } else {
-
-                similFile << "\n";
-
-            }
-        
-        }
     } else {
-        SimilCalcBayesian test;
-
-        test.SetFirstMtx(first.Matrix);
-        test.setSecondMtx(second.Matrix);
-        std::vector<int> ids = mainT.GetMatrixIDs(first.Matrix);
-
-        test.diffCalc(ids, meansFirst);
-        std::vector<SimilCalcBayesian::ProbabilityData> output = test.getOutputProb();
-
-
-        for(int i = 0; i < output.size(); i++){
-            similFile << "La fila " << i << " Tiene una similitud con el ID " << output[i].idx << " Con una probabilidad total de: " << output[i].prob << "\n";
-        }
+        
     }
 
 

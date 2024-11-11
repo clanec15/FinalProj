@@ -88,11 +88,8 @@ bool CheckMtx(FileSalvor& helper, MatrixData DataMatrix)
                 if(DataMatrix.Matrix[i][j] == static_cast<double>(-65535)) {
                     return true;
                 }
-                std::cout << DataMatrix.Matrix[i][j] << (j == DataMatrix.frameSize-1 ? "\t" : ",\t");
             }
-            std::cout << std::endl;
         }
-    std::cout << std::endl;
     return false;
 }
 

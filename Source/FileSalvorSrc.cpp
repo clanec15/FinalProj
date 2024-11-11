@@ -50,6 +50,29 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int c
     return (items > 0 ? mean/items : 0.0);
 }
 
+double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col, int id)
+{
+    std::vector<double> buf;
+    for(int i = 0; i < InputMtx.size(); i++){
+        if(InputMtx[i][InputMtx[0].size()-1] == static_cast<double>(id))
+        {
+            buf.push_back(InputMtx[i][col]);
+        }
+    }
+
+    int sz = buf.size();
+
+    if(sz%2 == 0){
+        return buf[(sz + 1) / 2];
+    } else {
+        return (buf[sz/2] + buf[(sz/2) + 1])/2;
+    }
+
+    return -1;
+}
+
+
+
 /**
  * Finds all the ids of the Data Matrix
  * @param inputMtx the input Data Matrix
@@ -70,6 +93,8 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx
 
     return ids;
 }
+
+
 
 std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inputMtx)
 {
@@ -119,6 +144,24 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
     }
 
     return means;
+}
+
+std::vector<std::vector<double>> FileSalvor::DataMedianCalculatuion(std::vector<std::vector<double>>& inputMtx)
+{
+    std::vector<int> ids = FileSalvor::idFinder(inputMtx);
+    std::vector<std::vector<double>> medians(ids.size());
+
+    if(inputMtx.empty() || inputMtx[0].empty()){
+        return {};
+    }
+
+    for(int i = 0; i < inputMtx[0].size()-1; i++){
+        for(int j = 0; j < ids.size();j++){
+            medians[j].push_back(truncate(2, GetMedian(inputMtx, i, ids[j])));
+        }
+    }
+
+    return medians;
 }
 
 

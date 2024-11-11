@@ -141,7 +141,7 @@ void SimilCalcBayesian::diffCalc(std::vector<int> ids, std::vector<std::vector<d
         ProbabilityData elem = test[0];
 
         for(const auto& elemt : test){
-            if(elemt.prob < elem.prob){
+            if(elemt.prob > elem.prob){
                 elem = elemt;
             }
         }
