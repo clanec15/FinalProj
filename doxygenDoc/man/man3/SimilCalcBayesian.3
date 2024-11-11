@@ -1,0 +1,84 @@
+.TH "SimilCalcBayesian" 3 "Version Final" "Final Programming Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SimilCalcBayesian
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <SimiCalc\&.hpp>\fP
+.PP
+Inherits \fBSimilCalcAbs\fP\&.
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBProbabilityData\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBdiffCalc\fP () override"
+.br
+.ti -1c
+.RI "void \fBdiffCalc\fP (std::vector< int >, std::vector< std::vector< double > >)"
+.br
+.ti -1c
+.RI "std::vector< \fBProbabilityData\fP > \fBgetOutputProb\fP ()"
+.br
+.in -1c
+
+Public Member Functions inherited from \fBSimilCalcAbs\fP
+.in +1c
+.ti -1c
+.RI "void \fBSetFirstMtx\fP (const std::vector< std::vector< double > > &)"
+.br
+.RI "Sets the first matrix to calculate the similitude\&. "
+.ti -1c
+.RI "void \fBsetSecondMtx\fP (const std::vector< std::vector< double > > &)"
+.br
+.ti -1c
+.RI "void \fBdiffCalc\fP (int)"
+.br
+.RI "Calculates the difference of a row and a whole matrix (Absoule Value Mode) "
+.ti -1c
+.RI "\fBdiffData\fP \fBgetMostSimilarRow\fP ()"
+.br
+.ti -1c
+.RI "std::vector< \fBdiffData\fP > \fBgetOutput\fP ()"
+.br
+.in -1c
+
+Public Member Functions inherited from \fBSimilCalc\fP
+.SS "Additional Inherited Members"
+
+
+Protected Attributes inherited from \fBSimilCalcAbs\fP
+.in +1c
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBFirstMtx\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBSecMtx\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Bayesian probability class 
+.SH "Member Function Documentation"
+.PP 
+.SS "void SimilCalcBayesian::diffCalc ()\fR [inline]\fP, \fR [override]\fP, \fR [virtual]\fP"
+
+.PP
+Reimplemented from \fBSimilCalcAbs\fP\&.
+.SS "void SimilCalcBayesian::diffCalc (std::vector< int > ids, std::vector< std::vector< double > > means)"
+
+.SS "std::vector< \fBSimilCalcBayesian::ProbabilityData\fP > SimilCalcBayesian::getOutputProb ()"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Final Programming Project from the source code\&.

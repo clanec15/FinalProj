@@ -13,19 +13,28 @@
 #include <cmath>
 #include <iostream>
 
+#ifndef SIMICALC_HPP_
+#define SIMICALC_HPP_
 
+/**
+ * Abstract base class
+ */
 class SimilCalc{
     public:
     virtual void diffCalc() = 0;
 };
 
-
+/**
+ * Summation of Absolute Values class
+ */
 class SimilCalcAbs : public SimilCalc{
 
     public:
     struct diffData
-    {
+    {  
+        /**Index of the row */
         int idx;
+        /**Difference of the row */
         double diff;
     };
 
@@ -34,34 +43,40 @@ class SimilCalcAbs : public SimilCalc{
     void diffCalc() override{};
     void diffCalc(int);
     diffData getMostSimilarRow();
-    std::vector<diffData> getOutput();
 
 
 
     private:
     void szCalc();
     void SimilCalculation();
-    diffData BestChoice;
-    std::vector<diffData> rowDiffs;
-    std::vector<diffData> output;
-    int sz;
+    /** The choice with the lowest difference */
+    diffData BestChoice; 
+    /** The differences of all the rows */
+    std::vector<diffData> rowDiffs; 
+    /** Dataframe size of the smallest matrix */
+    int sz; 
 
 
 
     protected:
-    std::vector<std::vector<double>> FirstMtx;
-    std::vector<std::vector<double>> SecMtx;
+    std::vector<std::vector<double>> FirstMtx; /**First matrix to compare (Comparator) */
+    std::vector<std::vector<double>> SecMtx; /**Second matrix to compare (Compared) */
 
 
 
 };
 
+/**
+ * Bayesian probability class
+ */
 class SimilCalcBayesian : public SimilCalcAbs{
     public:
     struct ProbabilityData
     {
+        /**Index of the row */
         int idx;
-        double prob;
+        /**Probability */
+        double prob; 
     };
     void diffCalc() override{};
     void diffCalc(std::vector<int>, std::vector<std::vector<double>>);
@@ -69,7 +84,10 @@ class SimilCalcBayesian : public SimilCalcAbs{
 
 
     private:
-    std::vector<ProbabilityData> ProbabilityVector;
-    std::vector<ProbabilityData> outputVector;
+    /**Vector with the probability data of all the rows of the Second Matrix */
+    std::vector<ProbabilityData> ProbabilityVector; 
+    /** The choice with the biggest probability */
     ProbabilityData BestChoiceProb;
 };
+
+#endif

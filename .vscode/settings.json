@@ -76,6 +76,7 @@
         "text_encoding": "cpp",
         "thread": "cpp",
         "variant": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "climits": "cpp"
     }
 }

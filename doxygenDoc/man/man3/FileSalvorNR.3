@@ -1,0 +1,69 @@
+.TH "FileSalvorNR" 3 "Version Final" "Final Programming Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FileSalvorNR \- No data change logging\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <FileSalvor\&.hpp>\fP
+.PP
+Inherits \fBFileSalvor\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDataSet\fP (std::vector< std::vector< double > > &, std::vector< std::vector< double > >)"
+.br
+.in -1c
+
+Public Member Functions inherited from \fBFileSalvor\fP
+.in +1c
+.ti -1c
+.RI "\fBFileSalvor\fP ()"
+.br
+.ti -1c
+.RI "\fB~FileSalvor\fP ()"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBDataMeanCalculation\fP (std::vector< std::vector< double > > &)"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBDataMedianCalculatuion\fP (std::vector< std::vector< double > > &)"
+.br
+.ti -1c
+.RI "bool \fBGetDataStatus\fP ()"
+.br
+.RI "Get the DataStatus flag\&. "
+.ti -1c
+.RI "void \fBSetDataStatus\fP (bool)"
+.br
+.RI "Sets the DataStatus flag\&. "
+.ti -1c
+.RI "std::vector< int > \fBGetMatrixIDs\fP (std::vector< std::vector< double > > &)"
+.br
+.RI "Gets the ID's of a Data Matrix for future usage\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+No data change logging\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void FileSalvorNR::DataSet (std::vector< std::vector< double > > & inputMtx, std::vector< std::vector< double > > data)"
+Modifies the NaN values of the data matrix with the values of the means Data Matrix
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIinputMtx\fP The input Data Matrix (as reference) 
+.br
+\fIdata\fP The Mean Data Matrix 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Final Programming Project from the source code\&.

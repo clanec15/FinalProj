@@ -1,0 +1,52 @@
+\doxysection{File\+Salvor.\+hpp}
+\hypertarget{_file_salvor_8hpp_source}{}\label{_file_salvor_8hpp_source}\index{Headers/FileOperations/FileSalvor.hpp@{Headers/FileOperations/FileSalvor.hpp}}
+\mbox{\hyperlink{_file_salvor_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_matrix_ops_8hpp}{../MatrixOps.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_radix_sort_8hpp}{../RadixSort.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00021}00021\ \textcolor{preprocessor}{\#ifndef\ FILESALVOR\_HPP\_}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00022}\mbox{\hyperlink{_file_salvor_8hpp_a1e9575018f7a2f074c45d3140066c3b3}{00022}}\ \textcolor{preprocessor}{\#define\ FILESALVOR\_HPP\_}}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00028}\mbox{\hyperlink{class_file_salvor}{00028}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_file_salvor}{FileSalvor}}\{}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00029}00029\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00030}00030\ \ \ \ \ \mbox{\hyperlink{class_file_salvor_a2f55c17d0e0696ae1b7cddc1dd2f170a}{FileSalvor}}();}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00031}00031\ \ \ \ \ \mbox{\hyperlink{class_file_salvor_a4746ad73d6776c038ee2ef8a3b788471}{\string~FileSalvor}}();}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00032}00032\ \ \ \ \ std::vector<std::vector<double>>\ \mbox{\hyperlink{class_file_salvor_a6a0119d697aae2c517d55bddfc54bfbc}{DataMeanCalculation}}(std::vector<std::vector<double>>\&);}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00033}00033\ \ \ \ \ std::vector<std::vector<double>>\ \mbox{\hyperlink{class_file_salvor_a17d84d7db995d7ec79510e543538ab28}{DataMedianCalculatuion}}(std::vector<std::vector<double>>\&);}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00034}00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_file_salvor_a0a212996d9aece16a23415044a7e80fb}{GetDataStatus}}();}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00035}00035\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_salvor_a4058611c7f07a0e34f2f6b0cb531940e}{SetDataStatus}}(\textcolor{keywordtype}{bool});}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00036}00036\ \ \ \ \ std::vector<int>\ \mbox{\hyperlink{class_file_salvor_ad841e478eb9788e2f262fdcc3d2e6e0a}{GetMatrixIDs}}(std::vector<std::vector<double>>\&);}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00039}00039\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00040}00040\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ invDataDtc;}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00042}00042\ \ \ \ \ std::vector<int>\ idFinder(std::vector<std::vector<double>>\&);}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00043}00043\ \ \ \ \ \textcolor{keywordtype}{double}\ GetMedian(std::vector<std::vector<double>>\&,\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00044}00044\ \ \ \ \ \textcolor{keywordtype}{double}\ DataSalvage(std::vector<std::vector<double>>\&,\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00045}00045\ \};}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00051}\mbox{\hyperlink{class_file_salvor_n_r}{00051}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_file_salvor_n_r}{FileSalvorNR}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_file_salvor}{FileSalvor}}\{}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00053}00053\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00054}00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_salvor_n_r_a6e5238f8f6e9b85d31108dbabf96303f}{DataSet}}(std::vector<std::vector<double>>\&,\ std::vector<std::vector<double>>);}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00055}00055\ \};}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00062}\mbox{\hyperlink{class_file_salvor_w_r}{00062}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_file_salvor_w_r}{FileSalvorWR}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_file_salvor}{FileSalvor}}\{}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00063}00063\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00064}00064\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_file_salvor_w_r_ae7bb7d7a56870d8a3e86e26450099d39}{DataSet}}(std::vector<std::vector<double>>\&,\ std::vector<std::vector<double>>,\ std::string);\ \ \ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00066}00066\ \};}
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_file_salvor_8hpp_source_l00068}00068\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

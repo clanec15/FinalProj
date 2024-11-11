@@ -33,8 +33,7 @@ using namespace std::chrono_literals;
 
 
 /**
- * check if the matrix is a valid matrix input
- * it it isnt, it exits with failure
+ * check if the matrix is a valid matrix input. If it isnt, it exits with failure
  */
 void checkMatrix(MatrixData data)
 {

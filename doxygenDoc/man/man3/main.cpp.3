@@ -1,0 +1,84 @@
+.TH "main.cpp" 3 "Version Final" "Final Programming Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+main.cpp \- Compile with 'Make', clean everything with 'Make clean' Main file\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <iostream>\fP
+.br
+\fR#include <iomanip>\fP
+.br
+\fR#include <filesystem>\fP
+.br
+\fR#include <chrono>\fP
+.br
+\fR#include <thread>\fP
+.br
+\fR#include <climits>\fP
+.br
+\fR#include 'Source/SimilCalcSrc\&.cpp'\fP
+.br
+\fR#include 'Headers/TUIController\&.hpp'\fP
+.br
+\fR#include 'Headers/MatrixOps\&.hpp'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBcheckMatrix\fP (\fBMatrixData\fP data)"
+.br
+.ti -1c
+.RI "void \fBSimilAbs\fP (\fBMatrixData\fP first, \fBMatrixData\fP second, std::ofstream &similFile)"
+.br
+.ti -1c
+.RI "void \fBSimilBayesian\fP (\fBMatrixData\fP &first, \fBMatrixData\fP &second, std::ofstream &similFile, std::vector< std::vector< double > > means)"
+.br
+.ti -1c
+.RI "int \fBmain\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Compile with 'Make', clean everything with 'Make clean' Main file\&. 
+
+
+.PP
+\fBAuthor\fP
+.RS 4
+Victor Aguilar Rodriguez (ar202341753@alm.buap.mx) 
+.RE
+.PP
+\fBVersion\fP
+.RS 4
+0\&.1 
+.RE
+.PP
+\fBDate\fP
+.RS 4
+2024-10-28
+.RE
+.PP
+\fBCopyright\fP
+.RS 4
+Copyright (c) 2024 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "void checkMatrix (\fBMatrixData\fP data)"
+check if the matrix is a valid matrix input\&. If it isnt, it exits with failure 
+.SS "int main ()"
+
+.SS "void SimilAbs (\fBMatrixData\fP first, \fBMatrixData\fP second, std::ofstream & similFile)"
+
+.SS "void SimilBayesian (\fBMatrixData\fP & first, \fBMatrixData\fP & second, std::ofstream & similFile, std::vector< std::vector< double > > means)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Final Programming Project from the source code\&.

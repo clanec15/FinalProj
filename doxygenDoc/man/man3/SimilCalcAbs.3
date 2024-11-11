@@ -1,0 +1,114 @@
+.TH "SimilCalcAbs" 3 "Version Final" "Final Programming Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+SimilCalcAbs
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <SimiCalc\&.hpp>\fP
+.PP
+Inherits \fBSimilCalc\fP\&.
+.PP
+Inherited by \fBSimilCalcBayesian\fP\&.
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBdiffData\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBSetFirstMtx\fP (const std::vector< std::vector< double > > &)"
+.br
+.RI "Sets the first matrix to calculate the similitude\&. "
+.ti -1c
+.RI "void \fBsetSecondMtx\fP (const std::vector< std::vector< double > > &)"
+.br
+.ti -1c
+.RI "void \fBdiffCalc\fP () override"
+.br
+.ti -1c
+.RI "void \fBdiffCalc\fP (int)"
+.br
+.RI "Calculates the difference of a row and a whole matrix (Absoule Value Mode) "
+.ti -1c
+.RI "\fBdiffData\fP \fBgetMostSimilarRow\fP ()"
+.br
+.ti -1c
+.RI "std::vector< \fBdiffData\fP > \fBgetOutput\fP ()"
+.br
+.in -1c
+
+Public Member Functions inherited from \fBSimilCalc\fP
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBFirstMtx\fP"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBSecMtx\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Summation of Absolute Values class 
+.SH "Member Function Documentation"
+.PP 
+.SS "void SimilCalcAbs::diffCalc ()\fR [inline]\fP, \fR [override]\fP, \fR [virtual]\fP"
+
+.PP
+Implements \fBSimilCalc\fP\&.
+.PP
+Reimplemented in \fBSimilCalcBayesian\fP\&.
+.SS "void SimilCalcAbs::diffCalc (int row)"
+
+.PP
+Calculates the difference of a row and a whole matrix (Absoule Value Mode) 
+.PP
+\fBParameters\fP
+.RS 4
+\fIrow\fP the row to calculate the similarity 
+.RE
+.PP
+
+.SS "\fBSimilCalcAbs::diffData\fP SimilCalcAbs::getMostSimilarRow ()"
+gets the row of the second matrix with the least difference (aka the best choice)
+
+.PP
+\fBReturns\fP
+.RS 4
+the best choice as a struct 
+.RE
+.PP
+
+.SS "std::vector< \fBdiffData\fP > SimilCalcAbs::getOutput ()"
+
+.SS "void SimilCalcAbs::SetFirstMtx (const std::vector< std::vector< double > > & mtx)"
+
+.PP
+Sets the first matrix to calculate the similitude\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImtx\fP The input matrix 
+.RE
+.PP
+
+.SS "void SimilCalcAbs::setSecondMtx (const std::vector< std::vector< double > > & mtx)"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<std::vector<double> > SimilCalcAbs::FirstMtx\fR [protected]\fP"
+
+.SS "std::vector<std::vector<double> > SimilCalcAbs::SecMtx\fR [protected]\fP"
+First matrix to compare (Comparator) 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Final Programming Project from the source code\&.

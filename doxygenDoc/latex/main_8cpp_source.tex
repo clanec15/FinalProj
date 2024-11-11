@@ -1,0 +1,174 @@
+\doxysection{main.\+cpp}
+\hypertarget{main_8cpp_source}{}\label{main_8cpp_source}\mbox{\hyperlink{main_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00014}00014\ \textcolor{comment}{//System\ libraries}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <thread>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <climits>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00021}00021\ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00022}00022\ \textcolor{keyword}{using\ namespace\ }std::chrono\_literals;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00024}00024\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00026}00026\ \textcolor{comment}{//Custom\ libraries}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00027}00027\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_simil_calc_src_8cpp}{Source/SimilCalcSrc.cpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00028}00028\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_t_u_i_controller_8hpp}{Headers/TUIController.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00029}00029\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_matrix_ops_8hpp}{Headers/MatrixOps.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00032}00032\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\///\ \ \ \ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00038}\mbox{\hyperlink{main_8cpp_aec6ca6ba8b01e7aeee8e942023cfc696}{00038}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{main_8cpp_aec6ca6ba8b01e7aeee8e942023cfc696}{checkMatrix}}(\mbox{\hyperlink{struct_matrix_data}{MatrixData}}\ data)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00039}00039\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{if}((data.\mbox{\hyperlink{struct_matrix_data_ad003d04fd5fd077cebe9ad24beb2a1c9}{dataSize}}\ ==\ INT\_MAX\ ||\ data.\mbox{\hyperlink{struct_matrix_data_a9ad57d51d1d6e4beab5193baa36e04ec}{frameSize}}\ ==\ INT\_MAX)\ \&\&\ data.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}}.size()\ ==\ 0)\{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ std::cerr\ <<\ \textcolor{stringliteral}{"{}LECTURA\ INCORRECTA"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ std::exit(EXIT\_FAILURE);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00044}00044\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00046}\mbox{\hyperlink{main_8cpp_a39de69322a2ae3400574f9a99ee091ed}{00046}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{main_8cpp_a39de69322a2ae3400574f9a99ee091ed}{SimilAbs}}(\mbox{\hyperlink{struct_matrix_data}{MatrixData}}\ first,\ \mbox{\hyperlink{struct_matrix_data}{MatrixData}}\ second,\ std::ofstream\&\ similFile)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00047}00047\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00048}00048\ \ \ \ \ \mbox{\hyperlink{class_simil_calc_abs}{SimilCalcAbs}}\ test;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00050}00050\ \ \ \ \ test.\mbox{\hyperlink{class_simil_calc_abs_afd88e80b652e3b0c2264edd14d09be7d}{SetFirstMtx}}(first.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00051}00051\ \ \ \ \ test.\mbox{\hyperlink{class_simil_calc_abs_a3583819947b548c92227ee5d487f5a54}{setSecondMtx}}(second.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ std::min(first.\mbox{\hyperlink{struct_matrix_data_ad003d04fd5fd077cebe9ad24beb2a1c9}{dataSize}},\ second.\mbox{\hyperlink{struct_matrix_data_ad003d04fd5fd077cebe9ad24beb2a1c9}{dataSize}});\ i++)\{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ test.\mbox{\hyperlink{class_simil_calc_abs_a56b5cbe5c72e857a83adc52512089b4e}{diffCalc}}(i);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data}{SimilCalcAbs::diffData}}\ output;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ output\ =\ test.\mbox{\hyperlink{class_simil_calc_abs_a3553990b617f70020ebf4fb6c11ff2a8}{getMostSimilarRow}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ similFile\ <<\ \textcolor{stringliteral}{"{}La\ fila\ "{}}\ <<\ i\ <<\ \textcolor{stringliteral}{"{}\ de\ la\ primera\ matriz\ tiene\ una\ similitud\ con\ la\ fila\ "{}}\ <<\ output.\mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data_a24d6c7923330890479658f4c138d9407}{idx}}\ <<\ \textcolor{stringliteral}{"{}\ de\ la\ segunda\ matriz\ con\ una\ similitud\ de:\ "{}}\ <<\ \textcolor{stringliteral}{"{}("{}}\ <<\ output.\mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data_aad55a80a6057fe23ca5fe4dcdf6621ce}{diff}}\ <<\ \textcolor{stringliteral}{"{})"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(output.\mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data_aad55a80a6057fe23ca5fe4dcdf6621ce}{diff}}\ ==\ 0.0)\{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ similFile\ <<\ \textcolor{stringliteral}{"{}\ [CONCORDANCIA\ EXACTA!!!]\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ similFile\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00067}00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00069}00069\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00070}00070\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00072}\mbox{\hyperlink{main_8cpp_ab3df63f44f31e627a7dfbc1c97c1e097}{00072}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{main_8cpp_ab3df63f44f31e627a7dfbc1c97c1e097}{SimilBayesian}}(\mbox{\hyperlink{struct_matrix_data}{MatrixData}}\&\ first,\ \mbox{\hyperlink{struct_matrix_data}{MatrixData}}\&\ second,\ std::ofstream\&\ similFile,\ std::vector<std::vector<double>>\ means)}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00073}00073\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00074}00074\ \ \ \ \ \mbox{\hyperlink{class_simil_calc_bayesian}{SimilCalcBayesian}}\ test;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00075}00075\ \ \ \ \ \mbox{\hyperlink{class_file_salvor}{FileSalvor}}\ hMan;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00077}00077\ \ \ \ \ test.\mbox{\hyperlink{class_simil_calc_abs_afd88e80b652e3b0c2264edd14d09be7d}{SetFirstMtx}}(first.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00078}00078\ \ \ \ \ test.\mbox{\hyperlink{class_simil_calc_abs_a3583819947b548c92227ee5d487f5a54}{setSecondMtx}}(second.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00079}00079\ \ \ \ \ std::vector<int>\ ids\ =\ hMan.\mbox{\hyperlink{class_file_salvor_ad841e478eb9788e2f262fdcc3d2e6e0a}{GetMatrixIDs}}(first.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00081}00081\ \ \ \ \ test.\mbox{\hyperlink{class_simil_calc_bayesian_a5932271ff1114f289ccaab5633460124}{diffCalc}}(ids,\ means);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00082}00082\ \ \ \ \ std::vector<SimilCalcBayesian::ProbabilityData>\ output\ =\ test.\mbox{\hyperlink{class_simil_calc_bayesian_a7c0e4a00de2c6e457a42a0bec412525d}{getOutputProb}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ output.size();\ i++)\{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00086}00086\ \ \ \ \ \ \ \ \ similFile\ <<\ \textcolor{stringliteral}{"{}La\ fila\ "{}}\ <<\ i\ <<\ \textcolor{stringliteral}{"{}\ Tiene\ una\ similitud\ con\ el\ ID\ "{}}\ <<\ output[i].idx\ <<\ \textcolor{stringliteral}{"{}\ Con\ una\ probabilidad\ total\ de:\ "{}}\ <<\ output[i].prob\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00087}00087\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00088}00088\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00090}\mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{00090}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00091}00091\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00092}00092\ \ \ \ \ \textcolor{keyword}{const}\ fs::path\ entryPath\ =\ \textcolor{stringliteral}{"{}./input"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00093}00093\ \ \ \ \ std::vector<fs::path>\ files;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00094}00094\ \ \ \ \ \textcolor{keywordtype}{int}\ cols\ =\ \mbox{\hyperlink{_t_u_i_controller_8hpp_a46702435a92042d2c51d4c5713771bc9}{GetTerminalSize}}().\mbox{\hyperlink{struct_terminal_size_af2cefbe5605da9c79224be1ae2da09fa}{columns}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00095}00095\ \ \ \ \ std::string\ callout;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00096}00096\ \ \ \ \ \mbox{\hyperlink{class_file_salvor}{FileSalvor}}\ mainT;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//Input/Output\ folders\ check}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00100}00100\ \ \ \ \ \textcolor{keywordflow}{if}((!fs::exists(\textcolor{stringliteral}{"{}./input"{}})\ ||\ fs::is\_empty(\textcolor{stringliteral}{"{}./input"{}}))\ ||\ !fs::exists(\textcolor{stringliteral}{"{}./output"{}}))\{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}La\ carpeta\ de\ entrada/salida\ (input/output)\ no\ existe\ o\ esta\ vacia\(\backslash\)nPor\ favor\ cree\ la\ carpeta\ y\ coloque\ archivos\ en\ ella\ para\ utilizar\ el\ programa"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ EXIT\_FAILURE;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00103}00103\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00105}00105\ \ \ \ \ \mbox{\hyperlink{_t_u_i_controller_8hpp_aea8dfb64c09d73f056743a388345a7a9}{CleanTerminal}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00106}00106\ \ \ \ \ \mbox{\hyperlink{_matrix_ops_8hpp_a671f05272d29d76114c3c04cbf7297df}{fileSearching}}(entryPath,\ files);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00107}00107\ \ \ \ \ \mbox{\hyperlink{struct_matrix_data}{MatrixData}}\ first\ =\ \mbox{\hyperlink{_matrix_ops_8hpp_a60e9627e9238b212a6731b5aa8f7bb4e}{fileReading}}(cols,\ files);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00108}00108\ \ \ \ \ \mbox{\hyperlink{main_8cpp_aec6ca6ba8b01e7aeee8e942023cfc696}{checkMatrix}}(first);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00110}00110\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Comprobando\ datos..."{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00111}00111\ \ \ \ \ callout\ =\ \textcolor{stringliteral}{"{}Desea\ generar\ un\ reporte\ en\ caso\ de\ datos\ no\ legibles?\ [Y/n]:\ "{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00112}00112\ \ \ \ \ std::cout\ <<\ std::setw(((cols\ -\/\ callout.size())/2)+1)\ <<\ std::setfill(\textcolor{charliteral}{'\ '})\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)0"{}}\ <<\ callout;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00113}00113\ \ \ \ \ \textcolor{keywordtype}{char}\ sel;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00114}00114\ \ \ \ \ std::cin\ >>\ sel;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00115}00115\ \ \ \ \ std::vector<std::vector<double>>\ meansFirst\ =\ mainT.\mbox{\hyperlink{class_file_salvor_a6a0119d697aae2c517d55bddfc54bfbc}{DataMeanCalculation}}(first.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00117}00117\ \ \ \ \ std::cout\ <<\ \ \textcolor{stringliteral}{"{}Desea\ calcular\ los\ datos\ de\ reemplazo\ por\ medio\ del\(\backslash\)n[a]\ Promedio\ (Mas\ Rapido)\(\backslash\)n[b]\ Mediana(Mas\ Lento)\(\backslash\)n\(\backslash\)n[S]:"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00118}00118\ \ \ \ \ \textcolor{keywordtype}{char}\ SelM;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00119}00119\ \ \ \ \ std::cin\ >>\ SelM;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00120}00120\ \ \ \ \ std::vector<std::vector<double>>\ data;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{switch}\ (std::tolower(SelM))}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00124}00124\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00125}00125\ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'a'}:}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ data\ =\ mainT.\mbox{\hyperlink{class_file_salvor_a6a0119d697aae2c517d55bddfc54bfbc}{DataMeanCalculation}}(first.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00129}00129\ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'b'}:}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ data\ =\ mainT.\mbox{\hyperlink{class_file_salvor_a17d84d7db995d7ec79510e543538ab28}{DataMedianCalculatuion}}(first.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00131}00131\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00132}00132\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Opcion\ no\ reconocida,\ usando\ el\ modo\ mas\ rapido\ (Promedio)"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ std::this\_thread::sleep\_for(2000ms);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ data\ =\ mainT.\mbox{\hyperlink{class_file_salvor_a6a0119d697aae2c517d55bddfc54bfbc}{DataMeanCalculation}}(first.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00137}00137\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00139}00139\ \ \ \ \ std::cin.ignore(std::numeric\_limits<std::streamsize>::max(),\ \textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00140}00140\ \ \ \ \ \mbox{\hyperlink{_matrix_ops_8hpp_a5960fe416aa4e19b239917acf902f578}{MatrixProcessing}}(std::tolower(sel)\ ==\ \textcolor{charliteral}{'n'},\ first,\ first.\mbox{\hyperlink{struct_matrix_data_a4d377d2620e8b2b3a2a83f26c925eb2d}{fileName}},\ cols,\ meansFirst);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00142}00142\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Comenzando\ proceso\ de\ calculo\ de\ similitud"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00143}00143\ \ \ \ \ \mbox{\hyperlink{struct_matrix_data}{MatrixData}}\ second\ =\ \mbox{\hyperlink{_matrix_ops_8hpp_a60e9627e9238b212a6731b5aa8f7bb4e}{fileReading}}(cols,\ files);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00144}00144\ \ \ \ \ \mbox{\hyperlink{main_8cpp_aec6ca6ba8b01e7aeee8e942023cfc696}{checkMatrix}}(second);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00147}00147\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Usando\ modo\ de\ 'No\ Reporte'\ para\ la\ computacion\ rapida\ de\ similitud"{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00148}00148\ \ \ \ \ std::this\_thread::sleep\_for(3000ms);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00150}00150\ \ \ \ \ std::vector<std::vector<double>>\ meansSecond\ =\ mainT.\mbox{\hyperlink{class_file_salvor_a6a0119d697aae2c517d55bddfc54bfbc}{DataMeanCalculation}}(second.\mbox{\hyperlink{struct_matrix_data_a72bbd7fefa093a6508fdaa541225529c}{Matrix}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00151}00151\ \ \ \ \ \mbox{\hyperlink{_matrix_ops_8hpp_a5960fe416aa4e19b239917acf902f578}{MatrixProcessing}}(\textcolor{keyword}{false},\ second,\ second.\mbox{\hyperlink{struct_matrix_data_a4d377d2620e8b2b3a2a83f26c925eb2d}{fileName}},\ cols,\ meansSecond);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00153}00153\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Desea\ calcular\ la\ similitud\ de\ matrices\ por\(\backslash\)n[a]\ Suma\ de\ valores\ absolutos\(\backslash\)n[b]\ Probabilidad\ Bayesiana\(\backslash\)n\(\backslash\)n[S]:"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00154}00154\ \ \ \ \ \textcolor{keywordtype}{char}\ SimSel;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00155}00155\ \ \ \ \ std::cin\ >>\ SimSel;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00156}00156\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00157}00157\ \ \ \ \ \mbox{\hyperlink{_t_u_i_controller_8hpp_aea8dfb64c09d73f056743a388345a7a9}{CleanTerminal}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00158}00158\ \ \ \ \ std::ofstream\ similFile(\textcolor{stringliteral}{"{}./output/similitude.txt"{}},\ std::ios::app);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00159}00159\ \ \ \ \ similFile\ <<\ \textcolor{stringliteral}{"{}Similitud\ entre\ Matriz\ 1\ y\ Matriz\ 2\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00160}00160\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00161}00161\ \ \ \ \ \textcolor{keywordflow}{switch}\ (std::tolower(SimSel))}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00162}00162\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00163}00163\ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'a'}:}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{main_8cpp_a39de69322a2ae3400574f9a99ee091ed}{SimilAbs}}(first,\ second,\ similFile);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00167}00167\ \ \ \ \ \textcolor{keywordflow}{case}\ \textcolor{charliteral}{'b'}:}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{main_8cpp_ab3df63f44f31e627a7dfbc1c97c1e097}{SimilBayesian}}(first,\ second,\ similFile,\ meansFirst);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00170}00170\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00171}00171\ \ \ \ \ \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Usando\ opcion\ mas\ rapida\ (Suma\ de\ Valores\ Absolutos)"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ std::this\_thread::sleep\_for(2000ms);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{main_8cpp_a39de69322a2ae3400574f9a99ee091ed}{SimilAbs}}(first,\ second,\ similFile);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00176}00176\ \ \ \ \ \}\ \ \ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00180}00180\ \ \ \ \ similFile.close();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00181}00181\ \ \ \ \ \mbox{\hyperlink{_t_u_i_controller_8hpp_aea8dfb64c09d73f056743a388345a7a9}{CleanTerminal}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00182}00182\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Programa\ terminado..."{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00183}00183\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00184}00184\ \}}
+
+\end{DoxyCode}

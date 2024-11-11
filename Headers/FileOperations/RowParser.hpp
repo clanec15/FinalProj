@@ -13,7 +13,8 @@
 #include <sstream>
 #include <vector>
 
-
+#ifndef ROWPARSER_HPP_
+#define ROWPARSER_HPP_
 
 /**
  * @brief Main Class
@@ -32,3 +33,5 @@ class RowParser
     private:
     std::vector<double> parsedRow; /** The parsed row as a double datatype vector */
 };
+
+#endif

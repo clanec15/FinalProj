@@ -1,0 +1,68 @@
+\doxysection{Simi\+Calc.\+hpp}
+\hypertarget{_simi_calc_8hpp_source}{}\label{_simi_calc_8hpp_source}\index{Headers/SimiCalc.hpp@{Headers/SimiCalc.hpp}}
+\mbox{\hyperlink{_simi_calc_8hpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <cmath>}}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00016}00016\ \textcolor{preprocessor}{\#ifndef\ SIMICALC\_HPP\_}}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00017}00017\ \textcolor{preprocessor}{\#define\ SIMICALC\_HPP\_}}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00022}\mbox{\hyperlink{class_simil_calc}{00022}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_simil_calc}{SimilCalc}}\{}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00023}00023\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00024}\mbox{\hyperlink{class_simil_calc_ab988b9226f182474589f2c7843abda5c}{00024}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_simil_calc_ab988b9226f182474589f2c7843abda5c}{diffCalc}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00025}00025\ \};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00030}\mbox{\hyperlink{class_simil_calc_abs}{00030}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_simil_calc_abs}{SimilCalcAbs}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_simil_calc}{SimilCalc}}\{}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00032}00032\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00033}\mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data}{00033}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data}{diffData}}}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00034}00034\ \ \ \ \ \{\ \ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00036}\mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data_a24d6c7923330890479658f4c138d9407}{00036}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data_a24d6c7923330890479658f4c138d9407}{idx}};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00038}\mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data_aad55a80a6057fe23ca5fe4dcdf6621ce}{00038}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data_aad55a80a6057fe23ca5fe4dcdf6621ce}{diff}};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00039}00039\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_simil_calc_abs_afd88e80b652e3b0c2264edd14d09be7d}{SetFirstMtx}}(\textcolor{keyword}{const}\ std::vector<std::vector<double>>\&);}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00042}00042\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_simil_calc_abs_a3583819947b548c92227ee5d487f5a54}{setSecondMtx}}(\textcolor{keyword}{const}\ std::vector<std::vector<double>>\&);}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00043}\mbox{\hyperlink{class_simil_calc_abs_a56b5cbe5c72e857a83adc52512089b4e}{00043}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_simil_calc_abs_a56b5cbe5c72e857a83adc52512089b4e}{diffCalc}}()\textcolor{keyword}{\ override}\{\};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00044}00044\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_simil_calc_abs_a56b5cbe5c72e857a83adc52512089b4e}{diffCalc}}(\textcolor{keywordtype}{int});}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00045}00045\ \ \ \ \ diffData\ \mbox{\hyperlink{class_simil_calc_abs_a3553990b617f70020ebf4fb6c11ff2a8}{getMostSimilarRow}}();}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00049}00049\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00050}00050\ \ \ \ \ \textcolor{keywordtype}{void}\ szCalc();}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00051}00051\ \ \ \ \ \textcolor{keywordtype}{void}\ SimilCalculation();}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00053}00053\ \ \ \ \ diffData\ BestChoice;\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00055}00055\ \ \ \ \ std::vector<diffData>\ rowDiffs;\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00057}00057\ \ \ \ \ \textcolor{keywordtype}{int}\ sz;\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00061}00061\ \ \ \ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00062}\mbox{\hyperlink{class_simil_calc_abs_a5fc973cf16209e109515490c4beec795}{00062}}\ \ \ \ \ std::vector<std::vector<double>>\ \mbox{\hyperlink{class_simil_calc_abs_a5fc973cf16209e109515490c4beec795}{FirstMtx}};\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00063}\mbox{\hyperlink{class_simil_calc_abs_ad0d030a514cbcec4849c0f1aa17e81b4}{00063}}\ \ \ \ \ std::vector<std::vector<double>>\ \mbox{\hyperlink{class_simil_calc_abs_ad0d030a514cbcec4849c0f1aa17e81b4}{SecMtx}};\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00067}00067\ \};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00072}\mbox{\hyperlink{class_simil_calc_bayesian}{00072}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_simil_calc_bayesian}{SimilCalcBayesian}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_simil_calc_abs}{SimilCalcAbs}}\{}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00073}00073\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00074}\mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data}{00074}}\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data}{ProbabilityData}}}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00075}00075\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00077}\mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data_a5d5abbf043f597537ee4840bb16e8da8}{00077}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data_a5d5abbf043f597537ee4840bb16e8da8}{idx}};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00079}\mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data_a3a51cbc6b58e9e51e6eaf818f413bede}{00079}}\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data_a3a51cbc6b58e9e51e6eaf818f413bede}{prob}};\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00080}00080\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00081}\mbox{\hyperlink{class_simil_calc_bayesian_a5932271ff1114f289ccaab5633460124}{00081}}\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_simil_calc_bayesian_a5932271ff1114f289ccaab5633460124}{diffCalc}}()\textcolor{keyword}{\ override}\{\};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00082}00082\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_simil_calc_bayesian_a5932271ff1114f289ccaab5633460124}{diffCalc}}(std::vector<int>,\ std::vector<std::vector<double>>);}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00083}\mbox{\hyperlink{class_simil_calc_bayesian_a7c0e4a00de2c6e457a42a0bec412525d}{00083}}\ \ \ \ \ std::vector<ProbabilityData>\ \mbox{\hyperlink{class_simil_calc_bayesian_a7c0e4a00de2c6e457a42a0bec412525d}{getOutputProb}}();}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00086}00086\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00088}00088\ \ \ \ \ std::vector<ProbabilityData>\ ProbabilityVector;\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00090}00090\ \ \ \ \ \mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data}{ProbabilityData}}\ BestChoiceProb;}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00091}00091\ \};}
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_simi_calc_8hpp_source_l00093}00093\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,47 @@
+\doxysection{testground.\+cpp}
+\hypertarget{testground_8cpp_source}{}\label{testground_8cpp_source}\index{testArea/testground.cpp@{testArea/testground.cpp}}
+\mbox{\hyperlink{testground_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <iomanip>}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_t_u_i_controller_8hpp}{../Headers/TUIController.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_matrix_ops_8hpp}{../Headers/MatrixOps.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_radix_sort_8hpp}{../Headers/RadixSort.hpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_simil_calc_src_8cpp}{../Source/SimilCalcSrc.cpp}}"{}}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00013}00013\ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00016}\mbox{\hyperlink{testground_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{00016}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{testground_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00017}00017\ \{}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00018}00018\ \ \ \ \ std::vector<double>\ testArr\ =\ \{2.66\ ,0.24\ ,7.05\ ,0.74\ ,8.24\ ,5.12\ ,0.41\ ,5.98\ ,3.55\ ,3.11\};}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00019}00019\ \ \ \ \ std::vector<double>\ fixedArr;}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00020}00020\ \ \ \ \ \mbox{\hyperlink{structconv_data}{convData}}\ test;}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00021}00021\ \ \ \ \ test\ =\ \mbox{\hyperlink{_radix_sort_8hpp_abf9706817f2eb7a01ad5ab6013650234}{dvtoiv}}(testArr);}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00025}00025\ \ \ \ \ \mbox{\hyperlink{_radix_sort_8hpp_aad8126ea8a81437155cbb291191443b1}{RadixSrt}}(test.\mbox{\hyperlink{structconv_data_a936f1af916a99d18349e3650028b4f4f}{data}});}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00027}00027\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ test.\mbox{\hyperlink{structconv_data_a936f1af916a99d18349e3650028b4f4f}{data}}.size();\ i++)\{}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ fixedArr.push\_back(test.\mbox{\hyperlink{structconv_data_a936f1af916a99d18349e3650028b4f4f}{data}}[i]);}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00029}00029\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0;\ i\ <\ fixedArr.size();\ i++)\{}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ std::cout\ <<\ fixedArr[i]/pow(10,\ test.\mbox{\hyperlink{structconv_data_a18d3d3454791a12ec9ec64fd9e07d36c}{globalExp}})\ <<\ (i\ ==\ fixedArr.size()-\/1\ ?\ \textcolor{stringliteral}{"{}"{}}\ :\ \textcolor{stringliteral}{"{},\ "{}});}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00034}00034\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00036}00036\ \ \ \ \ std::cout\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00037}00037\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{testground_8cpp_source_l00041}00041\ \}\ \ \ }
+
+\end{DoxyCode}

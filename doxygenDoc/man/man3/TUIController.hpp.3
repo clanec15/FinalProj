@@ -1,0 +1,97 @@
+.TH "Headers/TUIController.hpp" 3 "Version Final" "Final Programming Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Headers/TUIController.hpp \- Header for TUI (Terminal User Interface) functions\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <stdlib\&.h>\fP
+.br
+\fR#include <windows\&.h>\fP
+.br
+\fR#include <sys/ioctl\&.h>\fP
+.br
+\fR#include <stdio\&.h>\fP
+.br
+\fR#include <unistd\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBTerminalSize\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBTerminalSize\fP \fBGetTerminalSize\fP ()"
+.br
+.ti -1c
+.RI "void \fBcleanTerminal\fP ()"
+.br
+.ti -1c
+.RI "void \fBCleanTerminal\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Header for TUI (Terminal User Interface) functions\&. 
+
+
+.PP
+\fBAuthor\fP
+.RS 4
+Victor Aguilar Rodriguez (ar202341753@alm.buap.mx) 
+.RE
+.PP
+\fBVersion\fP
+.RS 4
+0\&.1 
+.RE
+.PP
+\fBDate\fP
+.RS 4
+2024-10-28
+.RE
+.PP
+\fBCopyright\fP
+.RS 4
+Copyright (c) 2024 
+.RE
+.PP
+
+.PP
+Definition in file \fBTUIController\&.hpp\fP\&.
+.SH "Function Documentation"
+.PP 
+.SS "void CleanTerminal ()"
+Cleans terminal using system-bound parameter (\fBunix\fP) 
+.PP
+Definition at line \fB76\fP of file \fBTUIController\&.hpp\fP\&.
+.SS "void cleanTerminal ()"
+Cleans terminal using system-bound parameter (__WIN32) 
+.PP
+Definition at line \fB50\fP of file \fBTUIController\&.hpp\fP\&.
+.SS "\fBTerminalSize\fP GetTerminalSize ()"
+Get Terminal size as rows and columns for formatting
+
+.PP
+Based on the system macro (\fBWIN32 or /__unix\fP) it gets the terminal sizes as columns and rows as a struct with both of them as integers
+
+.PP
+\fBReturns\fP
+.RS 4
+Rows and columns as a struct (\fBTerminalSize\fP) 
+.RE
+.PP
+
+.PP
+Definition at line \fB32\fP of file \fBTUIController\&.hpp\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Final Programming Project from the source code\&.

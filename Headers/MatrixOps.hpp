@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef MATRIXOPS_HPP
-#define MATRIXOPS_HPP
+#ifndef MATRIXOPS_HPP_
+#define MATRIXOPS_HPP_
 #include <string>
 #include <vector>
 #include <iomanip>
@@ -25,9 +25,10 @@
 namespace fs = std::filesystem;
 
 /**
+ * @fn void fileSearching(fs::path input, std::vector<fs::path>& fileArray)
  * @brief recursive file searching subroutine
  * 
- * will search for files inside the defined input path and recursively search in case there are directories
+ * Will search for files inside the defined input path and recursively search in case there are directories
  * 
  * @param input         the entry path
  * @param fileArray     the file array that will contain the paths of the files
@@ -56,15 +57,23 @@ void fileSearching(fs::path input, std::vector<fs::path>& fileArray)
  */
 struct MatrixData
 {
-	int dataSize; /**Size of the matrix as rows */
-	int frameSize; /**Size of the rows (Data Frame) */
-	std::string fileName; /**Input filename */
-	std::vector<std::vector<double>> Matrix; /**The Data Matrix */
+    /**Size of the matrix as rows */
+	int dataSize;
+    /**Size of the rows (Data Frame) */
+	int frameSize; 
+
+    /**Input filename */
+	std::string fileName; 
+
+    /**The Data Matrix */
+	std::vector<std::vector<double>> Matrix; 
 };
 
 
 /**
- * Check matrix for NaN values
+ * 
+ * @fn bool CheckMtx(FileSalvor& helper, MatrixData DataMatrix)
+ * @brief Check matrix for NaN values
  * 
  * It checks if the entry [i][j] is equal to -65535 and in case it is, it sets the DataStatus flag
  * so in the mtxProcessingNR/WR call it rectificates those entries with valid values from the 
@@ -95,7 +104,8 @@ bool CheckMtx(FileSalvor& helper, MatrixData DataMatrix)
 
 
 /**
- * Saves the output of the Data Matrix to the specified output file and prints the output to stdout
+ * @fn void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<double>> DataMatrix)
+ * @brief Saves the output of the Data Matrix to the specified output file and prints the output to stdout
  * 
  * @param frameSize the size of the rows of the Data Matrix (frame size)
  * @param file output file ofstream
@@ -115,7 +125,8 @@ void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<
 }
 
 /**
- * @brief processes the matrix and fixes it in case it has NaN values
+ * @fn                      void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFileName, int cols, std::vector<std::vector<double>> means)
+ * @brief                   processes the matrix and fixes it in case it has NaN values
  * @param ProcType          Sets if the user wants report or not
  * @param DataMatrix        The MatrixData struct for the main matrix data
  * @param outputFileName    The output filename (generally the original one)
@@ -170,6 +181,7 @@ void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFile
 
 
 /**
+ * @fn MatrixData fileReading(int cols, std::vector<fs::path>& fileArr)
  * @brief Reads the file and outputs it to a MatrixData struct
  * 
  * @param cols the number of columns of the terminal for formatting purposes

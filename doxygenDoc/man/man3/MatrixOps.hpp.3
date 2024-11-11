@@ -1,0 +1,217 @@
+.TH "Headers/MatrixOps.hpp" 3 "Version Final" "Final Programming Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Headers/MatrixOps.hpp \- Header for operations with the data matrices\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <string>\fP
+.br
+\fR#include <vector>\fP
+.br
+\fR#include <iomanip>\fP
+.br
+\fR#include <filesystem>\fP
+.br
+\fR#include <climits>\fP
+.br
+\fR#include '\&.\&./Source/FileReaderSrc\&.cpp'\fP
+.br
+\fR#include '\&.\&./Source/RowParserSrc\&.cpp'\fP
+.br
+\fR#include '\&.\&./Source/FileSalvorSrc\&.cpp'\fP
+.br
+\fR#include '\&./TUIController\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBMatrixData\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBfileSearching\fP (fs::path input, std::vector< fs::path > &fileArray)"
+.br
+.RI "recursive file searching subroutine "
+.ti -1c
+.RI "bool \fBCheckMtx\fP (\fBFileSalvor\fP &helper, \fBMatrixData\fP DataMatrix)"
+.br
+.RI "Check matrix for NaN values\&. "
+.ti -1c
+.RI "void \fBSaveNOutputMtx\fP (int frameSize, std::ofstream &file, std::vector< std::vector< double > > DataMatrix)"
+.br
+.RI "Saves the output of the Data Matrix to the specified output file and prints the output to stdout\&. "
+.ti -1c
+.RI "void \fBMatrixProcessing\fP (bool ProcType, \fBMatrixData\fP &DataMatrix, fs::path outputFileName, int cols, std::vector< std::vector< double > > means)"
+.br
+.RI "processes the matrix and fixes it in case it has NaN values "
+.ti -1c
+.RI "\fBMatrixData\fP \fBfileReading\fP (int cols, std::vector< fs::path > &fileArr)"
+.br
+.RI "Reads the file and outputs it to a \fBMatrixData\fP struct\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Header for operations with the data matrices\&. 
+
+
+.PP
+\fBAuthor\fP
+.RS 4
+Victor Aguilar Rodriguez (ar202341753@alm.buap.mx) 
+.RE
+.PP
+\fBVersion\fP
+.RS 4
+0\&.1 
+.RE
+.PP
+\fBDate\fP
+.RS 4
+2024-10-28
+.RE
+.PP
+\fBCopyright\fP
+.RS 4
+Copyright (c) 2024 
+.RE
+.PP
+
+.PP
+Definition in file \fBMatrixOps\&.hpp\fP\&.
+.SH "Function Documentation"
+.PP 
+.SS "bool CheckMtx (\fBFileSalvor\fP & helper, \fBMatrixData\fP DataMatrix)"
+
+.PP
+Check matrix for NaN values\&. It checks if the entry [i][j] is equal to -65535 and in case it is, it sets the DataStatus flag so in the mtxProcessingNR/WR call it rectificates those entries with valid values from the means data
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIdataSize\fP the size of the Data Matrix (rows) 
+.br
+\fIframeSize\fP the size of the rows of the Data Matrix (frame size) 
+.br
+\fIhelper\fP the \fBFileSalvor\fP class to set the flag 
+.br
+\fImtx\fP The data Matrix
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+mtxProccesingNR 
+
+.PP
+mtxProccesingWR 
+
+.PP
+SetDataStatus 
+.RE
+.PP
+
+.PP
+Definition at line \fB93\fP of file \fBMatrixOps\&.hpp\fP\&.
+.SS "\fBMatrixData\fP fileReading (int cols, std::vector< fs::path > & fileArr)"
+
+.PP
+Reads the file and outputs it to a \fBMatrixData\fP struct\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIcols\fP the number of columns of the terminal for formatting purposes
+.RE
+.PP
+It prepares two structs; one for normal output and one for an unexpected input (error) that contains invalid data (NaN and an empty matrix), it then asks the user to input the filename of a file inside the input directory, checks if its non-corrupt, if it is, it asks the user to retry, if the user does not want to retry, it returns the error struct
+
+.PP
+it then calls a \fBFileReader\fP object to set the filename to be read and it gets the lines as rows of the file
+
+.PP
+it prepares the matrix size and the data frame size from the first and second lines, and it deletes the third line
+
+.PP
+outputs to stdout the number of processed lines and check if the number of processed lines equals the size of the lines array, if it doesnt, it outputs an error message and the error struct
+
+.PP
+it then creates the main output Data Matrix and starts filling it with the parsed data from the rows, it then deletes the first two rows as they are used for the Data Matrix Size and the Data Frame Size
+
+.PP
+\fBReturns\fP
+.RS 4
+The \fBMatrixData\fP struct 
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBFileReader\fP 
+
+.PP
+\fBRowParser\fP 
+.RE
+.PP
+
+.PP
+Definition at line \fB209\fP of file \fBMatrixOps\&.hpp\fP\&.
+.SS "void fileSearching (fs::path input, std::vector< fs::path > & fileArray)"
+
+.PP
+recursive file searching subroutine Will search for files inside the defined input path and recursively search in case there are directories
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIinput\fP the entry path 
+.br
+\fIfileArray\fP the file array that will contain the paths of the files 
+.RE
+.PP
+
+.PP
+Definition at line \fB36\fP of file \fBMatrixOps\&.hpp\fP\&.
+.SS "void MatrixProcessing (bool ProcType, \fBMatrixData\fP & DataMatrix, fs::path outputFileName, int cols, std::vector< std::vector< double > > means)"
+
+.PP
+processes the matrix and fixes it in case it has NaN values 
+.PP
+\fBParameters\fP
+.RS 4
+\fIProcType\fP Sets if the user wants report or not 
+.br
+\fIDataMatrix\fP The \fBMatrixData\fP struct for the main matrix data 
+.br
+\fIoutputFileName\fP The output filename (generally the original one) 
+.br
+\fIcols\fP The columns of the terminal (for formatting purposes) 
+.RE
+.PP
+
+.PP
+Definition at line \fB135\fP of file \fBMatrixOps\&.hpp\fP\&.
+.SS "void SaveNOutputMtx (int frameSize, std::ofstream & file, std::vector< std::vector< double > > DataMatrix)"
+
+.PP
+Saves the output of the Data Matrix to the specified output file and prints the output to stdout\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIframeSize\fP the size of the rows of the Data Matrix (frame size) 
+.br
+\fIfile\fP output file ofstream 
+.br
+\fImtx\fP the Data Matrix 
+.RE
+.PP
+
+.PP
+Definition at line \fB114\fP of file \fBMatrixOps\&.hpp\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Final Programming Project from the source code\&.

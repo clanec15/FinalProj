@@ -1,0 +1,82 @@
+\doxysection{Simil\+Calc\+Bayesian Class Reference}
+\hypertarget{class_simil_calc_bayesian}{}\label{class_simil_calc_bayesian}\index{SimilCalcBayesian@{SimilCalcBayesian}}
+
+
+{\ttfamily \#include $<$Simi\+Calc.\+hpp$>$}
+
+Inheritance diagram for Simil\+Calc\+Bayesian\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_simil_calc_bayesian}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data}{Probability\+Data}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_simil_calc_bayesian_a5932271ff1114f289ccaab5633460124}{diff\+Calc}} () override
+\item 
+void \mbox{\hyperlink{class_simil_calc_bayesian_a09fee3c90b4b2dc22fc79e7b7577423d}{diff\+Calc}} (std\+::vector$<$ int $>$, std\+::vector$<$ std\+::vector$<$ double $>$ $>$)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data}{Probability\+Data}} $>$ \mbox{\hyperlink{class_simil_calc_bayesian_a53823dbf910fcad8379747dffa351a7b}{get\+Output\+Prob}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_simil_calc_abs}{Simil\+Calc\+Abs}}}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_simil_calc_abs_afd88e80b652e3b0c2264edd14d09be7d}{Set\+First\+Mtx}} (const std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \&)
+\begin{DoxyCompactList}\small\item\em Sets the first matrix to calculate the similitude. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_simil_calc_abs_a3583819947b548c92227ee5d487f5a54}{set\+Second\+Mtx}} (const std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \&)
+\item 
+void \mbox{\hyperlink{class_simil_calc_abs_a189163106c074cf62302ffbc376c3c81}{diff\+Calc}} (int)
+\begin{DoxyCompactList}\small\item\em Calculates the difference of a row and a whole matrix (Absoule Value Mode) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data}{diff\+Data}} \mbox{\hyperlink{class_simil_calc_abs_a3553990b617f70020ebf4fb6c11ff2a8}{get\+Most\+Similar\+Row}} ()
+\item 
+std\+::vector$<$ \mbox{\hyperlink{struct_simil_calc_abs_1_1diff_data}{diff\+Data}} $>$ \mbox{\hyperlink{class_simil_calc_abs_a7eacdddadbc31f4feb8f2d75eb13d30a}{get\+Output}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_simil_calc}{Simil\+Calc}}}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_simil_calc_abs}{Simil\+Calc\+Abs}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \mbox{\hyperlink{class_simil_calc_abs_a5fc973cf16209e109515490c4beec795}{First\+Mtx}}
+\item 
+std\+::vector$<$ std\+::vector$<$ double $>$ $>$ \mbox{\hyperlink{class_simil_calc_abs_ad0d030a514cbcec4849c0f1aa17e81b4}{Sec\+Mtx}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Bayesian probability class 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_simil_calc_bayesian_a5932271ff1114f289ccaab5633460124}\index{SimilCalcBayesian@{SimilCalcBayesian}!diffCalc@{diffCalc}}
+\index{diffCalc@{diffCalc}!SimilCalcBayesian@{SimilCalcBayesian}}
+\doxysubsubsection{\texorpdfstring{diffCalc()}{diffCalc()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_simil_calc_bayesian_a5932271ff1114f289ccaab5633460124} 
+void Simil\+Calc\+Bayesian\+::diff\+Calc (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \mbox{\hyperlink{class_simil_calc_abs_a56b5cbe5c72e857a83adc52512089b4e}{Simil\+Calc\+Abs}}.
+
+\Hypertarget{class_simil_calc_bayesian_a09fee3c90b4b2dc22fc79e7b7577423d}\index{SimilCalcBayesian@{SimilCalcBayesian}!diffCalc@{diffCalc}}
+\index{diffCalc@{diffCalc}!SimilCalcBayesian@{SimilCalcBayesian}}
+\doxysubsubsection{\texorpdfstring{diffCalc()}{diffCalc()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_simil_calc_bayesian_a09fee3c90b4b2dc22fc79e7b7577423d} 
+void Simil\+Calc\+Bayesian\+::diff\+Calc (\begin{DoxyParamCaption}\item[{std\+::vector$<$ int $>$}]{ids}{, }\item[{std\+::vector$<$ std\+::vector$<$ double $>$ $>$}]{means}{}\end{DoxyParamCaption})}
+
+\Hypertarget{class_simil_calc_bayesian_a53823dbf910fcad8379747dffa351a7b}\index{SimilCalcBayesian@{SimilCalcBayesian}!getOutputProb@{getOutputProb}}
+\index{getOutputProb@{getOutputProb}!SimilCalcBayesian@{SimilCalcBayesian}}
+\doxysubsubsection{\texorpdfstring{getOutputProb()}{getOutputProb()}}
+{\footnotesize\ttfamily \label{class_simil_calc_bayesian_a53823dbf910fcad8379747dffa351a7b} 
+std\+::vector$<$ \mbox{\hyperlink{struct_simil_calc_bayesian_1_1_probability_data}{Simil\+Calc\+Bayesian\+::\+Probability\+Data}} $>$ Simil\+Calc\+Bayesian\+::get\+Output\+Prob (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Headers/\mbox{\hyperlink{_simi_calc_8hpp}{Simi\+Calc.\+hpp}}\item 
+Source/\mbox{\hyperlink{_simil_calc_src_8cpp}{Simil\+Calc\+Src.\+cpp}}\end{DoxyCompactItemize}

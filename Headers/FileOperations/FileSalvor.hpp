@@ -15,6 +15,11 @@
 #include <fstream>
 #include <cmath>
 #include <sstream>
+#include "../MatrixOps.hpp"
+#include "../RadixSort.hpp"
+
+#ifndef FILESALVOR_HPP_
+#define FILESALVOR_HPP_
 
 /**
  * @brief Main class
@@ -59,3 +64,5 @@ class FileSalvorWR : public FileSalvor{
     void DataSet(std::vector<std::vector<double>>&, std::vector<std::vector<double>>, std::string);   
 
 };
+
+#endif

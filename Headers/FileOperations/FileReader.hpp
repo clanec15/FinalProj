@@ -15,6 +15,8 @@
 #include <vector>
 #include <fstream>
 
+#ifndef FILEREADER_HPP_
+#define FILEREADER_HPP_
 /**
  * @brief Main class
  * 
@@ -22,12 +24,14 @@
 class FileReader
 {
     public:
-    FileReader();
-    ~FileReader();
+    FileReader(); //Constructor
+    ~FileReader(); //Destructor
     void setInputFile(std::string);
     std::vector<std::string> getLines();
 
     private:
-    std::string inputFile;
+    std::string inputFile; /**The input filename */
     
 };
+
+#endif

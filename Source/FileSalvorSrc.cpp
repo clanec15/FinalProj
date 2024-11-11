@@ -1,13 +1,15 @@
 #include "../Headers/FileOperations/FileSalvor.hpp"
 
+/**Constructor */
+FileSalvor::FileSalvor(){invDataDtc = false;} 
 
-
-FileSalvor::FileSalvor(){invDataDtc = false;}
-FileSalvor::~FileSalvor(){}
+/**Destructor */
+FileSalvor::~FileSalvor(){} 
 
 
 /**
- * Get the DataStatus flag
+ * @fn bool FileSalvor::GetDataStatus()
+ * @brief Get the DataStatus flag
  * 
  * @return The DataStatus flag as bool
  */
@@ -17,7 +19,8 @@ bool FileSalvor::GetDataStatus()
 }
 
 /**
- * Sets the DataStatus flag
+ * @fn void FileSalvor::SetDataStatus(bool status)
+ * @brief Sets the DataStatus flag
  * 
  * @param status The status to set the flag (True | False)
  */
@@ -27,7 +30,8 @@ void FileSalvor::SetDataStatus(bool status)
 }
 
 /**
- * Calculates the mean of all elements of a row based on the id (last value of the row)
+ * @fn double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int col, int id)
+ * @brief Calculates the mean of all elements of a row based on the id (last value of the row)
  * 
  * @param inputMtx The input Data Matrix
  * @param col The column to calculate the mean
@@ -50,9 +54,24 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int c
     return (items > 0 ? mean/items : 0.0);
 }
 
+/**
+ * @fn double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col, int id)
+ * @brief Gets the medians of a column of the input matrix
+ * 
+ * It also checks if the resulting column is odd or even
+ * 
+ * @param InputMtx the input matrix
+ * @param col The desired column
+ * @param id The ID to exclude entries
+ * 
+ * @returns The median of the desired column
+ * 
+ */
 double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col, int id)
 {
     std::vector<double> buf;
+    std::vector<double> sortedBuf;
+    convData bufSort;
     for(int i = 0; i < InputMtx.size(); i++){
         if(InputMtx[i][InputMtx[0].size()-1] == static_cast<double>(id))
         {
@@ -60,12 +79,19 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
         }
     }
 
-    int sz = buf.size();
+    bufSort = dvtoiv(buf);
+    RadixSrt(bufSort.data);
+
+    for(int i = 0; i < bufSort.data.size(); i++){
+        sortedBuf.push_back(bufSort.data[i]/pow(10, bufSort.globalExp));
+    }
+
+    int sz = sortedBuf.size();
 
     if(sz%2 == 0){
-        return buf[(sz + 1) / 2];
+        return sortedBuf[(sz + 1) / 2];
     } else {
-        return (buf[sz/2] + buf[(sz/2) + 1])/2;
+        return (sortedBuf[sz/2] + sortedBuf[(sz/2) + 1])/2;
     }
 
     return -1;
@@ -74,20 +100,22 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
 
 
 /**
- * Finds all the ids of the Data Matrix
+ * @fn std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx)
+ * @brief Finds all the ids of the Data Matrix
  * @param inputMtx the input Data Matrix
  * 
  * @return the ids as a vector of int's
  */
 std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx){
     std::vector<int> ids = {};
+    int currentId = inputMtx[0].size()-1;
     for(int i = 0; i < inputMtx.size(); i++){
-        int test = std::count(ids.begin(), ids.end(), inputMtx[i][inputMtx[0].size()-1]);
+        int test = std::count(ids.begin(), ids.end(), inputMtx[i][currentId]);
 
         if(test > 0){
             continue;
         } else {
-            ids.push_back(inputMtx[i][inputMtx[0].size()-1]);
+            ids.push_back(inputMtx[i][currentId]);
         }
     }
 
@@ -95,7 +123,12 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx
 }
 
 
-
+/**
+ * @fn std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inputMtx)
+ * @brief Gets the ID's of a Data Matrix for future usage
+ * @param inputMtx The input matrix
+ * @returns The ID's in a vector
+ */
 std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inputMtx)
 {
     return idFinder(inputMtx);
@@ -108,7 +141,7 @@ std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inpu
  * 
  * @return the truncated value
  */
-double truncate(int n_places, double num){
+inline double truncate(int n_places, double num){
     double trunc = 10;
     if(n_places == 0){
         trunc = 1;
@@ -119,7 +152,8 @@ double truncate(int n_places, double num){
 }
 
 /**
- * calculates all the means of the Data Matrix
+ * @fn std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std::vector<double>>& inputMtx)
+ * @brief calculates all the means of the Data Matrix
  * 
  * @param inputMtx the input Data Matrix
  * 
@@ -132,7 +166,6 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
 {
     std::vector<int> ids = FileSalvor::idFinder(inputMtx);
     std::vector<std::vector<double>> means(ids.size());
-    
     if(inputMtx.empty() || inputMtx[0].empty()){
         return {};
     }
@@ -146,6 +179,18 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
     return means;
 }
 
+
+/**
+ * @fn std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std::vector<double>>& inputMtx)
+ * @brief calculates all the medians of the Data Matrix
+ * 
+ * @param inputMtx the input Data Matrix
+ * 
+ * @returns the medians as a matrix with the rows being the id's
+ * 
+ * @see idFinder
+ * @see GetMedian
+ */
 std::vector<std::vector<double>> FileSalvor::DataMedianCalculatuion(std::vector<std::vector<double>>& inputMtx)
 {
     std::vector<int> ids = FileSalvor::idFinder(inputMtx);
@@ -184,7 +229,8 @@ void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
 }
 
 /**
- * Modifies the NaN values of the data matrix with the values of the means Data Matrix and logs the changes to a file
+ * @fn void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data, std::string OutputFile="./output/NaNReport.txt")
+ * @brief Modifies the NaN values of the data matrix with the values of the means Data Matrix and logs the changes to a file
  * 
  * @param inputMtx      The input Data Matrix (as reference)
  * @param data          The Mean Data Matrix

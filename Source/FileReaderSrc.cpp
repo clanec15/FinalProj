@@ -11,7 +11,8 @@ FileReader::~FileReader(){}
 
 
 /**
- * Sets the input file for the FileReader
+ * @fn void FileReader::setInputFile(std::string file)
+ * @brief Sets the input file for the FileReader
  * @param file the input file
  */
 void FileReader::setInputFile(std::string file)
@@ -20,7 +21,8 @@ void FileReader::setInputFile(std::string file)
 }
 
 /**
- * Gets all the rows from the input file as a string and outputs it as an array
+ * @fn std::vector<std::string> FileReader::getLines()
+ * @brief Gets all the rows from the input file as a string and outputs it as an array
  * 
  * @return the array of rows
  */

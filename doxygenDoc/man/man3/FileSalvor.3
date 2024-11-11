@@ -1,0 +1,98 @@
+.TH "FileSalvor" 3 "Version Final" "Final Programming Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FileSalvor \- Main class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <FileSalvor\&.hpp>\fP
+.PP
+Inherited by \fBFileSalvorNR\fP, and \fBFileSalvorWR\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFileSalvor\fP ()"
+.br
+.ti -1c
+.RI "\fB~FileSalvor\fP ()"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBDataMeanCalculation\fP (std::vector< std::vector< double > > &)"
+.br
+.ti -1c
+.RI "std::vector< std::vector< double > > \fBDataMedianCalculatuion\fP (std::vector< std::vector< double > > &)"
+.br
+.ti -1c
+.RI "bool \fBGetDataStatus\fP ()"
+.br
+.RI "Get the DataStatus flag\&. "
+.ti -1c
+.RI "void \fBSetDataStatus\fP (bool)"
+.br
+.RI "Sets the DataStatus flag\&. "
+.ti -1c
+.RI "std::vector< int > \fBGetMatrixIDs\fP (std::vector< std::vector< double > > &)"
+.br
+.RI "Gets the ID's of a Data Matrix for future usage\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Main class\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FileSalvor::FileSalvor ()"
+Constructor 
+.SS "FileSalvor::~FileSalvor ()"
+Destructor 
+.SH "Member Function Documentation"
+.PP 
+.SS "std::vector< std::vector< double > > FileSalvor::DataMeanCalculation (std::vector< std::vector< double > > & inputMtx)"
+
+.SS "std::vector< std::vector< double > > FileSalvor::DataMedianCalculatuion (std::vector< std::vector< double > > & inputMtx)"
+
+.SS "bool FileSalvor::GetDataStatus ()"
+
+.PP
+Get the DataStatus flag\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The DataStatus flag as bool 
+.RE
+.PP
+
+.SS "std::vector< int > FileSalvor::GetMatrixIDs (std::vector< std::vector< double > > & inputMtx)"
+
+.PP
+Gets the ID's of a Data Matrix for future usage\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIinputMtx\fP The input matrix 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The ID's in a vector 
+.RE
+.PP
+
+.SS "void FileSalvor::SetDataStatus (bool status)"
+
+.PP
+Sets the DataStatus flag\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstatus\fP The status to set the flag (True | False) 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Final Programming Project from the source code\&.

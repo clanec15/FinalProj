@@ -1,25 +1,18 @@
 #include "../Headers/SimiCalc.hpp"
 
-#define TWOPISQRT   2.50662827463100
-#define EULER       2.71828182845905
-
-/*
-//Constructor
-SimilCalcAbs::SimilCalcAbs(){sz = 0; BestChoice = SimilCalcAbs::diffData{0, 0};};
-//Destructor
-SimilCalcAbs::~SimilCalcAbs(){};
-*/
-
+#define TWOPISQRT   sqrt(M_PI*2)
 
 /**
- * Sets the first matrix to calculate the similitude
+ * @fn void SimilCalcAbs::SetFirstMtx(const std::vector<std::vector<double>>& mtx)
+ * @brief Sets the first matrix to calculate the similitude
  * 
  * @param mtx The input matrix
  */
 void SimilCalcAbs::SetFirstMtx(const std::vector<std::vector<double>>& mtx){FirstMtx=mtx;}
 
 /**
- * Sets the second matrix to calculate the similitude
+ * @fn void SimilCalcAbs::SetSecondMtx(const std::vector<std::vector<double>>& mtx)
+ * @brief Sets the second matrix to calculate the similitude
  * 
  * @param mtx The input matrix
  */
@@ -27,9 +20,10 @@ void SimilCalcAbs::setSecondMtx(const std::vector<std::vector<double>>& mtx){Sec
 
 
 /**
- * Calculates the difference of a row and a whole matrix (Absoule Value Mode)
+ * @fn void SimilCalcAbs::diffCalc(int row)
+ * @brief Calculates the difference of a row and a whole matrix (Absoule Value Mode)
  * 
- * 
+ * @param row the row to calculate the similarity
  */
 void SimilCalcAbs::diffCalc(int row)
 {
@@ -45,11 +39,6 @@ void SimilCalcAbs::diffCalc(int row)
         main.diff = diff;
         rowDiffs.push_back(main);
     }
-}
-
-std::vector<SimilCalcAbs::diffData> SimilCalcAbs::getOutput()
-{
-    return output;
 }
 
 /**
@@ -95,18 +84,26 @@ void SimilCalcAbs::SimilCalculation()
 double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
 {
     double SumSquares = 0.0;
-    int items = -1;
+    int items = 0;
 
     for(int i = 0; i < Matrix[0].size(); i++){
         SumSquares += pow(Matrix[col][i] - Means[id][col], 2);
         items++;
     }
-    return SumSquares/items;
+    
+    if(items > 1)
+    {
+        return SumSquares / (items - 1);
+    }
+
+    return -314946441810;
+
 }
 
 double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
 {
     double variance = CalculateVariance(Matrix, Means, col, id);
+    if(variance == -314946441810) return -94838553137746;
     double maxProb = 0.0;
 
 
@@ -114,9 +111,8 @@ double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::
 
         double base = sqrt(variance)*TWOPISQRT;
         double exponent = -(pow(Matrix[col][i]-Means[id][col], 2)/variance);
-        double prob = (1/base) * (pow(EULER, exponent));
+        double prob = (1/base) * (pow(M_E, exponent));
 
-        //std::cout << "[" << col << ", " << i <<"] (" << TestMatrix[col][i] << "): " << prob << std::endl;
         maxProb += prob;
     }
 
@@ -149,10 +145,5 @@ void SimilCalcBayesian::diffCalc(std::vector<int> ids, std::vector<std::vector<d
         Vector.push_back(elem);
     }
 
-    outputVector = Vector;
 }
 
-std::vector<SimilCalcBayesian::ProbabilityData> SimilCalcBayesian::getOutputProb()
-{
-    return outputVector;
-}

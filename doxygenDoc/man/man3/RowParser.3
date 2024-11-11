@@ -1,0 +1,64 @@
+.TH "RowParser" 3 "Version Final" "Final Programming Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+RowParser \- Main Class\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <RowParser\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRowParser\fP ()"
+.br
+.ti -1c
+.RI "\fB~RowParser\fP ()"
+.br
+.ti -1c
+.RI "void \fBConvertRow\fP (const std::string &, char)"
+.br
+.RI "Convert the row in string form to vector and saves it internally\&. "
+.ti -1c
+.RI "const std::vector< double > & \fBgetParsedRow\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Main Class\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "RowParser::RowParser ()"
+
+.SS "RowParser::~RowParser ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void RowParser::ConvertRow (const std::string & input, char delimiter)"
+
+.PP
+Convert the row in string form to vector and saves it internally\&. Get the parsed row\&.
+
+.PP
+\fBParameters\fP
+.RS 4
+\fIinput\fP The row in string form 
+.br
+\fIdelimiter\fP The delimiter of data as character
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Parsed row as a double datatype vector for usage 
+.RE
+.PP
+
+.SS "const std::vector< double > & RowParser::getParsedRow ()"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Final Programming Project from the source code\&.

@@ -7,7 +7,8 @@ RowParser::~RowParser(){}
 
 
 /**
- * Convert the row in string form to vector and saves it internally
+ * @fn void RowParser::ConvertRow(const std::string& input, char delimiter)
+ * @brief Convert the row in string form to vector and saves it internally
  * 
  * @param input The row in string form
  * @param delimiter The delimiter of data as character 
@@ -31,7 +32,8 @@ void RowParser::ConvertRow(const std::string& input, char delimiter)
 
 
 /**
- * Get the parsed row
+ * @fn void RowParser::ConvertRow(const std::string& input, char delimiter)
+ * @brief Get the parsed row
  * 
  * @return Parsed row as a double datatype vector for usage
  */
