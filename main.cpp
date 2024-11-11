@@ -113,12 +113,6 @@ int main()
     std::cout << std::setw(((cols - callout.size())/2)+1) << std::setfill(' ') << "\0" << callout;
     char sel;
     std::cin >> sel;
-
-
-
-
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
     std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
 
     std::cout <<  "Desea calcular los datos de reemplazo por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana(Mas Lento)\n\n[S]:";
@@ -143,7 +137,7 @@ int main()
         break;
     }
 
-
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols, meansFirst);
 
 	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
@@ -164,8 +158,6 @@ int main()
     CleanTerminal();
     std::ofstream similFile("./output/similitude.txt", std::ios::app);
     similFile << "Similitud entre Matriz 1 y Matriz 2\n";
-
-
     
     switch (std::tolower(SimSel))
     {
@@ -178,16 +170,11 @@ int main()
         break;
     
     default:
-        std::cout << "Usando opcion mas rapida";
+        std::cout << "Usando opcion mas rapida (Suma de Valores Absolutos)";
+        std::this_thread::sleep_for(2000ms);
+        SimilAbs(first, second, similFile);
         break;
     }   
-
-    if(SimSel == 'a')
-    {
-        
-    } else {
-        
-    }
 
 
 

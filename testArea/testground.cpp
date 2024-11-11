@@ -131,7 +131,7 @@ int main()
 
 
     std::cout << "Median time: " << SimilTime/samples << "us" << std::endl;
-    std::cout << "Meann Time: " << BayesianTime/samples << "us" << std::endl;
+    std::cout << "Mean Time: " << BayesianTime/samples << "us" << std::endl;
         
 
     return 0;
