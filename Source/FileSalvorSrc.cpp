@@ -81,9 +81,10 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
 
     bufSort = dvtoiv(buf);
     RadixSrt(bufSort.data);
+    int ScaleFact = pow(10, bufSort.globalExp);
 
     for(int i = 0; i < bufSort.data.size(); i++){
-        sortedBuf.push_back(bufSort.data[i]/pow(10, bufSort.globalExp));
+        sortedBuf.push_back(bufSort.data[i]/ScaleFact);
     }
 
     int sz = sortedBuf.size();
@@ -110,9 +111,9 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx
     std::vector<int> ids = {};
     int currentId = inputMtx[0].size()-1;
     for(int i = 0; i < inputMtx.size(); i++){
-        int test = std::count(ids.begin(), ids.end(), inputMtx[i][currentId]);
+        int counts = std::count(ids.begin(), ids.end(), inputMtx[i][currentId]);
 
-        if(test > 0){
+        if(counts > 0){
             continue;
         } else {
             ids.push_back(inputMtx[i][currentId]);
@@ -243,7 +244,7 @@ void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
     std::ofstream ReportFile(OutputFile);
 
     if(ReportFile.fail() || !ReportFile.is_open()){
-        std::cerr << "CREACION DE ARCHIVO DE REPORTE FALLIDA" << std::endl;
+        std::cerr << "CREACION DE ARCHIVO DE REPORTE FALLIDA [FileSalvorSrc.cpp]" << std::endl;
         std::abort();
     }
 

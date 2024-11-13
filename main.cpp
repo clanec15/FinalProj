@@ -45,15 +45,15 @@ void checkMatrix(MatrixData data)
 
 void SimilAbs(MatrixData first, MatrixData second, std::ofstream& similFile)
 {
-    SimilCalcAbs test;
+    SimilCalcAbs abs;
 
-    test.SetFirstMtx(first.Matrix);
-    test.setSecondMtx(second.Matrix);
+    abs.SetFirstMtx(first.Matrix);
+    abs.setSecondMtx(second.Matrix);
         
     for(int i = 0; i < std::min(first.dataSize, second.dataSize); i++){
-        test.diffCalc(i);
+        abs.diffCalc(i);
         SimilCalcAbs::diffData output;
-        output = test.getMostSimilarRow();
+        output = abs.getMostSimilarRow();
 
         similFile << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
         if(output.diff == 0.0){
@@ -71,15 +71,16 @@ void SimilAbs(MatrixData first, MatrixData second, std::ofstream& similFile)
 
 void SimilBayesian(MatrixData& first, MatrixData& second, std::ofstream& similFile, std::vector<std::vector<double>> means)
 {
-    SimilCalcBayesian test;
+    SimilCalcBayesian Bay;
     FileSalvor hMan;
 
-    test.SetFirstMtx(first.Matrix);
-    test.setSecondMtx(second.Matrix);
+    Bay.SetFirstMtx(first.Matrix);
+    Bay.setSecondMtx(second.Matrix);
     std::vector<int> ids = hMan.GetMatrixIDs(first.Matrix);
 
-    test.diffCalc(ids, means);
-    std::vector<SimilCalcBayesian::ProbabilityData> output = test.getOutputProb();
+    Bay.diffCalc(ids, means);
+    std::vector<SimilCalcBayesian::ProbabilityData> output = Bay.getOutputProb();
+    std::cout << output.size() << std::endl;
 
 
     for(int i = 0; i < output.size(); i++){
@@ -128,6 +129,7 @@ int main()
 
     case 'b':
         data = mainT.DataMedianCalculatuion(first.Matrix);
+        break;
     
     default:
         std::cout << "Opcion no reconocida, usando el modo mas rapido (Promedio)" << std::endl;
@@ -155,7 +157,7 @@ int main()
     std::cin >> SimSel;
     
     CleanTerminal();
-    std::ofstream similFile("./output/similitude.txt", std::ios::app);
+    std::ofstream similFile("./output/similitude.txt");
     similFile << "Similitud entre Matriz 1 y Matriz 2\n";
     
     switch (std::tolower(SimSel))

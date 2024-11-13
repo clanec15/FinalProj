@@ -85,8 +85,9 @@ convData dvtoiv(std::vector<double> vct){
     globalMult = getMax(mults);
     output.globalExp = globalMult;
     std::vector<int> intArr;
+    int globalExp = pow(10, globalMult);
     for(int i = 0; i < vct.size(); i++){
-        intArr.push_back(vct[i]*pow(10, globalMult));
+        intArr.push_back(vct[i]*globalExp);
     }
     output.data = intArr;
     return output;

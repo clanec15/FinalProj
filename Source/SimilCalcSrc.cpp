@@ -145,5 +145,12 @@ void SimilCalcBayesian::diffCalc(std::vector<int> ids, std::vector<std::vector<d
         Vector.push_back(elem);
     }
 
+    ProbabilityVector = Vector;
+
+}
+
+std::vector<SimilCalcBayesian::ProbabilityData> SimilCalcBayesian::getOutputProb()
+{
+    return ProbabilityVector;
 }
 
