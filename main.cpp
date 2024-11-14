@@ -158,15 +158,16 @@ int main()
     
     CleanTerminal();
     std::ofstream similFile("./output/similitude.txt");
-    similFile << "Similitud entre Matriz 1 y Matriz 2\n";
     
     switch (std::tolower(SimSel))
     {
     case 'a':
+        similFile << "Similitud entre Matriz 1 y Matriz 2 (Suma de valores Absolutos)\n";
         SimilAbs(first, second, similFile);
         break;
 
     case 'b':
+        similFile << "Similitud entre Matriz 1 y Matriz 2 (Probabilidad Bayesiana)\n";
         SimilBayesian(first, second, similFile, meansFirst);
         break;
     

@@ -86,8 +86,6 @@ struct MatrixData
  * @param mtx The data Matrix
  * 
  * 
- * @see mtxProccesingNR
- * @see mtxProccesingWR
  * @see SetDataStatus
  */
 bool CheckMtx(FileSalvor& helper, MatrixData DataMatrix)

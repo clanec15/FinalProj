@@ -136,7 +136,9 @@ std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inpu
 }
 
 /**
- * truncates a double value to n places
+ * 
+ * @fn inline double truncate(int n_places, double num)
+ * @brief truncates a double value to n places
  * @param n_places The number of decimal digits to truncate to
  * @param num The number to truncate
  * 
@@ -212,7 +214,8 @@ std::vector<std::vector<double>> FileSalvor::DataMedianCalculatuion(std::vector<
 
 
 /**
- * Modifies the NaN values of the data matrix with the values of the means Data Matrix
+ * @fn void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data)
+ * @brief Modifies the NaN values of the data matrix with the values of the means Data Matrix
  * 
  * @param inputMtx The input Data Matrix (as reference)
  * @param data The Mean Data Matrix
