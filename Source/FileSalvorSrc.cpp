@@ -72,6 +72,9 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
     std::vector<double> buf;
     std::vector<double> sortedBuf;
     convData bufSort;
+
+    
+
     for(int i = 0; i < InputMtx.size(); i++){
         if(InputMtx[i][InputMtx[0].size()-1] == static_cast<double>(id))
         {

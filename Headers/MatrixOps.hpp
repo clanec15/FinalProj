@@ -149,7 +149,7 @@ void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFile
 
     if(salvorMain.GetDataStatus()){
         std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
-        
+        std::this_thread::sleep_for(2000ms);
         if(!ProcType){
             CleanTerminal();
             std::string RepFile;
@@ -165,7 +165,7 @@ void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFile
             FileSalvorNR gen;
             gen.DataSet(DataMatrix.Matrix, means);
         }
-
+        
         std::cout << "Datos Corregidos: " << std::endl;
         SaveNOutputMtx(DataMatrix.frameSize, outputFile, DataMatrix.Matrix);
         outputFile.close();
