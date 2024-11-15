@@ -16,7 +16,6 @@
 #include <cmath>
 #include <sstream>
 #include "../MatrixOps.hpp"
-#include "../RadixSort.hpp"
 
 #ifndef FILESALVOR_HPP_
 #define FILESALVOR_HPP_

@@ -16,6 +16,8 @@
 #include <iomanip>
 #include <filesystem>
 #include <climits>
+#include <thread>
+#include <chrono>
 
 #include "../Source/FileReaderSrc.cpp"
 #include "../Source/RowParserSrc.cpp"
@@ -23,7 +25,7 @@
 #include "./TUIController.hpp"
 
 namespace fs = std::filesystem;
-
+using namespace std::chrono_literals;
 /**
  * @fn void fileSearching(fs::path input, std::vector<fs::path>& fileArray)
  * @brief recursive file searching subroutine
@@ -88,7 +90,7 @@ struct MatrixData
  * 
  * @see SetDataStatus
  */
-bool CheckMtx(FileSalvor& helper, MatrixData DataMatrix)
+bool CheckMtx(MatrixData DataMatrix)
 {
     for(int i = 0; i < DataMatrix.dataSize; i++){
             for(int j = 0; j < DataMatrix.frameSize; j++){
@@ -145,7 +147,8 @@ void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFile
     outputFile << DataMatrix.dataSize << "\n";
     outputFile << DataMatrix.frameSize << "\n";
     outputFile << ids.size() << "\n";
-    salvorMain.SetDataStatus(CheckMtx(salvorMain, DataMatrix));
+
+    salvorMain.SetDataStatus(CheckMtx(DataMatrix));
 
     if(salvorMain.GetDataStatus()){
         std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;

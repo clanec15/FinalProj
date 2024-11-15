@@ -54,6 +54,23 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int c
     return (items > 0 ? mean/items : 0.0);
 }
 
+std::vector<std::vector<double>> MatrixTrans(std::vector<std::vector<double>> Matrix){
+
+    size_t Rows = Matrix.size();
+    size_t Cols = Matrix[0].size();
+
+    std::vector<std::vector<double>> AuxMat(Cols, std::vector<double>(Rows, 0));
+
+    for (size_t i = 0; i < Cols; i++)
+    {
+        for(size_t j = 0; j < Rows; j++){
+            AuxMat[i][j] = Matrix[j][i];
+        }
+    }
+
+    return AuxMat;
+}
+
 /**
  * @fn double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col, int id)
  * @brief Gets the medians of a column of the input matrix
@@ -70,32 +87,23 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int c
 double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col, int id)
 {
     std::vector<double> buf;
-    std::vector<double> sortedBuf;
-    convData bufSort;
+    std::vector<std::vector<double>> TransMatrix = MatrixTrans(InputMtx);
 
-    
-
-    for(int i = 0; i < InputMtx.size(); i++){
-        if(InputMtx[i][InputMtx[0].size()-1] == static_cast<double>(id))
-        {
-            buf.push_back(InputMtx[i][col]);
+    for(int i = 0; i < TransMatrix.size(); i++){
+        if(TransMatrix[i][TransMatrix[0].size()-1] == id){
+            buf.push_back(TransMatrix[i][col]);
         }
     }
 
-    bufSort = dvtoiv(buf);
-    RadixSrt(bufSort.data);
-    int ScaleFact = pow(10, bufSort.globalExp);
+    std::sort(buf.begin(), buf.end());
 
-    for(int i = 0; i < bufSort.data.size(); i++){
-        sortedBuf.push_back(bufSort.data[i]/ScaleFact);
-    }
 
-    int sz = sortedBuf.size();
+    int sz = buf.size();
 
     if(sz%2 == 0){
-        return sortedBuf[(sz + 1) / 2];
+        return buf[(sz + 1) / 2];
     } else {
-        return (sortedBuf[sz/2] + sortedBuf[(sz/2) + 1])/2;
+        return (buf[sz/2] + buf[(sz/2) + 1])/2;
     }
 
     return -1;

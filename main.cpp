@@ -179,7 +179,6 @@ int main()
     }   
 
 
-
     similFile.close();
     CleanTerminal();
     std::cout << "Programa terminado..." << std::endl;
