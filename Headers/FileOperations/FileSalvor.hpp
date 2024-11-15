@@ -27,7 +27,7 @@
 class FileSalvor{
     public:
     FileSalvor();
-    ~FileSalvor();
+    virtual ~FileSalvor() = default;
     std::vector<std::vector<double>> DataMeanCalculation(std::vector<std::vector<double>>&);
     std::vector<std::vector<double>> DataMedianCalculatuion(std::vector<std::vector<double>>&);
     bool GetDataStatus();

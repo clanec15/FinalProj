@@ -12,6 +12,7 @@
 #include <vector>
 #include <cmath>
 #include <iostream>
+#include "./StatFunctions.hpp"
 
 #ifndef SIMICALC_HPP_
 #define SIMICALC_HPP_
@@ -21,7 +22,7 @@
  */
 class SimilCalc{
     public:
-    virtual void diffCalc() = 0;
+    virtual void DiffCalculation() = 0;
 };
 
 /**
@@ -30,7 +31,7 @@ class SimilCalc{
 class SimilCalcAbs : public SimilCalc{
 
     public:
-    struct diffData
+    struct diffData final
     {  
         /**Index of the row */
         int idx;
@@ -38,10 +39,14 @@ class SimilCalcAbs : public SimilCalc{
         double diff;
     };
 
-    void SetFirstMtx(const std::vector<std::vector<double>>&);
-    void setSecondMtx(const std::vector<std::vector<double>>&);
-    void diffCalc() override{};
-    void diffCalc(int);
+    void SetMatrixA(const std::vector<std::vector<double>>&);
+    void SetMatrixB(const std::vector<std::vector<double>>&);
+
+
+    void DiffCalculation() override{};
+    void DiffCalculation(int);
+
+    
     diffData getMostSimilarRow();
 
 
@@ -78,8 +83,8 @@ class SimilCalcBayesian : public SimilCalcAbs{
         /**Probability */
         double prob; 
     };
-    void diffCalc() override{};
-    void diffCalc(std::vector<int>, std::vector<std::vector<double>>);
+    void DiffCalculation() override{};
+    void DiffCalculation(std::vector<int>, std::vector<std::vector<double>>);
     std::vector<ProbabilityData> getOutputProb();
 
 

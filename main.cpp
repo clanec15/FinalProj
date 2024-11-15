@@ -46,12 +46,13 @@ void checkMatrix(MatrixData data)
 void SimilAbs(MatrixData first, MatrixData second, std::ofstream& similFile)
 {
     SimilCalcAbs abs;
+    
 
-    abs.SetFirstMtx(first.Matrix);
-    abs.setSecondMtx(second.Matrix);
+    abs.SetMatrixA(first.Matrix);
+    abs.SetMatrixB(second.Matrix);
         
     for(int i = 0; i < std::min(first.dataSize, second.dataSize); i++){
-        abs.diffCalc(i);
+        abs.DiffCalculation(i);
         SimilCalcAbs::diffData output;
         output = abs.getMostSimilarRow();
 
@@ -74,11 +75,11 @@ void SimilBayesian(MatrixData& first, MatrixData& second, std::ofstream& similFi
     SimilCalcBayesian Bay;
     FileSalvor hMan;
 
-    Bay.SetFirstMtx(first.Matrix);
-    Bay.setSecondMtx(second.Matrix);
+    Bay.SetMatrixA(first.Matrix);
+    Bay.SetMatrixB(second.Matrix);
     std::vector<int> ids = hMan.GetMatrixIDs(first.Matrix);
 
-    Bay.diffCalc(ids, means);
+    Bay.DiffCalculation(ids, means);
     std::vector<SimilCalcBayesian::ProbabilityData> output = Bay.getOutputProb();
     std::cout << output.size() << std::endl;
 
