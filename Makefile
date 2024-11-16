@@ -4,6 +4,8 @@ main: main.cpp Headers/FileOperations/* Headers/TUIController.hpp Headers/Matrix
 	mkdir output
 	cp T1.txt input/
 	cp T2-faltante.txt input/
+	cp Vx.txt input/
+	cp Vx-Test.txt input/
 
 clean:
 	rm -f  ./FinalProj

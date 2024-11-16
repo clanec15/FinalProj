@@ -130,6 +130,12 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx
         }
     }
 
+
+    if(ids.size() == 1){
+        ids.erase(ids.begin());
+        ids.push_back(0);
+    }
+
     return ids;
 }
 

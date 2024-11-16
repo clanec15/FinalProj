@@ -283,6 +283,12 @@ MatrixData fileReading(int cols, std::vector<fs::path>& fileArr)
     std::vector<std::string> lines = reader.getLines();
 	int dataSize = output.dataSize = std::stoi(lines[0]), frameSize = output.frameSize = std::stoi(lines[1]);
 
+
+    int lastElem = output.Matrix.size()-1;
+    if(lines[lines.size()-1] == "\r"){
+        lines.erase(lines.end());
+    }
+    
     for(int i = 3; i > 0; i--){
         lines.erase(lines.begin());
     }

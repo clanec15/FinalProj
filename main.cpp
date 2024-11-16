@@ -56,7 +56,7 @@ void SimilAbs(MatrixData first, MatrixData second, std::ofstream& similFile)
         SimilCalcAbs::diffData output;
         output = abs.getMostSimilarRow();
 
-        similFile << "La fila " << i << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
+        similFile << "La fila " << i+1 << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
         if(output.diff == 0.0){
 
             similFile << " [CONCORDANCIA EXACTA!!!]\n";
@@ -83,9 +83,13 @@ void SimilBayesian(MatrixData& first, MatrixData& second, std::ofstream& similFi
     std::vector<SimilCalcBayesian::ProbabilityData> output = Bay.getOutputProb();
     std::cout << output.size() << std::endl;
 
+    if(ids.size() == 1){
+        similFile << "ID unico detectado!, predeterminando a ID 0\n\n";
+    }
+
 
     for(int i = 0; i < output.size(); i++){
-        similFile << "La fila " << i << " Tiene una similitud con el ID " << output[i].idx << " Con una probabilidad total de: " << output[i].prob << "\n";
+        similFile << "La fila " << i+1 << " Tiene una similitud con el ID " << output[i].idx << " Con una probabilidad total de: " << output[i].prob << "\n";
     }
 }
 
