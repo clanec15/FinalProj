@@ -88,9 +88,9 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
     std::vector<double> buf;
     std::vector<std::vector<double>> TransMatrix = MatrixTrans(InputMtx);
 
-    for(int i = 0; i < TransMatrix.size(); i++){
-        if(TransMatrix[i][TransMatrix[0].size()-1] == id){
-            buf.push_back(TransMatrix[i][col]);
+    for(int i = 0; i < TransMatrix[0].size(); i++){
+        if(TransMatrix[TransMatrix.size()-1][i] == id){
+            buf.push_back(TransMatrix[col][i]);
         }
     }
 
@@ -100,7 +100,7 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
     int sz = buf.size();
 
     if(sz%2 == 0){
-        return buf[(sz + 1) / 2];
+        return (buf[sz / 2 - 1] + buf[sz / 2])/2.0;
     } else {
         return (buf[sz/2] + buf[(sz/2) + 1])/2;
     }
@@ -128,12 +128,6 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx
         } else {
             ids.push_back(inputMtx[i][currentId]);
         }
-    }
-
-
-    if(ids.size() == 1){
-        ids.erase(ids.begin());
-        ids.push_back(0);
     }
 
     return ids;
@@ -219,10 +213,18 @@ std::vector<std::vector<double>> FileSalvor::DataMedianCalculatuion(std::vector<
         return {};
     }
 
-    for(int i = 0; i < inputMtx[0].size()-1; i++){
-        for(int j = 0; j < ids.size();j++){
-            medians[j].push_back(truncate(2, GetMedian(inputMtx, i, ids[j])));
-        }
+    if(ids.size() != 1){
+      for(int i = 0; i < inputMtx[0].size()-1; i++){
+            for(int j = 0; j < ids.size();j++){
+                medians[j].push_back(truncate(2, GetMedian(inputMtx, i, ids[j])));
+            }
+        }  
+    } else {
+    	for(int i = 0; i < inputMtx[0].size()-1; i++){
+			for(int j = 0; j < ids.size();j++){
+				medians[j].push_back(truncate(2, GetMedian(inputMtx, i, ids[0])));
+			}
+		}
     }
 
     return medians;

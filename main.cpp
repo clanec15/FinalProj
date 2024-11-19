@@ -84,7 +84,7 @@ void SimilBayesian(MatrixData& first, MatrixData& second, std::ofstream& similFi
     std::cout << output.size() << std::endl;
 
     if(ids.size() == 1){
-        similFile << "ID unico detectado!, predeterminando a ID 0\n\n";
+        similFile << "ID unico detectado!\n\n";
     }
 
 
@@ -120,7 +120,7 @@ int main()
     std::cin >> sel;
     std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
 
-    std::cout <<  "Desea calcular los datos de reemplazo por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana(Mas Lento)\n\n[S]:";
+    std::cout <<  "Desea calcular los datos de reemplazo por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana (Mas Lento) [No Compatible con archivos de un solo ID]\n\n[S]:";
     char SelM;
     std::cin >> SelM;
     std::vector<std::vector<double>> data;

@@ -75,7 +75,7 @@ TerminalSize GetTerminalSize()
  */
 void CleanTerminal()
 {
-    system("clear");
+    int test = system("clear");
 }
 
 
