@@ -120,7 +120,7 @@ int main()
     std::cin >> sel;
     std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
 
-    std::cout <<  "Desea calcular los datos de reemplazo por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana (Mas Lento) [No Compatible con archivos de un solo ID]\n\n[S]:";
+    std::cout <<  "Desea calcular los datos de reemplazo por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana (Mas Lento)\n\n[S]:";
     char SelM;
     std::cin >> SelM;
     std::vector<std::vector<double>> data;
@@ -162,7 +162,7 @@ int main()
     std::cin >> SimSel;
     
     CleanTerminal();
-    std::ofstream similFile("./output/similitude.txt");
+    std::ofstream similFile("./output/similReport.txt");
     
     switch (std::tolower(SimSel))
     {
