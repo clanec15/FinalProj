@@ -120,7 +120,16 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
 std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx){
     std::vector<int> ids = {};
     int currentId = inputMtx[0].size()-1;
+
+    
+
     for(int i = 0; i < inputMtx.size(); i++){
+
+        if(inputMtx[i][currentId] == MISS_DATA){
+            std::cerr << "ID DAÑADA, REEMPLAZANDO" << std::endl;
+            inputMtx[i][currentId] = 0;
+        }
+
         int counts = std::count(ids.begin(), ids.end(), inputMtx[i][currentId]);
 
         if(counts > 0){
