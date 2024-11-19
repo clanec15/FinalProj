@@ -10,6 +10,8 @@ FileReader::FileReader()
 FileReader::~FileReader(){}
 
 
+//TODO: Add more documentation
+
 /**
  * @fn void FileReader::setInputFile(std::string file)
  * @brief Sets the input file for the FileReader

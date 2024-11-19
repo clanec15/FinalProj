@@ -24,7 +24,7 @@ struct TerminalSize{
 /** 
  * Get Terminal size as rows and columns for formatting 
  * 
- * Based on the system macro (__WIN32 or /__unix__) it gets the terminal sizes as columns and rows
+ * Based on the system macro (__WIN32) it gets the terminal sizes as columns and rows
  * as a struct with both of them as integers
  * 
  * @return Rows and columns as a struct (TerminalSize)
@@ -59,6 +59,8 @@ void cleanTerminal()
 #include <stdio.h>
 #include <unistd.h>
 
+
+//TODO: Add documentation
 TerminalSize GetTerminalSize()
 {
     TerminalSize output;

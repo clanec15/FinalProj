@@ -87,6 +87,8 @@ void SimilCalcAbs::SimilCalculation()
     BestChoice = elem;
 }
 
+
+//TODO: Add documentation
 void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::vector<double>> means)
 {
     std::vector<ProbabilityData> Vector;

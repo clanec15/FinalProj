@@ -147,6 +147,7 @@ std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx
  * @fn std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inputMtx)
  * @brief Gets the ID's of a Data Matrix for future usage
  * @param inputMtx The input matrix
+ * 
  * @returns The ID's in a vector
  */
 std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inputMtx)

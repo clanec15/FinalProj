@@ -6,6 +6,8 @@
 #include<vector>
 #include<math.h>
 
+
+//TODO: Add documentation
 constexpr double TWOPISQRT = 2.50662827463;
 
 double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)

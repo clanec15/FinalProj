@@ -24,8 +24,8 @@ class RowParser
 {
     public:
 
-    RowParser();
-    ~RowParser();
+    RowParser();//Constructor
+    ~RowParser();//Destructor
     void ConvertRow(const std::string&, char);
     const std::vector<double>& getParsedRow();
     
