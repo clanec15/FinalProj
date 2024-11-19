@@ -15,11 +15,7 @@ namespace fs = std::filesystem;
 int main()
 {
     
-    long double test = 1.60805e-82;
-
-    if(test < __DBL_EPSILON__){
-        std::cout << "YIKEES" << std::endl;
-    }
+    std::cout << (125/200.0)*100 << std::endl;
 
     return 0;
 }   

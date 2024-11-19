@@ -240,6 +240,7 @@ std::vector<std::vector<double>> FileSalvor::DataMedianCalculatuion(std::vector<
  */
 void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data)
 {
+
     for(int i = 0; i < inputMtx.size(); i++){
         for(int j = 0; j < inputMtx[0].size(); j++){
             if(inputMtx[i][j] == static_cast<double>(MISS_DATA)){
@@ -259,6 +260,8 @@ void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
  * @param OutputFile    the log (report) filename to output to
  */
 void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data, std::string OutputFile="./output/NaNReport.txt"){
+    int failedItems = 0;
+    
     if(data.size() > 2){
         data.pop_back();
     }
@@ -293,9 +296,13 @@ void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
             if(inputMtx[i][j] == static_cast<double>(MISS_DATA)){
                 ReportFile << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[inputMtx[j][inputMtx[0].size()-1]][j] << "\n";
                 inputMtx[i][j] = data[inputMtx[j][inputMtx[0].size()-1]][j];
+                failedItems++;
             }
         }
     }
+
+    ReportFile << "Datos no reconocidos: " << failedItems << "\n";
+    ReportFile << "Porcentaje de la matriz dañada: " << ((double)failedItems/(inputMtx.size()*inputMtx[0].size()))*100 << "%" << "\n";
     
     ReportFile.close();
 }
