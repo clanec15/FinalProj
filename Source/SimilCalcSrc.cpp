@@ -88,7 +88,13 @@ void SimilCalcAbs::SimilCalculation()
 }
 
 
-//TODO: Add documentation
+
+/**
+ * @fn void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::vector<double>> means)
+ * @brief Calculates bayesian similarity based on the Gaussian Distribution of the elements of the row with a certain ID of the comparing file
+ * @param ids the ID vector of the comparing file
+ * @param means the means matrix of the comparing file
+ */
 void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::vector<double>> means)
 {
     std::vector<ProbabilityData> Vector;
@@ -103,11 +109,6 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
                 probability = CalculateProb(SecMtx, means, i, 0);
             } else {
                 probability = CalculateProb(SecMtx, means, i, ids[j]);
-            }
-            
-
-            if(std::isnan(probability) || (probability < __DBL_EPSILON__) ){
-                probability = 0;
             }
             
 
@@ -131,6 +132,12 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
 
 }
 
+
+/**
+ * @fn std::vector<SimilCalcBayesian::ProbabilityData> SimilCalcBayesian::getOutputProb()
+ * @brief returns the whole stored probability vector of the compared matrix
+ * @returns Probability vector
+ */
 std::vector<SimilCalcBayesian::ProbabilityData> SimilCalcBayesian::getOutputProb()
 {
     return ProbabilityVector;

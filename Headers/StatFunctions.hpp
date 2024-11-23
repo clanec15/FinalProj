@@ -10,6 +10,16 @@
 //TODO: Add documentation
 constexpr double TWOPISQRT = 2.50662827463;
 
+
+/**
+ * @fn double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
+ * @brief Calculates the variance of the row using the Kahan summation algorithm to compensate for floating-point number summation innacuracies
+ * @returns the variance of the row
+ * @param Matrix The input matrix
+ * @param Means The means of the comparing matrix
+ * @param col the column to be calculated
+ * @param id the id of the comparing matrix means
+ */
 double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
 {
     double SumSquares = 0.0;
@@ -37,6 +47,15 @@ double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<s
 
 }
 
+/**
+ * @fn double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
+ * @brief Calculates the probability of the selected row to the comparing matrix
+ * @param Matrix The input matrix
+ * @param Means The means of the comparing matrix
+ * @param col the column to be calculated
+ * @param id the id of the comparing matrix means
+ * @returns the gaussian distribution of the row
+ */
 double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
 {
     double variance = CalculateVariance(Matrix, Means, col, id);
@@ -57,7 +76,9 @@ double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::
         maxProb += prob;
     }
 
-    
+    if(maxProb < __DBL_EPSILON__){
+        return 0;
+    }
 
     return maxProb;
 }

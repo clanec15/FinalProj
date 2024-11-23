@@ -14,9 +14,12 @@
 
 #include <stdlib.h> 
 
+/**
+ * Dimensions of the terminal
+ */
 struct TerminalSize{
-    int rows;
-    int columns;
+    int rows; //Rows of the terminal
+    int columns; //Columns of the terminal
 };
 
 #ifndef __unix__
@@ -45,7 +48,7 @@ TerminalSize GetTerminalSize(){
 
 
 /**
- * Cleans terminal using system-bound parameter (__WIN32)
+ * Cleans terminal using system-bound macro (__WIN32)
  */
 void cleanTerminal()
 {
@@ -60,7 +63,15 @@ void cleanTerminal()
 #include <unistd.h>
 
 
-//TODO: Add documentation
+
+/** 
+ * Get Terminal size as rows and columns for formatting 
+ * 
+ * Based on the system macro (__unix__) it gets the terminal sizes as columns and rows
+ * as a struct with both of them as integers
+ * 
+ * @return Rows and columns as a struct (TerminalSize)
+*/
 TerminalSize GetTerminalSize()
 {
     TerminalSize output;
@@ -73,7 +84,7 @@ TerminalSize GetTerminalSize()
 
 
 /**
- * Cleans terminal using system-bound parameter (__unix__)
+ * Cleans terminal using system-bound macro (__unix__)
  */
 void CleanTerminal()
 {
