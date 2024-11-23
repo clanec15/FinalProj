@@ -100,7 +100,7 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
     int sz = buf.size();
 
     if(sz%2 == 0){
-        return (buf[sz / 2 - 1] + buf[sz / 2])/2.0;
+        return (buf[(sz / 2) + 1] + buf[sz / 2])/2.0;
     } else {
         return (buf[sz/2] + buf[(sz/2) + 1])/2;
     }
@@ -157,14 +157,14 @@ std::vector<int> FileSalvor::GetMatrixIDs(std::vector<std::vector<double>>& inpu
 
 /**
  * 
- * @fn inline double truncate(int n_places, double num)
+ * @fn double truncate(int n_places, double num)
  * @brief truncates a double value to n places
  * @param n_places The number of decimal digits to truncate to
  * @param num The number to truncate
  * 
  * @return the truncated value
  */
-inline double truncate(int n_places, double num){
+double truncate(int n_places, double num){
     double trunc = 10;
     if(n_places == 0){
         trunc = 1;

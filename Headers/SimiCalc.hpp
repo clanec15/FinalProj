@@ -31,6 +31,9 @@ class SimilCalc{
 class SimilCalcAbs : public SimilCalc{
 
     public:
+    /**
+     * Struct for the difference data
+     */
     struct diffData final
     {  
         /**Index of the row */

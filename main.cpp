@@ -115,9 +115,12 @@ int main()
 
     std::cout << "Comprobando datos..." << std::endl;
     callout = "Desea generar un reporte en caso de datos no legibles? [Y/n]: ";
-    std::cout << std::setw(((cols - callout.size())/2)+1) << std::setfill(' ') << "\0" << callout;
+
+    int separator = ((cols - callout.size())/2)+1;
+    std::cout << std::setw(separator) << std::setfill(' ') << "\0" << callout;
     char sel;
     std::cin >> sel;
+    
     std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
 
     std::cout <<  "Desea calcular los datos de reemplazo por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana (Mas Lento)\n\n[S]:";
