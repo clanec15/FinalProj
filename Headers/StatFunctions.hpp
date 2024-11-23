@@ -6,8 +6,6 @@
 #include<vector>
 #include<math.h>
 
-
-//TODO: Add documentation
 constexpr double TWOPISQRT = 2.50662827463;
 
 
@@ -77,7 +75,7 @@ double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::
     }
 
     if(maxProb < __DBL_EPSILON__){
-        return 0;
+        return 0.0;
     }
 
     return maxProb;

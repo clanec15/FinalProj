@@ -15,11 +15,9 @@
 #include <iostream>
 #include <iomanip>
 #include <filesystem>
-#include <chrono>
-#include <thread>
 #include <climits>
 namespace fs = std::filesystem;
-using namespace std::chrono_literals;
+
 
 //--------------------------------------//
 
@@ -141,7 +139,7 @@ int main()
     
     default:
         std::cout << "Opcion no reconocida, usando el modo mas rapido (Promedio)" << std::endl;
-        std::this_thread::sleep_for(2000ms);
+
         data = mainT.DataMeanCalculation(first.Matrix);
         break;
     }
@@ -155,7 +153,7 @@ int main()
 
 
     std::cout << "Usando modo de 'No Reporte' para la computacion rapida de similitud" << std::endl;
-    std::this_thread::sleep_for(3000ms);
+
 
     std::vector<std::vector<double>> meansSecond = mainT.DataMeanCalculation(second.Matrix);
     MatrixProcessing(false, second, second.fileName, cols, meansSecond);
@@ -181,7 +179,7 @@ int main()
     
     default:
         std::cout << "Usando opcion mas rapida (Suma de Valores Absolutos)";
-        std::this_thread::sleep_for(2000ms);
+
         SimilAbs(first, second, similFile);
         break;
     }   

@@ -3,7 +3,7 @@
 /**Constructor */
 FileSalvor::FileSalvor(){invDataDtc = false;} 
 
-const double MISS_DATA = -65535;
+const double MISS_DATA = -65535.0;
 
 
 /**
@@ -251,9 +251,13 @@ std::vector<std::vector<double>> FileSalvor::DataMedianCalculatuion(std::vector<
 void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data)
 {
 
+    if(data.size() > 2){
+        data.pop_back();
+    }
+
     for(int i = 0; i < inputMtx.size(); i++){
         for(int j = 0; j < inputMtx[0].size(); j++){
-            if(inputMtx[i][j] == static_cast<double>(MISS_DATA)){
+            if(inputMtx[i][j] == MISS_DATA){
                 int entry = inputMtx[j][inputMtx[0].size()-1];
                 inputMtx[i][j] = data[entry][j];
             }
@@ -293,9 +297,7 @@ void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
         ReportFile << "ID[" << i << "]:\t";
 
         for(int j = 0; j < data[0].size(); j++){
-            std::stringstream buf;
-            buf << data[i][j];
-            ReportFile << buf.str() << (j == data[0].size()-1 ? "\t" : ",\t");
+            ReportFile << data[i][j] << (j == data[0].size()-1 ? "\t" : ",\t");
         }
 
         ReportFile << "\n\n";
@@ -303,7 +305,7 @@ void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
     
     for(int i = 0; i < inputMtx.size(); i++){
         for(int j = 0; j < inputMtx[0].size(); j++){
-            if(inputMtx[i][j] == static_cast<double>(MISS_DATA)){
+            if(inputMtx[i][j] == MISS_DATA){
                 ReportFile << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[inputMtx[j][inputMtx[0].size()-1]][j] << "\n";
                 inputMtx[i][j] = data[inputMtx[j][inputMtx[0].size()-1]][j];
                 failedItems++;
