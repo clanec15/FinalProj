@@ -3,7 +3,7 @@
 /**Constructor */
 FileSalvor::FileSalvor(){invDataDtc = false;} 
 
-const double MISS_DATA = -65535.0;
+const double MISS_DATA = -65535.0; //Missing Data Placeholder
 
 
 /**
@@ -53,6 +53,20 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int c
     return (items > 0 ? mean/(double)items : 0.0);
 }
 
+
+/**
+ * @fn std::vector<std::vector<double>> MatrixTrans(std::vector<std::vector<double>> Matrix)
+ * @brief Gets the medians of a column of the input matrix
+ * 
+ * It also checks if the resulting column is odd or even
+ * 
+ * @param InputMtx the input matrix
+ * @param col The desired column
+ * @param id The ID to exclude entries
+ * 
+ * @returns The median of the desired column
+ * 
+ */
 std::vector<std::vector<double>> MatrixTrans(std::vector<std::vector<double>> Matrix){
 
     size_t Rows = Matrix.size();

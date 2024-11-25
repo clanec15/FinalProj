@@ -54,7 +54,8 @@ void SimilCalcAbs::DiffCalculation(int row)
 }
 
 /**
- * gets the row of the second matrix with the least difference (aka the best choice)
+ * @fn SimilCalcAbs::diffData SimilCalcAbs::getMostSimilarRow()
+ * @brief gets the row of the second matrix with the least difference (aka the best choice)
  * 
  * @return the best choice as a struct
  */
@@ -65,8 +66,10 @@ SimilCalcAbs::diffData SimilCalcAbs::getMostSimilarRow()
 }
 
 //Private area
+
 /**
- * calculates the data frame size and chooses the smallest one
+ * @fn void SimilCalcAbs::szCalc()
+ * @brief calculates the data frame size and chooses the smallest one
  */
 void SimilCalcAbs::szCalc()
 {
@@ -75,7 +78,8 @@ void SimilCalcAbs::szCalc()
 
 
 /**
- * Calculates which row has the smallest difference
+ * @fn void SimilCalcAbs::SimilCalculation()
+ * @brief Calculates which row has the smallest difference
  */
 void SimilCalcAbs::SimilCalculation()
 {
