@@ -50,7 +50,7 @@ double FileSalvor::DataSalvage(std::vector<std::vector<double>>& inputMtx, int c
         }
     }
     
-    return (items > 0 ? mean/items : 0.0);
+    return (items > 0 ? mean/(double)items : 0.0);
 }
 
 std::vector<std::vector<double>> MatrixTrans(std::vector<std::vector<double>> Matrix){
@@ -100,9 +100,9 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
     int sz = buf.size();
 
     if(sz%2 == 0){
-        return (buf[(sz / 2) + 1] + buf[sz / 2])/2.0;
+        return (buf[(sz/2) + 1] + buf[sz/2])/2.0;
     } else {
-        return (buf[sz/2] + buf[(sz/2) + 1])/2;
+        return buf[(sz+1)/2];
     }
 
     return -1;
@@ -307,6 +307,7 @@ void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
         for(int j = 0; j < inputMtx[0].size(); j++){
             if(inputMtx[i][j] == MISS_DATA){
                 ReportFile << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[inputMtx[j][inputMtx[0].size()-1]][j] << "\n";
+                std::cout << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[inputMtx[j][inputMtx[0].size()-1]][j] << "\n";
                 inputMtx[i][j] = data[inputMtx[j][inputMtx[0].size()-1]][j];
                 failedItems++;
             }

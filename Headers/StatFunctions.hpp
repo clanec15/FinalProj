@@ -5,13 +5,14 @@
 
 #include<vector>
 #include<math.h>
+#include <stdexcept>
 
-constexpr double TWOPISQRT = 2.50662827463;
-
+const long double Eul = 2.7182818284590452354;
+const long double pi = 3.14159265358979323846;
 
 /**
  * @fn double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
- * @brief Calculates the variance of the row using the Kahan summation algorithm to compensate for floating-point number summation innacuracies
+ * @brief Calculates the variance of the row using the Two-pass Variance algorithm to compensate for floating-point number summation innacuracies
  * @returns the variance of the row
  * @param Matrix The input matrix
  * @param Means The means of the comparing matrix
@@ -20,25 +21,25 @@ constexpr double TWOPISQRT = 2.50662827463;
  */
 double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
 {
+    //double sum = 0.0;
+    double comp = 0.0;
     double SumSquares = 0.0;
-    int items = 0;
+    double compSquare = 0.0;
+    double mean = Means[id][col];
 
-
+    
     double sum = 0.0;
-    double c = 0.0;
     for(int i = 0; i < Matrix[0].size(); i++){
-        double y = pow(Matrix[col][i] - Means[id][col], 2);
-        double t = sum + y;
-        c = (t - sum) - y;
-        sum = t;
-        items++;
+        double diff = Matrix[col][i] - mean;
+        SumSquares += pow(diff, 2);
     }
 
-    SumSquares = sum;
+
+
     
-    if(items > 1)
+    if(Matrix[0].size() > 1)
     {
-        return SumSquares / (items - 1);
+        return SumSquares / (Matrix[0].size() - 1);
     }
 
     return -314946441810;
@@ -58,24 +59,34 @@ double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::
 {
     double variance = CalculateVariance(Matrix, Means, col, id);
     if(variance == -314946441810){
-        return -94838553137746;
-    } 
+        throw std::invalid_argument("bro stop, Variable Error");
+    } else if (variance == 0){
+        return 1;
+    } else if (variance < 0){
+        throw std::invalid_argument("Bro what did you do, Variance cannot less than zero"); 
+    }
 
-    double maxProb = 0.0;
+    long double maxProb = 0.0;
 
     for(int i = 0; i < Matrix[0].size()-1; i++){
 
-        double base = sqrt(variance)*TWOPISQRT;
+        double base = sqrt(variance*2*pi);
 
-        double exponent = -(pow(Matrix[col][i]-Means[id][col], 2)/variance);
+        double exponent = -(
+            (pow(Matrix[col][i]-Means[id][col], 2))
+            /
+            (2*variance)
+            );
 
-        double prob = (1/base) * (pow(M_E, exponent));
+        double prob = (1/base) * (pow(Eul, exponent));
 
         maxProb += prob;
-    }
+    }   
 
-    if(maxProb < __DBL_EPSILON__){
+    if(maxProb < std::numeric_limits<long double>::epsilon() || std::isnan(abs(maxProb))){
         return 0.0;
+    } else if (std::isinf(abs(maxProb))){
+        return 1;
     }
 
     return maxProb;

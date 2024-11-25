@@ -16,9 +16,6 @@
 #include <iomanip>
 #include <filesystem>
 #include <climits>
-#include <thread>
-#include <chrono>
-
 #include "../Source/FileReaderSrc.cpp"
 #include "../Source/RowParserSrc.cpp"
 #include "../Source/FileSalvorSrc.cpp"
@@ -117,13 +114,10 @@ void SaveNOutputMtx(int frameSize, std::ofstream& file, std::vector<std::vector<
 {
     for(int i = 0; i < DataMatrix.size(); i++){
         for(int j = 0; j < DataMatrix[0].size(); j++){
-            std::cout << DataMatrix[i][j] << (j == frameSize-1 ? "\t" : ",\t");
             file << DataMatrix[i][j] << (j == frameSize-1 ? "" : ",");
         }
         file << "\n";
-        std::cout << std::endl;
     }
-    std::cout << std::endl;
 }
 
 /**
@@ -154,7 +148,7 @@ void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFile
 
     if(salvorMain.GetDataStatus()){
         std::cout << "Datos no reconocidos en el archivo!, Corrigiendo" << std::endl;
-        std::this_thread::sleep_for(2000ms);
+
         if(!ProcType){
             CleanTerminal();
             std::string RepFile;
@@ -170,8 +164,6 @@ void MatrixProcessing(bool ProcType, MatrixData& DataMatrix, fs::path outputFile
             FileSalvorNR gen;
             gen.DataSet(DataMatrix.Matrix, means);
         }
-        
-        std::cout << "Datos Corregidos: " << std::endl;
         SaveNOutputMtx(DataMatrix.frameSize, outputFile, DataMatrix.Matrix);
         outputFile.close();
     } else {

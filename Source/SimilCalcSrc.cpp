@@ -107,13 +107,28 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
         ProbabilityData cont;
         
         for(int j = 0; j < ids.size(); j++){
-            double probability = 0.0;
+            long double probability = 0.0;
 
 
             if(ids.size() == 1){
-                probability = CalculateProb(SecMtx, means, i, 0);
+                try{
+                    probability = CalculateProb(SecMtx, means, i, 0);
+                } catch(std::invalid_argument &e){
+                    std::cerr << e.what() << std::endl;
+                    std::abort();
+                }
+                
             } else {
-                probability = CalculateProb(SecMtx, means, i, ids[j]);
+                try
+                {
+                    probability = CalculateProb(SecMtx, means, i, ids[j]);
+                }
+                catch(const std::invalid_argument& e)
+                {
+                    std::cerr << e.what() << std::endl;
+                    std::abort();
+                }
+                
             }
             
 

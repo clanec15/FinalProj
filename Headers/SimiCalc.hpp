@@ -84,7 +84,7 @@ class SimilCalcBayesian : public SimilCalcAbs{
         /**Index of the row */
         int idx;
         /**Probability */
-        double prob; 
+        long double prob; 
     };
     void DiffCalculation() override{};
     void DiffCalculation(std::vector<int>, std::vector<std::vector<double>>);

@@ -54,7 +54,7 @@ void SimilAbs(MatrixData first, MatrixData second, std::ofstream& similFile)
         SimilCalcAbs::diffData output;
         output = abs.getMostSimilarRow();
 
-        similFile << "La fila " << i+1 << " de la primera matriz tiene una similitud con la fila " << output.idx << " de la segunda matriz con una similitud de: " << "(" << output.diff << ")";
+        similFile << "La fila " << i+1 << " de la primera matriz tiene una similitud con la fila " << output.idx + 1 << " de la segunda matriz con una similitud de: " << "(" << std::fixed << std::setprecision(7) << output.diff << ")";
         if(output.diff == 0.0){
 
             similFile << " [CONCORDANCIA EXACTA!!!]\n";
@@ -79,13 +79,16 @@ void SimilBayesian(MatrixData& first, MatrixData& second, std::ofstream& similFi
 
     Bay.DiffCalculation(ids, means);
     std::vector<SimilCalcBayesian::ProbabilityData> output = Bay.getOutputProb();
-    std::cout << output.size() << std::endl;
 
     if(ids.size() == 1){
         similFile << "ID unico detectado!\n\n";
     }
 
-
+    
+    similFile << std::fixed;
+    similFile << std::setprecision(7);
+    similFile.unsetf(std::ios::scientific);
+    
     for(int i = 0; i < output.size(); i++){
         similFile << "La fila " << i+1 << " Tiene una similitud con el ID " << output[i].idx << " Con una probabilidad total de: " << output[i].prob << "\n";
     }
@@ -95,7 +98,8 @@ int main()
 {
     const fs::path entryPath = "./input";
     std::vector<fs::path> files;
-    int cols = GetTerminalSize().columns;
+    TerminalSizeGet TUIHelper;
+    int cols = TUIHelper.GetTerminalSize().columns;
     std::string callout;
     FileSalvor mainT;
 
@@ -108,23 +112,25 @@ int main()
 
     CleanTerminal();
     fileSearching(entryPath, files);
+    std::cout << "Comprobando datos..." << std::endl;
 	MatrixData first = fileReading(cols, files);
     checkMatrix(first);
 
-    std::cout << "Comprobando datos..." << std::endl;
+//                                                                                          Separator                   
+
+    
     callout = "Desea generar un reporte en caso de datos no legibles? [Y/n]: ";
 
     int separator = ((cols - callout.size())/2)+1;
     std::cout << std::setw(separator) << std::setfill(' ') << "\0" << callout;
     char sel;
     std::cin >> sel;
-    
-    std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
 
     std::cout <<  "Desea calcular los datos de reemplazo por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana (Mas Lento)\n\n[S]:";
     char SelM;
     std::cin >> SelM;
     std::vector<std::vector<double>> data;
+    
 
 
     switch (std::tolower(SelM))
@@ -144,42 +150,142 @@ int main()
         break;
     }
 
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols, meansFirst);
 
-	std::cout << "Comenzando proceso de calculo de similitud" << std::endl;
+    CleanTerminal();
+    std::cout  << "Datos de reemplazo: \n";
+    std::cout  << "\t";
+    for(int h = 0; h < data[0].size(); h++){
+        std::cout  << "[" << h+1 << "]\t";
+    }
+    std::cout  << "\n";
+    for(int i = 0; i < data.size(); i++){
+        std::cout  << "ID[" << i << "]:\t";
+
+        for(int j = 0; j < data[0].size(); j++){
+            std::cout  << data[i][j] << (j == data[0].size()-1 ? "\t" : ",\t");
+        }
+
+        std::cout  << "\n\n";
+    }
+
+    std::cout << "Mostrando datos de reemplazo en caso de datos dañados (Presione enter para continuar...)" << std::endl;
+    std::cin.get();
+
+    if(std::tolower(sel) == 'n'){
+        std::cin.ignore();
+    } else {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    
+    MatrixProcessing(std::tolower(sel) == 'n', first, first.fileName, cols, data);
+    std::vector<std::vector<double>> meansFirst = mainT.DataMeanCalculation(first.Matrix);
+
+    std::cout << (std::tolower(sel) == 'n' ? "Procesamiento completado... (Presione enter para continuar...)" : "Mostrando reemplazo de datos... (Presione enter para continuar...)") << std::endl;
+    std::cin.get();
+    std::cin.ignore();
+
+    CleanTerminal();
+
+//                                                                                                  Separator                           
+
+	std::cout << "Comenzando proceso de calculo de similitud (Procesando segunda matriz...)" << std::endl;
+    
     MatrixData second = fileReading(cols, files);
+    std::cout << "Comprobando datos..." << std::endl;
     checkMatrix(second);
 
 
-    std::cout << "Usando modo de 'No Reporte' para la computacion rapida de similitud" << std::endl;
+    
+    callout = "Desea generar un reporte en caso de datos no legibles? [Y/n]: ";
+    std::cout << std::setw(separator) << std::setfill(' ') << "\0" << callout;
+    std::cin >> sel;
 
 
-    std::vector<std::vector<double>> meansSecond = mainT.DataMeanCalculation(second.Matrix);
-    MatrixProcessing(false, second, second.fileName, cols, meansSecond);
+    std::cout <<  "Desea calcular los datos de reemplazo. Por medio del\n[a] Promedio (Mas Rapido)\n[b] Mediana (Mas Lento)\n\n[S]:";
+    std::cin >> SelM;
+    std::vector<std::vector<double>> dataSecond;
+
+
+    switch (std::tolower(SelM))
+    {
+    case 'a':
+        dataSecond = mainT.DataMeanCalculation(second.Matrix);
+        break;
+
+    case 'b':
+        dataSecond = mainT.DataMedianCalculatuion(second.Matrix);
+        break;
+    
+    default:
+        std::cout << "Opcion no reconocida, usando el modo mas rapido (Promedio)" << std::endl;
+        std::cin.get();
+        std::cin.ignore();
+        dataSecond = mainT.DataMeanCalculation(second.Matrix);
+        break;
+    }
+    CleanTerminal();
+    std::cout  << "Datos de reemplazo: \n";
+    std::cout  << "\t";
+    for(int h = 0; h < dataSecond[0].size(); h++){
+        std::cout  << "[" << h+1 << "]\t";
+    }
+    std::cout  << "\n";
+    for(int i = 0; i < dataSecond.size(); i++){
+        std::cout  << "ID[" << i << "]:\t";
+
+        for(int j = 0; j < dataSecond[0].size(); j++){
+            std::cout  << dataSecond[i][j] << (j == dataSecond[0].size()-1 ? "\t" : ",\t");
+        }
+
+        std::cout  << "\n\n";
+    }
+
+    std::cout << "Mostrando datos de reemplazo en caso de datos dañados (Presione enter para continuar...)" << std::endl;
+    std::cin.get();
+    if(std::tolower(sel) == 'n'){
+        std::cin.ignore();
+    } else {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+
+    
+
+    MatrixProcessing(std::tolower(sel) == 'n', second, second.fileName, cols, dataSecond);
+    std::cout << (std::tolower(sel) == 'n' ? "Procesamiento completado... (Presione enter para continuar...)" : "Mostrando reemplazo de datos... (Presione enter para continuar...)") << std::endl;
 
     std::cout << "Desea calcular la similitud de matrices por\n[a] Suma de valores absolutos\n[b] Probabilidad Bayesiana\n\n[S]:";
     char SimSel;
     std::cin >> SimSel;
     
     CleanTerminal();
+
     std::ofstream similFile("./output/similReport.txt");
+
+    if(similFile.fail()){
+        std::cerr << "REPCRERR!" << std::endl;
+        std::abort();
+    } else if(!similFile.is_open()){
+        std::cerr << "REPOPERR!" << std::endl;
+        std::abort();
+    }
+
+    similFile << "PLCH\n";
     
     switch (std::tolower(SimSel))
     {
     case 'a':
-        similFile << "Similitud entre Matriz 1 y Matriz 2 (Suma de valores Absolutos)\n";
+        similFile << "Similitud entre Matriz 1 (" << first.fileName << ") y Matriz 2 (" << second.fileName << ") [Suma de Valores Absolutos]\n";
         SimilAbs(first, second, similFile);
         break;
 
     case 'b':
-        similFile << "Similitud entre Matriz 1 y Matriz 2 (Probabilidad Bayesiana)\n";
+        similFile << "Similitud entre Matriz 1 (" << first.fileName << ") y Matriz 2 (" << second.fileName << ") [Probabilidad Bayesiana]\n";
         SimilBayesian(first, second, similFile, meansFirst);
         break;
     
     default:
-        std::cout << "Usando opcion mas rapida (Suma de Valores Absolutos)";
-
+        std::cout << "Usando opcion mas rapida (Suma de Valores Absolutos)" << std::endl;
+        similFile << "Similitud entre Matriz 1 (" << first.fileName << ") y Matriz 2 (" << second.fileName << ") [Suma de Valores Absolutos]\n";
         SimilAbs(first, second, similFile);
         break;
     }   

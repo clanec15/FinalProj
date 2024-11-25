@@ -22,6 +22,10 @@ struct TerminalSize{
     int columns; //Columns of the terminal
 };
 
+class TerminalOp{
+    virtual TerminalSize GetTerminalSize() = 0;
+};
+
 #ifndef __unix__
 #include <windows.h>
 /** 
@@ -32,27 +36,32 @@ struct TerminalSize{
  * 
  * @return Rows and columns as a struct (TerminalSize)
 */
-TerminalSize GetTerminalSize(){
-    TerminalSize output;
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-    int columns,rows;
-    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-    columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-    rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
-    output.rows = rows;
-    output.columns = columns;
+class TerminalSizeGet : public TerminalOp{
+    public:
+    TerminalSize GetTerminalSize() override
+    {
+        TerminalSize output;
+        CONSOLE_SCREEN_BUFFER_INFO csbi;
+        int columns,rows;
+        GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+        columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+        rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
-    return output;
-}
+        output.rows = rows;
+        output.columns = columns;
+
+        return output;
+    }
+};
 
 
 /**
  * Cleans terminal using system-bound macro (__WIN32)
  */
-void cleanTerminal()
+void CleanTerminal()
 {
-    system("cls");
+    int call = system("cls");
 }
 
 #endif
@@ -72,15 +81,21 @@ void cleanTerminal()
  * 
  * @return Rows and columns as a struct (TerminalSize)
 */
-TerminalSize GetTerminalSize()
-{
-    TerminalSize output;
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    output.rows = w.ws_row;
-    output.columns = w.ws_col;
-    return output;
-}
+
+class TerminalSizeGet : public TerminalOp{
+    public:
+    TerminalSize GetTerminalSize() override
+    {
+        TerminalSize output;
+        struct winsize w;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        output.rows = w.ws_row;
+        output.columns = w.ws_col;
+        return output;
+    }
+};
+
+
 
 
 /**
@@ -88,7 +103,7 @@ TerminalSize GetTerminalSize()
  */
 void CleanTerminal()
 {
-    int test = system("clear");
+    int call = system("clear");
 }
 
 

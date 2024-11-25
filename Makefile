@@ -6,4 +6,3 @@ clean:
 	rm -f  ./FinalProj
 	rm -rf input
 	rm -rf output
-	rm -f main
