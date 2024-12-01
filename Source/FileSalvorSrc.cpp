@@ -113,13 +113,15 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
 
     int sz = buf.size();
 
-    if(sz%2 == 0){
-        return (buf[(sz/2) + 1] + buf[sz/2])/2.0;
-    } else {
-        return buf[(sz+1)/2];
+    if(sz == 0){
+        return 0;
     }
 
-    return -1;
+    if(sz%2 == 0){
+        return (buf[(sz/2) - 1] + buf[sz/2])/2.0;
+    } else {
+        return buf[sz/2];
+    }
 }
 
 
@@ -133,25 +135,26 @@ double FileSalvor::GetMedian(std::vector<std::vector<double>>& InputMtx, int col
  */
 std::vector<int> FileSalvor::idFinder(std::vector<std::vector<double>>& inputMtx){
     std::vector<int> ids = {};
-    int currentId = inputMtx[0].size()-1;
+    std::set<int> buf = {};
 
-    
+    std::vector<std::vector<double>> transInputMatrix = MatrixTrans(inputMtx);
 
-    for(int i = 0; i < inputMtx.size(); i++){
+    int lastItem = transInputMatrix.size()-1;
 
-        if(inputMtx[i][currentId] == MISS_DATA){
+    for(int id : transInputMatrix[lastItem]){
+        if(id == MISS_DATA){
             std::cerr << "ID DAÑADA, REEMPLAZANDO" << std::endl;
-            inputMtx[i][currentId] = 0;
+            id = 0;
         }
 
-        int counts = std::count(ids.begin(), ids.end(), inputMtx[i][currentId]);
-
-        if(counts > 0){
-            continue;
-        } else {
-            ids.push_back(inputMtx[i][currentId]);
+        if(buf.insert(id).second){
+            ids.push_back(id);
         }
     }
+
+
+
+    std::sort(ids.begin(), ids.end());
 
     return ids;
 }
@@ -207,9 +210,18 @@ std::vector<std::vector<double>> FileSalvor::DataMeanCalculation(std::vector<std
         return {};
     }
 
-    for(int i = 0; i < inputMtx[0].size()-1; i++){
-        for(int j = 0; j < ids.size(); j++){
-            means[j].push_back(truncate(2, DataSalvage(inputMtx, i, ids[j])));
+
+    if(ids.size() != 1){
+        for(int i = 0; i < inputMtx[0].size()-1; i++){
+            for(int j = 0; j < ids.size(); j++){
+                means[j].push_back(truncate(2, DataSalvage(inputMtx, i, ids[j])));
+            }
+        }
+    } else {
+        for(int i = 0; i < inputMtx[0].size()-1; i++){
+            for(int j = 0; j < ids.size(); j++){
+                means[j].push_back(truncate(2, DataSalvage(inputMtx, i, ids[0])));
+            }
         }
     }
 
@@ -265,14 +277,13 @@ std::vector<std::vector<double>> FileSalvor::DataMedianCalculatuion(std::vector<
 void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data)
 {
 
-    if(data.size() > 2){
-        data.pop_back();
-    }
+    std::vector<int> ids = FileSalvor::GetMatrixIDs(inputMtx);
+
 
     for(int i = 0; i < inputMtx.size(); i++){
         for(int j = 0; j < inputMtx[0].size(); j++){
             if(inputMtx[i][j] == MISS_DATA){
-                int entry = inputMtx[j][inputMtx[0].size()-1];
+                int entry = idIndexFinder(inputMtx[i][inputMtx[0].size()-1], ids);
                 inputMtx[i][j] = data[entry][j];
             }
         }
@@ -289,9 +300,13 @@ void FileSalvorNR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
  */
 void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vector<std::vector<double>> data, std::string OutputFile="./output/NaNReport.txt"){
     int failedItems = 0;
-    
-    if(data.size() > 2){
-        data.pop_back();
+    std::vector<int> ids = FileSalvor::GetMatrixIDs(inputMtx);
+    if(data.size() > FileSalvor::GetMatrixIDs(inputMtx).size()){
+        std::cerr << "IDMISMATCH" << std::endl;
+        std::abort();
+    } else if (FileSalvor::GetMatrixIDs(inputMtx).size() > data.size()) {
+        std::cerr << "IDSZMISMATCH" << std::endl;
+        std::abort();
     }
     std::ofstream ReportFile(OutputFile);
 
@@ -320,9 +335,10 @@ void FileSalvorWR::DataSet(std::vector<std::vector<double>>& inputMtx, std::vect
     for(int i = 0; i < inputMtx.size(); i++){
         for(int j = 0; j < inputMtx[0].size(); j++){
             if(inputMtx[i][j] == MISS_DATA){
-                ReportFile << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[inputMtx[j][inputMtx[0].size()-1]][j] << "\n";
-                std::cout << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[inputMtx[j][inputMtx[0].size()-1]][j] << "\n";
-                inputMtx[i][j] = data[inputMtx[j][inputMtx[0].size()-1]][j];
+                int entry = idIndexFinder(inputMtx[i][inputMtx[0].size()-1], ids); // Fuck you vikki of the past, you costed me 3 FUCKING POINTS
+                ReportFile << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[entry][j] << "\n";
+                std::cout << "Dato corregido en: (" << i << ", " << j << ")" << " por el dato: " << data[entry][j] << "\n";
+                inputMtx[i][j] = data[entry][j];
                 failedItems++;
             }
         }

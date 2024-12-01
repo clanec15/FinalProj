@@ -19,9 +19,26 @@
 #include<vector>
 #include<math.h>
 #include <stdexcept>
+#include <limits>
+
 
 const long double Eul = 2.7182818284590452354;
 const long double pi = 3.14159265358979323846;
+
+int idIndexFinder(int elem, std::vector<int> ids){
+    for(int i = 0; i < ids.size(); i++){
+        if(ids[i] == elem){
+            return i;
+        }
+    }
+    return 0;
+}
+
+struct variancePackage
+{
+    double variance;
+    double mean;
+};
 
 /**
  * @fn double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
@@ -32,27 +49,48 @@ const long double pi = 3.14159265358979323846;
  * @param col the column to be calculated
  * @param id the id of the comparing matrix means
  */
-double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
+variancePackage CalculateVariance(std::vector<std::vector<double>>& Matrix, int id)
 {
     double SumSquares = 0.0;
-    double mean = Means[id][col];
+    double sum = 0.0;
+
+    double variancebuf = 0.0;
+    int size = Matrix[0].size()-1;
 
     
-    double sum = 0.0;
+   
+    for(int i = 0; i < size; i++){
+        double val = Matrix[id][i];
+        sum += val;
+        SumSquares += pow(val, 2);
+    }
+
+    double meanData = sum/size;
+
+
     for(int i = 0; i < Matrix[0].size(); i++){
-        double diff = Matrix[col][i] - mean;
-        SumSquares += pow(diff, 2);
+        double val = Matrix[id][i] - meanData;
+        variancebuf += pow(val, 2);
     }
 
+    variancebuf /= (Matrix[0].size()-1);
 
-    if(Matrix[0].size() > 1)
+
+
+    if(size > 1)
     {
-        return SumSquares / (Matrix[0].size() - 1);
+        
+        return {variancebuf, meanData};
+    } else if (size == 1 || size == 0){
+        return {0.0, Matrix[id][0]};
     }
 
-    return -314946441810;
+    
+    return {-314946441810, 0.0};
 
 }
+
+
 
 /**
  * @fn double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
@@ -63,39 +101,31 @@ double CalculateVariance(std::vector<std::vector<double>>& Matrix, std::vector<s
  * @param id the id of the comparing matrix means
  * @returns the gaussian distribution of the row
  */
-double CalculateProb(std::vector<std::vector<double>>& Matrix, std::vector<std::vector<double>> Means, int col, int id)
+double CalculateProb(std::vector<std::vector<double>>& MatrixFirst, std::vector<std::vector<double>> Means, int col, int id)
 {
-    double variance = CalculateVariance(Matrix, Means, col, id);
-    if(variance == -314946441810){
+    variancePackage variance = CalculateVariance(Means, id);
+    if(variance.variance == -314946441810){
         throw std::invalid_argument("bro stop, Variable Error");
-    } else if (variance == 0){
-        return 1;
-    } else if (variance < 0){
-        throw std::invalid_argument("Bro what did you do, Variance cannot less than zero"); 
+    } else if (variance.variance <= 0 ){
+        return std::numeric_limits<double>::epsilon();
     }
 
     long double maxProb = 0.0;
+    double base = sqrt(variance.variance*2*pi);
 
-    for(int i = 0; i < Matrix[0].size()-1; i++){
+    for(int i = 0; i < MatrixFirst[0].size()-1; i++){
 
-        double base = sqrt(variance*2*pi);
-
-        double exponent = -(
-            (pow(Matrix[col][i]-Means[id][col], 2))
-            /
-            (2*variance)
-            );
+        double b = MatrixFirst[col][i];
+        double exponent = -((pow(b-variance.mean, 2))/  (2*variance.variance));
 
         double prob = (1/base) * (pow(Eul, exponent));
 
         maxProb += prob;
     }   
 
-    if(maxProb < std::numeric_limits<long double>::epsilon() || std::isnan(abs(maxProb))){
-        return 0.0;
-    } else if (std::isinf(abs(maxProb))){
-        return 1;
-    }
+    if(maxProb < std::numeric_limits<long double>::epsilon() || std::isnan(abs(maxProb)) || std::isinf(maxProb)){
+        return 1.0;
+    } 
 
     return maxProb;
 }

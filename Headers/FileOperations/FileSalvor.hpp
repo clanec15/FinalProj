@@ -15,6 +15,8 @@
 #include <fstream>
 #include <cmath>
 #include <sstream>
+#include <set>
+#include "../StatFunctions.hpp"
 #include "../MatrixOps.hpp"
 
 #ifndef FILESALVOR_HPP_

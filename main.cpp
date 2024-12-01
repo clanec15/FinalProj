@@ -75,7 +75,7 @@ void SimilBayesian(MatrixData& first, MatrixData& second, std::ofstream& similFi
 
     Bay.SetMatrixA(first.Matrix);
     Bay.SetMatrixB(second.Matrix);
-    std::vector<int> ids = hMan.GetMatrixIDs(first.Matrix);
+    std::vector<int> ids = hMan.GetMatrixIDs(second.Matrix);
 
     Bay.DiffCalculation(ids, means);
     std::vector<SimilCalcBayesian::ProbabilityData> output = Bay.getOutputProb();
@@ -269,8 +269,8 @@ int main()
         std::abort();
     }
 
-    similFile << "PLCH\n";
-    
+    std::vector<std::vector<double>> meansSecond = mainT.DataMeanCalculation(second.Matrix);
+
     switch (std::tolower(SimSel))
     {
     case 'a':
@@ -280,7 +280,8 @@ int main()
 
     case 'b':
         similFile << "Similitud entre Matriz 1 (" << first.fileName << ") y Matriz 2 (" << second.fileName << ") [Probabilidad Bayesiana]\n";
-        SimilBayesian(first, second, similFile, meansFirst);
+        
+        SimilBayesian(first, second, similFile, meansSecond);
         break;
     
     default:

@@ -42,8 +42,11 @@ void SimilCalcAbs::DiffCalculation(int row)
         double diff = 0;
         diffData main;
 
+        std::vector<double> bVector = SecMtx[i];
+        std::vector<double> aVector = FirstMtx[row];
         for(int k = 0; k < sz-1; k++){ 
-            diff += fabs(FirstMtx[row][k]-SecMtx[i][k]);
+            
+            diff += fabs(aVector[k]-bVector[k]);
         }
 
 
@@ -86,7 +89,7 @@ void SimilCalcAbs::SimilCalculation()
     diffData elem = rowDiffs[0];
 
     for(const auto& elemt : rowDiffs){
-        if(elemt.diff < elem.diff){
+        if(elemt.diff < elem.diff && !(elemt.diff == elem.diff)){
             elem = elemt;
         }
     }
@@ -102,21 +105,18 @@ void SimilCalcAbs::SimilCalculation()
  * @param ids the ID vector of the comparing file
  * @param means the means matrix of the comparing file
  */
-void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::vector<double>> means)
-{
+void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::vector<double>> means){
     std::vector<ProbabilityData> Vector;
-    for(int i = 0; i < SecMtx.size(); i++){
 
+    for(int i = 0; i < SecMtx.size(); i++){
         std::vector<ProbabilityData> test;
-        ProbabilityData cont;
         
         for(int j = 0; j < ids.size(); j++){
             long double probability = 0.0;
 
-
             if(ids.size() == 1){
                 try{
-                    probability = CalculateProb(SecMtx, means, i, 0);
+                    probability = CalculateProb(SecMtx, means, i, ids[0]);
                 } catch(std::invalid_argument &e){
                     std::cerr << e.what() << std::endl;
                     std::abort();
@@ -132,8 +132,12 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
                     std::cerr << e.what() << std::endl;
                     std::abort();
                 }
+
+
                 
             }
+
+            ProbabilityData cont;
             
 
             cont.prob   = probability;
@@ -144,7 +148,7 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
         ProbabilityData elem = test[0];
 
         for(const auto& elemt : test){
-            if(elemt.prob > elem.prob){
+            if(elemt.prob > elem.prob || (elemt.prob == elem.prob && elemt.idx < elem.idx)){
                 elem = elemt;
             }
         }
