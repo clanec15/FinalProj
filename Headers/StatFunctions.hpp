@@ -51,42 +51,24 @@ struct variancePackage
  */
 variancePackage CalculateVariance(std::vector<std::vector<double>>& Matrix, int id)
 {
-    double SumSquares = 0.0;
-    double sum = 0.0;
+    double val = 0.0;
+    double idSz = Matrix[id].size();
 
-    double variancebuf = 0.0;
-    int size = Matrix[0].size()-1;
-
-    
-   
-    for(int i = 0; i < size; i++){
-        double val = Matrix[id][i];
-        sum += val;
-        SumSquares += pow(val, 2);
+    for(int i = 0; i < idSz; i++){
+        val += Matrix[id][i];
     }
 
-    double meanData = sum/size;
+    val /= idSz;
 
 
-    for(int i = 0; i < Matrix[0].size(); i++){
-        double val = Matrix[id][i] - meanData;
-        variancebuf += pow(val, 2);
+    double sd = 0.0;
+    for(int i = 0; i < idSz;  i++){
+        sd += pow(Matrix[id][i] - val, 2);
     }
 
-    variancebuf /= (Matrix[0].size()-1);
+    sd /= idSz;
 
-
-
-    if(size > 1)
-    {
-        
-        return {variancebuf, meanData};
-    } else if (size == 1 || size == 0){
-        return {0.0, Matrix[id][0]};
-    }
-
-    
-    return {-314946441810, 0.0};
+    return {sd, val};
 
 }
 
@@ -101,33 +83,22 @@ variancePackage CalculateVariance(std::vector<std::vector<double>>& Matrix, int 
  * @param id the id of the comparing matrix means
  * @returns the gaussian distribution of the row
  */
-double CalculateProb(std::vector<std::vector<double>>& MatrixFirst, std::vector<std::vector<double>> Means, int col, int id)
+double CalculateProb(std::vector<double>& Row, std::vector<std::vector<double>> Means, int id)
 {
     variancePackage variance = CalculateVariance(Means, id);
-    if(variance.variance == -314946441810){
-        throw std::invalid_argument("bro stop, Variable Error");
-    } else if (variance.variance <= 0 ){
+    if (variance.variance <= 0 ){
         return std::numeric_limits<double>::epsilon();
     }
 
+    
     long double maxProb = 0.0;
-    double base = sqrt(variance.variance*2*pi);
+    long double base = (sqrt(2*M_PI*variance.variance));
+    for(int i = 0; i < Row.size()-1; i++){
+        maxProb += -0.5 * log(2 * M_PI * variance.variance) - pow((Row[i] - variance.mean), 2) / (2 * variance.variance);
 
-    for(int i = 0; i < MatrixFirst[0].size()-1; i++){
+    }
 
-        double b = MatrixFirst[col][i];
-        double exponent = -((pow(b-variance.mean, 2))/  (2*variance.variance));
-
-        double prob = (1/base) * (pow(Eul, exponent));
-
-        maxProb += prob;
-    }   
-
-    if(maxProb < std::numeric_limits<long double>::epsilon() || std::isnan(abs(maxProb)) || std::isinf(maxProb)){
-        return 1.0;
-    } 
-
-    return maxProb;
+    return pow(M_E, maxProb);
 }
 
 

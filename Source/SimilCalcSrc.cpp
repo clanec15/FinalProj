@@ -107,16 +107,17 @@ void SimilCalcAbs::SimilCalculation()
  */
 void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::vector<double>> means){
     std::vector<ProbabilityData> Vector;
+    std::vector<ProbabilityData> test;
 
     for(int i = 0; i < SecMtx.size(); i++){
-        std::vector<ProbabilityData> test;
-        
+        test.clear(); // Clear the test vector for each row
+
         for(int j = 0; j < ids.size(); j++){
             long double probability = 0.0;
 
             if(ids.size() == 1){
                 try{
-                    probability = CalculateProb(SecMtx, means, i, ids[0]);
+                    probability = CalculateProb(SecMtx[i], means, ids[0]);
                 } catch(std::invalid_argument &e){
                     std::cerr << e.what() << std::endl;
                     std::abort();
@@ -125,39 +126,47 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
             } else {
                 try
                 {
-                    probability = CalculateProb(SecMtx, means, i, ids[j]);
+                    int idEntry = idIndexFinder(j, ids);
+                    probability = CalculateProb(SecMtx[i], means, ids[idEntry]);
                 }
                 catch(const std::invalid_argument& e)
                 {
                     std::cerr << e.what() << std::endl;
                     std::abort();
                 }
-
-
-                
             }
 
             ProbabilityData cont;
-            
-
             cont.prob   = probability;
             cont.idx    = ids[j];
             test.push_back(cont);
+
+
+        }
+
+        double sum = 0.0;
+        for (const auto& elem : test) {
+            sum += elem.prob;
+        }
+
+        if (sum > std::numeric_limits<double>::epsilon()) { 
+            for (auto& elem : test) {
+                elem.prob /= sum;
+            }
         }
 
         ProbabilityData elem = test[0];
-
-        for(const auto& elemt : test){
-            if(elemt.prob > elem.prob || (elemt.prob == elem.prob && elemt.idx < elem.idx)){
+        for (const auto& elemt : test){
+            if(elemt.prob > elem.prob){
                 elem = elemt;
             }
         }
+
 
         Vector.push_back(elem);
     }
 
     ProbabilityVector = Vector;
-
 }
 
 

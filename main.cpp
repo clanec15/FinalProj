@@ -83,11 +83,6 @@ void SimilBayesian(MatrixData& first, MatrixData& second, std::ofstream& similFi
     if(ids.size() == 1){
         similFile << "ID unico detectado!\n\n";
     }
-
-    
-    similFile << std::fixed;
-    similFile << std::setprecision(7);
-    similFile.unsetf(std::ios::scientific);
     
     for(int i = 0; i < output.size(); i++){
         similFile << "La fila " << i+1 << " Tiene una similitud con el ID " << output[i].idx << " Con una probabilidad total de: " << output[i].prob << "\n";
