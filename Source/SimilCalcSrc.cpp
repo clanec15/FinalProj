@@ -110,7 +110,7 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
     std::vector<ProbabilityData> test;
 
     for(int i = 0; i < SecMtx.size(); i++){
-        test.clear(); // Clear the test vector for each row
+        test.clear();
 
         for(int j = 0; j < ids.size(); j++){
             long double probability = 0.0;
@@ -144,16 +144,6 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
 
         }
 
-        double sum = 0.0;
-        for (const auto& elem : test) {
-            sum += elem.prob;
-        }
-
-        if (sum > std::numeric_limits<double>::epsilon()) { 
-            for (auto& elem : test) {
-                elem.prob /= sum;
-            }
-        }
 
         ProbabilityData elem = test[0];
         for (const auto& elemt : test){
