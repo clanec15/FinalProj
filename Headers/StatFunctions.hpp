@@ -21,10 +21,6 @@
 #include <stdexcept>
 #include <limits>
 
-
-const long double Eul = 2.7182818284590452354;
-const long double pi = 3.14159265358979323846;
-
 int idIndexFinder(int elem, std::vector<int> ids){
     for(int i = 0; i < ids.size(); i++){
         if(ids[i] == elem){
@@ -36,8 +32,8 @@ int idIndexFinder(int elem, std::vector<int> ids){
 
 struct variancePackage
 {
-    double variance;
-    double mean;
+    long double variance;
+    long double mean;
 };
 
 /**
@@ -51,14 +47,14 @@ struct variancePackage
  */
 variancePackage CalculateVariance(std::vector<std::vector<double>>& Matrix, int id)
 {
-    double val = 0.0;
-    double idSz = Matrix[id].size();
+    long double val = 0.0;
+    int idSz = Matrix[id].size();
 
     for(int i = 0; i < idSz; i++){
         val += Matrix[id][i];
     }
 
-    val /= idSz;
+    val /= (double)idSz;
 
 
     double sd = 0.0;
@@ -66,9 +62,9 @@ variancePackage CalculateVariance(std::vector<std::vector<double>>& Matrix, int 
         sd += pow(Matrix[id][i] - val, 2);
     }
 
-    sd /= idSz;
+    sd /= ((double)idSz);
 
-    return {sd, val};
+    return {sqrt(sd), val};
 
 }
 
@@ -87,18 +83,20 @@ double CalculateProb(std::vector<double>& Row, std::vector<std::vector<double>> 
 {
     variancePackage variance = CalculateVariance(Means, id);
     if (variance.variance <= 0 ){
-        return std::numeric_limits<double>::epsilon();
+        return std::numeric_limits<long double>::min();
     }
 
     
-    long double maxProb = 0.0;
-    long double base = (sqrt(2*M_PI*variance.variance));
+    long double maxProb = 1.0;
+    long double base = (sqrt(2*M_PI)*variance.variance);
     for(int i = 0; i < Row.size()-1; i++){
-        maxProb += -0.5 * log(2 * M_PI * variance.variance) - pow((Row[i] - variance.mean), 2) / (2 * variance.variance);
-
+        double b = Row[i];
+        long double exponent = -pow((b-variance.mean),2)/(2*(variance.variance*variance.variance));
+        maxProb *= ((1/base) * (pow(M_E, exponent)));
     }
 
-    return pow(M_E, maxProb);
+    return maxProb;
+
 }
 
 

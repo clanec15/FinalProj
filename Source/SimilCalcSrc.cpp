@@ -46,7 +46,7 @@ void SimilCalcAbs::DiffCalculation(int row)
         std::vector<double> aVector = FirstMtx[row];
         for(int k = 0; k < sz-1; k++){ 
             
-            diff += fabs(aVector[k]-bVector[k]);
+            diff += abs(aVector[k]-bVector[k]);
         }
 
 
@@ -140,8 +140,6 @@ void SimilCalcBayesian::DiffCalculation(std::vector<int> ids, std::vector<std::v
             cont.prob   = probability;
             cont.idx    = ids[j];
             test.push_back(cont);
-
-
         }
 
 
